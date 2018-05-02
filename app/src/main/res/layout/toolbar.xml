@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.Toolbar
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/toolbar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFCC00">
+
+<ImageView
+    android:id="@+id/profile"
+    android:layout_width="20dp"
+    android:layout_height="20dp"
+    android:background="@drawable/ic_user"/>
+
+    <customfonts.MyTextView_Bold
+        android:id="@+id/location_search"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="위치 검색"
+    android:textColor="#fff"
+    android:textSize="16dp"
+    android:layout_gravity="center"/>
+
+
+    <customfonts.MyTextView_Bold
+        android:id="@+id/custom_search"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="맞춤 검색"
+        android:textColor="#fff"
+        android:textSize="16dp"
+        android:layout_marginRight="20dp"
+        android:layout_gravity="right"/>
+
+
+
+</android.support.v7.widget.Toolbar>
