@@ -1,6 +1,7 @@
 package design.ws.com.Together_Helper;
 
 import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
@@ -13,6 +14,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import org.w3c.dom.Text;
@@ -168,7 +170,9 @@ public class CustomSearch extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                
+                TimePickerDialog dialog = new TimePickerDialog(CustomSearch.this, listener, 15, 24, false);
+                dialog.show();
+
 
             }
         });
@@ -238,6 +242,15 @@ public class CustomSearch extends AppCompatActivity {
         return;
     }
 
+    private TimePickerDialog.OnTimeSetListener listener = new TimePickerDialog.OnTimeSetListener() {
+
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+            Toast.makeText(getApplicationContext(), hourOfDay + "시 " + minute + "분", Toast.LENGTH_SHORT).show();
+            clock_txt.setText(hourOfDay + "시 " + minute + "분");
+        }
+    };
 
 
 
