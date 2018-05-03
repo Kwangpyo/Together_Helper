@@ -67,6 +67,8 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
     private FusedLocationProviderClient mFusedLocationClient;
     private String provider;
 
+    Marker myMarker;
+
     LatLng place1 = new LatLng(37.271414,127.038926);
     LatLng place2 = new LatLng(37.289283,127.047137);
     LatLng place3 = new LatLng(37.275721,127.049908);
@@ -87,7 +89,6 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
         } else {
             initGoogleMapLocation();
         }
-
 
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -115,6 +116,7 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
             @Override
             public void onClick(View view) {
 
+                mMap.clear();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     checkMyPermissionLocation();
                 } else {
@@ -130,25 +132,6 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
-
-        Marker marker1;
-        marker1 =mMap.addMarker(new MarkerOptions()
-                .position(place1)
-                .title("보원이"));
-        marker1.setTag(0);
-
-        Marker marker2;
-        marker2 =mMap.addMarker(new MarkerOptions()
-                .position(place2)
-                .title("준민이"));
-        marker2.setTag(1);
-
-        Marker marker3;
-        marker3 =mMap.addMarker(new MarkerOptions()
-                .position(place3)
-                .title("소영이"));
-        marker1.setTag(2);
-
 
         mMap.setOnMarkerClickListener(this);
 
@@ -214,15 +197,35 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
 
                 MarkerOptions options = new MarkerOptions();
                 LatLng myplace = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
+
+                Marker marker1;
+                marker1 =mMap.addMarker(new MarkerOptions()
+                        .position(place1)
+                        .title("보원이"));
+                marker1.setTag(1);
+
+                Marker marker2;
+                marker2 =mMap.addMarker(new MarkerOptions()
+                        .position(place2)
+                        .title("준민이"));
+                marker2.setTag(2);
+
+                Marker marker3;
+                marker3 =mMap.addMarker(new MarkerOptions()
+                        .position(place3)
+                        .title("소영이"));
+                marker1.setTag(3);
+
+                myMarker =mMap.addMarker(new MarkerOptions()
+                        .position(myplace)
+                        .title("내 위치"));
+                myMarker.setTag(0);
                 options.position(myplace);
-                mMap.addMarker(new MarkerOptions().position(myplace).title("내 위치"));
                 BitmapDescriptor icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN);
                 options.icon(icon);
                 Marker marker = mMap.addMarker(options);
 
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 14));
-
-
 
                 /**
                  * 지속적으로 위치정보를 받으려면

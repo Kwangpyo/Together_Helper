@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
@@ -20,8 +21,25 @@ public class CustomSearch extends AppCompatActivity {
     private ImageView refresh;
     private ImageView home;
     private TextView title;
+    private TextView mindate;
+    private TextView maxdate;
 
-    private Button date_btn;
+    private Button mindate_btn;
+    private Button maxdate_btn;
+    private Button clock_btn;
+    private TextView clock_txt;
+
+    DatePickerDialog dialog;
+    Integer today_year;
+    Integer today_month;
+    Integer today_day;
+    Integer min_year;
+    Integer min_month;
+    Integer min_day;
+    Integer max_year;
+    Integer max_month;
+    Integer max_day;
+    int calendar_flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,22 +51,112 @@ public class CustomSearch extends AppCompatActivity {
 
         title = (TextView)findViewById(R.id.refreshtoolbar_text);
         title.setText("맞춤검색");
-        date_btn = (Button)findViewById(R.id.customsearch_date_btn);
+        mindate_btn = (Button)findViewById(R.id.customsearch_mindate_btn);
+        maxdate_btn = (Button)findViewById(R.id.customsearch_maxdate_btn);
+        mindate = (TextView)findViewById(R.id.custom_search_mindate_txt);
+        maxdate = (TextView)findViewById(R.id.custom_search_maxdate_txt);
+        clock_btn = (Button)findViewById(R.id.customsearch_clock_btn);
+        clock_txt = (TextView)findViewById(R.id.custom_search_clock_txt);
 
-        final DatePickerDialog dialog = new DatePickerDialog(this, listener, 2013, 10, 22);
+        Calendar cal = Calendar.getInstance();
+
+        today_year = cal.get(Calendar.YEAR);
+        today_month = cal.get(Calendar.MONTH);
+        today_day = cal.get(Calendar.DATE);
+
+        calendar_flag=0;
 
 
 
 
-
-        date_btn.setOnClickListener(new View.OnClickListener()
+        mindate_btn.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
-                dialog.show();
+                Calendar pickedDate = Calendar.getInstance();
+                Calendar minDate = Calendar.getInstance();
+
+                pickedDate.set(today_year,today_month,today_day);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        CustomSearch.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                min_year = year;
+                                min_month = month+1;
+                                min_day = dayOfMonth;
+                                mindate.setText("select date : "+ min_year + "-"+min_month+"-"+min_day);
+                                calendar_flag =1;
+                            }
+                        },
+                        pickedDate.get(Calendar.YEAR),
+                        pickedDate.get(Calendar.MONTH),
+                        pickedDate.get(Calendar.DATE)
+                );
+
+
+                minDate.set(today_year,today_month,today_day);
+                datePickerDialog.getDatePicker().setMinDate(minDate.getTime().getTime());
+
+                datePickerDialog.show();
             }
         });
 
+        maxdate_btn.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+
+                if(calendar_flag==0)
+                {
+                    Toast.makeText(getApplicationContext(),"MIN 날짜를 먼저 선택해 주세요",Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    Calendar pickedDate = Calendar.getInstance();
+                    Calendar minDate = Calendar.getInstance();
+
+                    pickedDate.set(min_year,min_month-1,min_day);
+
+                    DatePickerDialog datePickerDialog = new DatePickerDialog(
+                            CustomSearch.this,
+                            new DatePickerDialog.OnDateSetListener() {
+                                @Override
+                                public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                    max_year = year;
+                                    max_month = month+1;
+                                    max_day = dayOfMonth;
+                                    maxdate.setText("select date : "+ max_year + "-"+max_month+"-"+max_day);
+                                }
+                            },
+                            pickedDate.get(Calendar.YEAR),
+                            pickedDate.get(Calendar.MONTH),
+                            pickedDate.get(Calendar.DATE)
+                    );
+
+
+                    minDate.set(min_year,min_month-1,min_day);
+                    datePickerDialog.getDatePicker().setMinDate(minDate.getTime().getTime());
+
+
+                    datePickerDialog.show();
+
+                }
+
+            }
+        });
+
+        clock_btn.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+
+
+        
 
         home.setOnClickListener(new View.OnClickListener()
         {
@@ -71,32 +179,8 @@ public class CustomSearch extends AppCompatActivity {
             }
         });
 
-        Toast.makeText(getApplicationContext(),"미구현",Toast.LENGTH_SHORT).show();
-
 
     }
-
-    private DatePickerDialog.OnDateSetListener listener = new DatePickerDialog.OnDateSetListener() {
-
-        @Override
-        public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-
-            Toast.makeText(getApplicationContext(), year + "년" + monthOfYear + "월" + dayOfMonth +"일", Toast.LENGTH_SHORT).show();
-
-        }
-
-    };
-
-    public String getDateString()
-    {
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.KOREA);
-        String str_date = df.format(new Date());
-
-        return str_date;
-    }
-
-
-
 
 
 

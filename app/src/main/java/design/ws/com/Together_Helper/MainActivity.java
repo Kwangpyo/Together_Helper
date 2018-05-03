@@ -34,8 +34,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView location_search;
     private TextView custom_search;
     private TextView current_help;
-    private TextView help_detail;
-    private TextView helpee_detail;
+ //   private TextView help_detail;
+ //   private TextView helpee_detail;
     private ImageView profile;
 
     Helpee helpee1 = new Helpee("준민이");
@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
         location_search = (TextView)findViewById(R.id.location_search);
         custom_search = (TextView)findViewById(R.id.custom_search);
         current_help = (TextView)findViewById(R.id.current_help);
-        help_detail = (TextView)findViewById(R.id.help_detail);
-        helpee_detail = (TextView)findViewById(R.id.helpee_detail);
+       // help_detail = (TextView)findViewById(R.id.help_detail);
+       // helpee_detail = (TextView)findViewById(R.id.helpee_detail);
         profile = (ImageView)findViewById(R.id.profile);
 
         HelpList = new ArrayList<>();

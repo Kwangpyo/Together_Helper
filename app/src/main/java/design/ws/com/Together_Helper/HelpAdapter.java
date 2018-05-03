@@ -115,7 +115,9 @@ Context context;
         holder.Helpee_detail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(context,"미구현",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context,Helpee_detail_popup.class);
+                intent.putExtra("helpee",help.getHelpee());
+                context.startActivity(intent);
             }
         });
 
