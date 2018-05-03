@@ -2,18 +2,27 @@ package design.ws.com.Together_Helper;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.w3c.dom.Text;
+
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class CustomSearch extends AppCompatActivity {
@@ -28,8 +37,10 @@ public class CustomSearch extends AppCompatActivity {
     private Button maxdate_btn;
     private Button clock_btn;
     private TextView clock_txt;
+    private Button loc_btn;
+    private EditText loc_txt;
+    private TextView lanlon;
 
-    DatePickerDialog dialog;
     Integer today_year;
     Integer today_month;
     Integer today_day;
@@ -40,6 +51,8 @@ public class CustomSearch extends AppCompatActivity {
     Integer max_month;
     Integer max_day;
     int calendar_flag;
+    Geocoder geocoder;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +70,9 @@ public class CustomSearch extends AppCompatActivity {
         maxdate = (TextView)findViewById(R.id.custom_search_maxdate_txt);
         clock_btn = (Button)findViewById(R.id.customsearch_clock_btn);
         clock_txt = (TextView)findViewById(R.id.custom_search_clock_txt);
+        loc_btn = (Button)findViewById(R.id.custom_search_loc_btn);
+        loc_txt = (EditText)findViewById(R.id.custom_search_loc_txt);
+        lanlon = (TextView)findViewById(R.id.custom_search_lanlon_txt);
 
         Calendar cal = Calendar.getInstance();
 
@@ -66,7 +82,7 @@ public class CustomSearch extends AppCompatActivity {
 
         calendar_flag=0;
 
-
+        geocoder = new Geocoder(this, Locale.getDefault());
 
 
         mindate_btn.setOnClickListener(new View.OnClickListener()
@@ -152,6 +168,39 @@ public class CustomSearch extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                
+
+            }
+        });
+
+        loc_btn.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View view) {
+
+                String location_name =loc_txt.getText().toString();
+                List<Address> list = null;
+                try {
+                    list = geocoder.getFromLocationName(
+                            location_name, // 지역 이름
+                            10); // 읽을 개수
+                } catch (IOException e) {
+                    e.printStackTrace();
+                    Log.e("test","입출력 오류 - 서버에서 주소변환시 에러발생");
+                }
+
+                if (list != null) {
+                    if (list.size() == 0) {
+                        lanlon.setText("해당되는 주소 정보는 없습니다");
+                    } else {
+                        lanlon.setText("위도 : " + list.get(0).getLatitude() +" 경도 : " + list.get(0).getLongitude());
+                        //          list.get(0).getCountryName();  // 국가명
+                        //          list.get(0).getLatitude();        // 위도
+                        //          list.get(0).getLongitude();    // 경도
+                    }
+                }
+
             }
         });
 
@@ -181,6 +230,14 @@ public class CustomSearch extends AppCompatActivity {
 
 
     }
+
+
+    @Override
+    public void onBackPressed() {
+        //안드로이드 백버튼 막기
+        return;
+    }
+
 
 
 
