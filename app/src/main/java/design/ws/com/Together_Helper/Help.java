@@ -8,7 +8,7 @@ import java.io.Serializable;
 public class Help implements Serializable {
 
     Helpee helpee;
-    Integer helpeeId;
+    String helpeeId;
     double lon;
     double lat;
     int hour;
@@ -26,7 +26,7 @@ public class Help implements Serializable {
         this.type = type;
     }
 
-    public Help(Integer helpeeId, double lon, double lat, int hour, int minute, int duration, int year, int month, int day, String type, String match_status, String start_status, String content) {
+    public Help(String helpeeId, double lon, double lat, int hour, int minute, int duration, int year, int month, int day, String type, String match_status, String start_status, String content) {
         this.helpeeId = helpeeId;
         this.lon = lon;
         this.lat = lat;
@@ -42,12 +42,11 @@ public class Help implements Serializable {
         this.content = content;
     }
 
-
-    public Integer getHelpeeId() {
+    public String getHelpeeId() {
         return helpeeId;
     }
 
-    public void setHelpeeId(Integer helpeeId) {
+    public void setHelpeeId(String helpeeId) {
         this.helpeeId = helpeeId;
     }
 

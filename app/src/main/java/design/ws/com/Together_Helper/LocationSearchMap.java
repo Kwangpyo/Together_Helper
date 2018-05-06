@@ -8,7 +8,6 @@ import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
-import android.media.Image;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
@@ -17,7 +16,6 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.View;
-import android.webkit.PermissionRequest;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -46,7 +44,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -139,26 +136,14 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
     @Override
     public boolean onMarkerClick(Marker marker) {
 
-
-        if(marker.getTitle().equals("보원이"))
+        for(int i =0; i<markerArrayList.size();i++)
         {
-            Intent intent = new Intent(getApplicationContext(),RegisterHelp_popup.class);
-            intent.putExtra("help","보원이");
-            startActivity(intent);
-        }
-
-        else if(marker.getTitle().equals("소영이"))
-        {
-            Intent intent = new Intent(getApplicationContext(),RegisterHelp_popup.class);
-            intent.putExtra("help","소영이");
-            startActivity(intent);
-        }
-
-        else if(marker.getTitle().equals("준민이"))
-        {
-            Intent intent = new Intent(getApplicationContext(),RegisterHelp_popup.class);
-            intent.putExtra("help","준민이");
-            startActivity(intent);
+            if(marker.getTag().equals(markerArrayList.get(i).getTag()))
+            {
+                Intent intent = new Intent(getApplicationContext(),RegisterHelp_popup.class);
+                intent.putExtra("help",marker.getTitle());
+                startActivity(intent);
+            }
         }
 
         return false;
@@ -198,8 +183,7 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
                 MarkerOptions options = new MarkerOptions();
                 LatLng myplace = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
 
-
-                GetUserAPITask t = new GetUserAPITask();
+                GetHelpAPITask t = new GetHelpAPITask();
                 try
                 {
                     ps = t.execute().get();
@@ -216,16 +200,29 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
 
                 for(int i=0;i<ps.size();i++)
                 {
-                    String content = ps.get(i).getContent();
+
+                    String helpeeid = ps.get(i).getHelpeeId();
                     LatLng place = new LatLng(ps.get(i).getLat(),ps.get(i).getLon());
 
                     Marker marker;
 
                     marker =mMap.addMarker(new MarkerOptions()
                             .position(place)
-                            .title(content));
+                            .title(helpeeid));
                     marker.setTag(i);
-                    markerArrayList.add(marker);
+
+                    int flag=0;
+                    for(int a =0;a<markerArrayList.size();a++) {
+                        if(markerArrayList.get(a).getTitle().equals(marker.getTitle()))
+                        {
+                            flag = 1;
+                        }
+                    }
+                    if(flag==0)
+                    {
+                        markerArrayList.add(marker);
+                    }
+
                 }
 
                 myMarker =mMap.addMarker(new MarkerOptions()

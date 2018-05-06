@@ -38,6 +38,7 @@
         android:id="@+id/current_help"
         android:text="주변에 신청된 봉사 보기"
         android:textColor="#2f2f2f"
+        android:layout_gravity="center"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="20dp"/>

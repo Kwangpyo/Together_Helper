@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 
 import java.util.ArrayList;
 
-public class GetUserAPITask extends AsyncTask<Integer, Void, ArrayList<Help>> {
+public class GetHelpAPITask extends AsyncTask<Integer, Void, ArrayList<Help>> {
 
 
     @Override
