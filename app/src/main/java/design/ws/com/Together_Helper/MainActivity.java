@@ -19,6 +19,7 @@ import android.os.Handler;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.LogRecord;
 
 public class MainActivity extends AppCompatActivity {
@@ -38,12 +39,11 @@ public class MainActivity extends AppCompatActivity {
  //   private TextView helpee_detail;
     private ImageView profile;
 
-    Helpee helpee1 = new Helpee("준민이");
-    Help help1 = new Help("title1","detail1",helpee1,"아주대학교","7:32","매칭 미완료","시작","남자만");
-    Helpee helpee2 = new Helpee("보원이");
-    Help help2 = new Help("title2","detail2",helpee2,"제주도","1:48","매칭 미완료","시작","여자만");
-    Helpee helpee3 = new Helpee("소영이");
-    Help help3 = new Help("title3","detail3",helpee3,"서울","12:30","매칭 미완료","시작","빨리 와주세요");
+//    Helpee helpee1 = new Helpee("준민이","june");
+//    Help help1 = new Help(helpee1, 125, 123, 10, 24, 1, 2018, 10, 3, "외출", 1, 1, "남자만");
+
+//    Helpee helpee2 = new Helpee("보원이","bowon");
+//    Help help2 = new Help(helpee2, 124, 123, 10, 24, 1, 2018, 10, 3, "외출", 1, 1, "남자만");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +61,8 @@ public class MainActivity extends AppCompatActivity {
 
         HelpList = new ArrayList<>();
 
-        HelpList.add(help1);
-        HelpList.add(help2);
-        HelpList.add(help3);
+  //      HelpList.add(help1);
+  //      HelpList.add(help2);
 
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -77,9 +76,8 @@ public class MainActivity extends AppCompatActivity {
                         swipeRefreshLayout.setRefreshing(false);
                         Log.d("asd","asd");
                         ArrayList<Help> HelpList1 = new ArrayList<>();
-                        HelpList1.add(help3);
-                        HelpList1.add(help2);
-                        HelpList1.add(help1);
+   //                     HelpList1.add(help2);
+   //                     HelpList1.add(help1);
                         mAdapter = new HelpAdapter(MainActivity.this,HelpList1);
                         recyclerView.setAdapter(mAdapter);
                     }
@@ -136,6 +134,24 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getApplicationContext(),"미구현",Toast.LENGTH_SHORT).show();
+                GetUserAPITask t = new GetUserAPITask();
+
+                try
+                {
+                    ArrayList<Help> ps = new ArrayList<>();
+                    ps = t.execute().get();
+                   Log.d("test",ps.get(0).getType());
+
+                }
+
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+
+                }
+                catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 

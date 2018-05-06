@@ -10,6 +10,31 @@
 
     <include layout="@layout/refresh_toolbar"/>
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:text="1"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="2"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="3"/>
+
+    </RelativeLayout>
+
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -19,6 +44,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:hint="MIN 날짜"
         android:id="@+id/custom_search_mindate_txt"/>
 
     <Button
@@ -30,18 +56,32 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:hint="MAX 날짜"
         android:id="@+id/custom_search_maxdate_txt"/>
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/customsearch_clock_btn"
-        android:text="시간"/>
+        android:id="@+id/customsearch_minclock_btn"
+        android:text="MIN시간"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/custom_search_clock_txt"/>
+        android:hint="MIN 시간"
+        android:id="@+id/custom_search_minclock_txt"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/customsearch_maxclock_btn"
+        android:text="MAX시간"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="MAX 시간"
+        android:id="@+id/custom_search_maxclock_txt"/>
 
     <EditText
         android:layout_width="wrap_content"
@@ -60,6 +100,26 @@
         android:layout_height="wrap_content"
         android:hint="위도 경도"
         android:id="@+id/custom_search_lanlon_txt"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/custom_search_type_btn"
+        android:text="봉사 종류"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="봉사 종류"
+        android:id="@+id/custom_search_type_txt"/>
+
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="찾기"
+        android:layout_gravity="center"
+        android:id="@+id/custom_search_find_btn"/>
 
 
 </LinearLayout>

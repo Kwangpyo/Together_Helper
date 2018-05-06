@@ -26,17 +26,11 @@ Context context;
 
     private List<Help> helpList;
 
-
     ImageView NormalImageView;
     Bitmap ImageBit;
     float ImageRadius = 40.0f;
 
-
-
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
-
-
 
         ImageView image;
         TextView matching_status;
@@ -46,8 +40,6 @@ Context context;
         TextView Helpee_detail;
         TextView Help_time;
         TextView Help_start;
-
-
 
         public MyViewHolder(View view) {
             super(view);
@@ -61,15 +53,8 @@ Context context;
             Help_time = (TextView) view.findViewById(R.id.Help_time);
             Help_start = (TextView) view.findViewById(R.id.Help_startfinish);
 
-
-
         }
-
-
-
     }
-
-
 
 
     public HelpAdapter(MainActivity mainActivityContacts, List<Help> helpsList) {
@@ -83,21 +68,17 @@ Context context;
                 .inflate(R.layout.flight_recycler_view, parent, false);
 
         return new MyViewHolder(itemView);
-
-
     }
-
-
-
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
         final Help help = helpList.get(position);
-        holder.matching_status.setText(help.getMatch_status());
+     //   holder.matching_status.setText(help.getMatch_status());
         holder.Helpee_name.setText(help.getHelpee().getName());
-        holder.Help_location.setText(help.getLocation());
-        holder.Help_time.setText(help.getTime());
+
+      //  holder.Help_location.setText(help.getLocation());
+      //  holder.Help_time.setText(help.getTime());
         //holder.image.setImageResource(movie.getImage());
 
         holder.Help_detail.setOnClickListener(new View.OnClickListener()

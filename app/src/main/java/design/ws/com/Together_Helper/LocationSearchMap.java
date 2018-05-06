@@ -47,7 +47,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 public class LocationSearchMap extends FragmentActivity implements OnMapReadyCallback,GoogleMap.OnMarkerClickListener {
 
@@ -68,11 +70,8 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
     private String provider;
 
     Marker myMarker;
-
-    LatLng place1 = new LatLng(37.271414,127.038926);
-    LatLng place2 = new LatLng(37.289283,127.047137);
-    LatLng place3 = new LatLng(37.275721,127.049908);
-
+    ArrayList<Marker> markerArrayList = new ArrayList<>();
+    ArrayList<Help> ps = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -140,6 +139,7 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
     @Override
     public boolean onMarkerClick(Marker marker) {
 
+
         if(marker.getTitle().equals("보원이"))
         {
             Intent intent = new Intent(getApplicationContext(),RegisterHelp_popup.class);
@@ -198,28 +198,40 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
                 MarkerOptions options = new MarkerOptions();
                 LatLng myplace = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
 
-                Marker marker1;
-                marker1 =mMap.addMarker(new MarkerOptions()
-                        .position(place1)
-                        .title("보원이"));
-                marker1.setTag(1);
 
-                Marker marker2;
-                marker2 =mMap.addMarker(new MarkerOptions()
-                        .position(place2)
-                        .title("준민이"));
-                marker2.setTag(2);
+                GetUserAPITask t = new GetUserAPITask();
+                try
+                {
+                    ps = t.execute().get();
+                }
 
-                Marker marker3;
-                marker3 =mMap.addMarker(new MarkerOptions()
-                        .position(place3)
-                        .title("소영이"));
-                marker1.setTag(3);
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+
+                }
+                catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+
+
+                for(int i=0;i<ps.size();i++)
+                {
+                    String content = ps.get(i).getContent();
+                    LatLng place = new LatLng(ps.get(i).getLat(),ps.get(i).getLon());
+
+                    Marker marker;
+
+                    marker =mMap.addMarker(new MarkerOptions()
+                            .position(place)
+                            .title(content));
+                    marker.setTag(i);
+                    markerArrayList.add(marker);
+                }
 
                 myMarker =mMap.addMarker(new MarkerOptions()
                         .position(myplace)
                         .title("내 위치"));
-                myMarker.setTag(0);
+                myMarker.setTag(1000);
                 options.position(myplace);
                 BitmapDescriptor icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN);
                 options.icon(icon);

@@ -28,8 +28,8 @@ public class Help_detail_popup extends Activity {
         Intent intent = getIntent();
         Help help = (Help)intent.getSerializableExtra("help");
         detail_helpee.setText("Helpee : " + help.getHelpee().getName());
-        detail_location.setText("위치 : "+help.getLocation());
-        detail_time.setText("시간 : " + help.getTime());
+     //   detail_location.setText("위치 : "+help.getLocation());
+      //  detail_time.setText("시간 : " + help.getTime());
         detail_status.setText("매칭 상태 : " + help.getMatch_status());
         detail_content.setText("기타 : " + help.getContent());
 

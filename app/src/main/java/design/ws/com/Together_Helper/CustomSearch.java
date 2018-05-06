@@ -37,8 +37,10 @@ public class CustomSearch extends AppCompatActivity {
 
     private Button mindate_btn;
     private Button maxdate_btn;
-    private Button clock_btn;
-    private TextView clock_txt;
+    private Button minclock_btn;
+    private TextView minclock_txt;
+    private Button maxclock_btn;
+    private TextView maxclock_txt;
     private Button loc_btn;
     private EditText loc_txt;
     private TextView lanlon;
@@ -54,7 +56,13 @@ public class CustomSearch extends AppCompatActivity {
     Integer max_day;
     int calendar_flag;
     Geocoder geocoder;
+    Integer min_hour;
+    Integer min_minute;
+    Integer max_hour;
+    Integer max_minute;
 
+    double lon;
+    double lat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +78,10 @@ public class CustomSearch extends AppCompatActivity {
         maxdate_btn = (Button)findViewById(R.id.customsearch_maxdate_btn);
         mindate = (TextView)findViewById(R.id.custom_search_mindate_txt);
         maxdate = (TextView)findViewById(R.id.custom_search_maxdate_txt);
-        clock_btn = (Button)findViewById(R.id.customsearch_clock_btn);
-        clock_txt = (TextView)findViewById(R.id.custom_search_clock_txt);
+        minclock_btn = (Button)findViewById(R.id.customsearch_minclock_btn);
+        minclock_txt = (TextView)findViewById(R.id.custom_search_minclock_txt);
+        maxclock_btn = (Button)findViewById(R.id.customsearch_maxclock_btn);
+        maxclock_txt = (TextView)findViewById(R.id.custom_search_maxclock_txt);
         loc_btn = (Button)findViewById(R.id.custom_search_loc_btn);
         loc_txt = (EditText)findViewById(R.id.custom_search_loc_txt);
         lanlon = (TextView)findViewById(R.id.custom_search_lanlon_txt);
@@ -164,13 +174,26 @@ public class CustomSearch extends AppCompatActivity {
             }
         });
 
-        clock_btn.setOnClickListener(new View.OnClickListener()
+        minclock_btn.setOnClickListener(new View.OnClickListener()
         {
 
             @Override
             public void onClick(View view) {
 
-                TimePickerDialog dialog = new TimePickerDialog(CustomSearch.this, listener, 15, 24, false);
+                TimePickerDialog dialog = new TimePickerDialog(CustomSearch.this, listener_min, 15, 24, false);
+                dialog.show();
+
+
+            }
+        });
+
+        maxclock_btn.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View view) {
+
+                TimePickerDialog dialog = new TimePickerDialog(CustomSearch.this, listener_max, 15, 24, false);
                 dialog.show();
 
 
@@ -199,6 +222,9 @@ public class CustomSearch extends AppCompatActivity {
                         lanlon.setText("해당되는 주소 정보는 없습니다");
                     } else {
                         lanlon.setText("위도 : " + list.get(0).getLatitude() +" 경도 : " + list.get(0).getLongitude());
+                        lat = list.get(0).getLatitude();
+                        lon = list.get(0).getLongitude();
+
                         //          list.get(0).getCountryName();  // 국가명
                         //          list.get(0).getLatitude();        // 위도
                         //          list.get(0).getLongitude();    // 경도
@@ -242,13 +268,27 @@ public class CustomSearch extends AppCompatActivity {
         return;
     }
 
-    private TimePickerDialog.OnTimeSetListener listener = new TimePickerDialog.OnTimeSetListener() {
+    private TimePickerDialog.OnTimeSetListener listener_min = new TimePickerDialog.OnTimeSetListener() {
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
             Toast.makeText(getApplicationContext(), hourOfDay + "시 " + minute + "분", Toast.LENGTH_SHORT).show();
-            clock_txt.setText(hourOfDay + "시 " + minute + "분");
+            minclock_txt.setText(hourOfDay + "시 " + minute + "분");
+            min_hour = hourOfDay;
+            min_minute = minute;
+        }
+    };
+
+    private TimePickerDialog.OnTimeSetListener listener_max = new TimePickerDialog.OnTimeSetListener() {
+
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+            Toast.makeText(getApplicationContext(), hourOfDay + "시 " + minute + "분", Toast.LENGTH_SHORT).show();
+            maxclock_txt.setText(hourOfDay + "시 " + minute + "분");
+            max_hour = hourOfDay;
+            max_minute = minute;
         }
     };
 

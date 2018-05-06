@@ -7,49 +7,129 @@ import java.io.Serializable;
 
 public class Help implements Serializable {
 
-    String title;
-    String detail;
     Helpee helpee;
-    String location;
-    String time;
+    Integer helpeeId;
+    double lon;
+    double lat;
+    int hour;
+    int minute;
+    int duration;
+    int year;
+    int month;
+    int day;
+    String type;
     String match_status;
     String start_status;
     String content;
 
-    public Help(String title, String detail, Helpee helpee, String location, String time, String match_status, String start_status,String content) {
-        this.title = title;
-        this.detail = detail;
-        this.helpee = helpee;
-        this.location = location;
-        this.time = time;
+    public Help(String type) {
+        this.type = type;
+    }
+
+    public Help(Integer helpeeId, double lon, double lat, int hour, int minute, int duration, int year, int month, int day, String type, String match_status, String start_status, String content) {
+        this.helpeeId = helpeeId;
+        this.lon = lon;
+        this.lat = lat;
+        this.hour = hour;
+        this.minute = minute;
+        this.duration = duration;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.type = type;
         this.match_status = match_status;
         this.start_status = start_status;
         this.content = content;
     }
 
 
-    public String getContent() {
-        return content;
+    public Integer getHelpeeId() {
+        return helpeeId;
     }
 
-    public void setContent(String content) {
-        this.content = content;
+    public void setHelpeeId(Integer helpeeId) {
+        this.helpeeId = helpeeId;
     }
 
-    public String getLocation() {
-        return location;
+    public Helpee getHelpee() {
+        return helpee;
     }
 
-    public void setLocation(String location) {
-        this.location = location;
+    public void setHelpee(Helpee helpee) {
+        this.helpee = helpee;
     }
 
-    public String getTime() {
-        return time;
+    public double getLon() {
+        return lon;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setLon(double lon) {
+        this.lon = lon;
+    }
+
+    public double getLat() {
+        return lat;
+    }
+
+    public void setLat(double lat) {
+        this.lat = lat;
+    }
+
+    public int getHour() {
+        return hour;
+    }
+
+    public void setHour(int hour) {
+        this.hour = hour;
+    }
+
+    public int getMinute() {
+        return minute;
+    }
+
+    public void setMinute(int minute) {
+        this.minute = minute;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public void setYear(int year) {
+        this.year = year;
+    }
+
+    public int getMonth() {
+        return month;
+    }
+
+    public void setMonth(int month) {
+        this.month = month;
+    }
+
+    public int getDay() {
+        return day;
+    }
+
+    public void setDay(int day) {
+        this.day = day;
+    }
+
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getMatch_status() {
@@ -68,28 +148,11 @@ public class Help implements Serializable {
         this.start_status = start_status;
     }
 
-    public Helpee getHelpee() {
-        return helpee;
+    public String getContent() {
+        return content;
     }
 
-    public void setHelpee(Helpee helpee) {
-        this.helpee = helpee;
+    public void setContent(String content) {
+        this.content = content;
     }
-
-    public String getDetail() {
-        return detail;
-    }
-
-    public void setDetail(String detail) {
-        this.detail = detail;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
 }
