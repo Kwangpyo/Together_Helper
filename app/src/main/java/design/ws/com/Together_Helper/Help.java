@@ -19,15 +19,16 @@ public class Help implements Serializable {
     int month;
     int day;
     String type;
-    String match_status;
-    String start_status;
+    int match_status;
+    int start_status;
     String content;
+    int helpId;
 
     public Help(String type) {
         this.type = type;
     }
 
-    public Help(String helpeeId, double lon, double lat, int hour, int minute, int duration, int year, int month, int day, String type, String match_status, String start_status, String content) {
+    public Help(String helpeeId, double lon, double lat, int hour, int minute, int duration, int year, int month, int day, String type, int match_status, int start_status, String content) {
         this.helpeeId = helpeeId;
         this.lon = lon;
         this.lat = lat;
@@ -41,6 +42,31 @@ public class Help implements Serializable {
         this.match_status = match_status;
         this.start_status = start_status;
         this.content = content;
+    }
+
+    public Help(String helpeeId, double lon, double lat, int hour, int minute, int duration, int year, int month, int day, String type, int match_status, int start_status, String content, int helpId) {
+        this.helpeeId = helpeeId;
+        this.lon = lon;
+        this.lat = lat;
+        this.hour = hour;
+        this.minute = minute;
+        this.duration = duration;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.type = type;
+        this.match_status = match_status;
+        this.start_status = start_status;
+        this.content = content;
+        this.helpId = helpId;
+    }
+
+    public int getHelpId() {
+        return helpId;
+    }
+
+    public void setHelpId(int helpId) {
+        this.helpId = helpId;
     }
 
     public String getHelpeeId() {
@@ -140,19 +166,19 @@ public class Help implements Serializable {
         this.type = type;
     }
 
-    public String getMatch_status() {
+    public int getMatch_status() {
         return match_status;
     }
 
-    public void setMatch_status(String match_status) {
+    public void setMatch_status(int match_status) {
         this.match_status = match_status;
     }
 
-    public String getStart_status() {
+    public int getStart_status() {
         return start_status;
     }
 
-    public void setStart_status(String start_status) {
+    public void setStart_status(int start_status) {
         this.start_status = start_status;
     }
 

@@ -69,6 +69,7 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
     Marker myMarker;
     ArrayList<Marker> markerArrayList = new ArrayList<>();
     ArrayList<Help> ps = new ArrayList<>();
+    ArrayList<HelpMarker> helpMarkers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -136,16 +137,33 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-
+/*
         for(int i =0; i<markerArrayList.size();i++)
         {
             if(marker.getTag().equals(markerArrayList.get(i).getTag()))
             {
                 Intent intent = new Intent(getApplicationContext(),RegisterHelp_popup.class);
                 intent.putExtra("helpeeid",marker.getTitle());
+                HelpMarker helpMarker = helpMarkers.get(i);
+                Help help = helpMarker.getHelp();
+                intent.putExtra("help",help);
                 startActivity(intent);
             }
         }
+*/
+        for(int i =0; i<helpMarkers.size();i++)
+        {
+            if(marker.getTag().equals(helpMarkers.get(i).getMarker().getTag()))
+            {
+                Intent intent = new Intent(getApplicationContext(),RegisterHelp_popup.class);
+                intent.putExtra("helpeeid",marker.getTitle());
+                HelpMarker helpMarker = helpMarkers.get(i);
+                Help help = helpMarker.getHelp();
+                intent.putExtra("help",help);
+                startActivity(intent);
+            }
+        }
+
 
         return false;
     }
@@ -213,15 +231,23 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
                     marker.setTag(i);
 
                     int flag=0;
-                    for(int a =0;a<markerArrayList.size();a++) {
+                   /* for(int a =0;a<markerArrayList.size();a++) {
                         if(markerArrayList.get(a).getTitle().equals(marker.getTitle()))
+                        {
+                            flag = 1;
+                        }
+                    }*/
+                    for(int a =0;a<helpMarkers.size();a++) {
+                        if(helpMarkers.get(a).getMarker().getTitle().equals(marker.getTitle()))
                         {
                             flag = 1;
                         }
                     }
                     if(flag==0)
                     {
-                        markerArrayList.add(marker);
+                        HelpMarker helpMarker = new HelpMarker(marker,ps.get(i));
+                        helpMarkers.add(helpMarker);
+                      //  markerArrayList.add(marker);
                     }
 
                 }

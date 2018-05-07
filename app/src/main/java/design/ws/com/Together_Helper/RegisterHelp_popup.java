@@ -2,18 +2,27 @@ package design.ws.com.Together_Helper;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.location.Address;
+import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
 public class RegisterHelp_popup extends Activity {
+
+    Geocoder geocoder;
+    String address;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +35,17 @@ public class RegisterHelp_popup extends Activity {
         TextView helpeeid_txt = (TextView)findViewById(R.id.registerHelp_helpeeid);
         TextView helpeephone_txt = (TextView)findViewById(R.id.registerHelp_helpeephone);
         TextView helpeefeedback_txt = (TextView)findViewById(R.id.registerHelp_helpeefeedback);
+        TextView helptype_txt = (TextView)findViewById(R.id.registerHelp_helptype);
+        TextView helpdate_txt = (TextView)findViewById(R.id.registerHelp_helpdate);
+        TextView helplocation_txt = (TextView)findViewById(R.id.registerHelp_helplocation);
 
         //데이터 가져오기
         Intent intent = getIntent();
         String helpeeid = intent.getStringExtra("helpeeid");
+        Help help = (Help)intent.getSerializableExtra("help");
         ArrayList<Helpee> ps = new ArrayList<>();
+
+        Log.d("registerhelptest",help.getHelpeeId());
 
         GetHelpeeAPITask t = new GetHelpeeAPITask();
         try
@@ -48,10 +63,37 @@ public class RegisterHelp_popup extends Activity {
 
         Helpee helpee = ps.get(0);
 
+        geocoder = new Geocoder(this, Locale.getDefault());
+        List<Address> list = null;
+        try {
+            double d1 = help.getLat();
+            double d2 = help.getLon();
+
+            list = geocoder.getFromLocation(
+                    d1, // 위도
+                    d2, // 경도
+                    10); // 얻어올 값의 개수
+        }
+        catch (IOException e) {
+            e.printStackTrace();
+            Log.e("test", "입출력 오류 - 서버에서 주소변환시 에러발생");
+        }
+        if (list != null) {
+            if (list.size()==0) {
+                Log.d("geocoder","no address");
+            } else {
+                address = list.get(0).getAddressLine(0);
+            }
+        }
+
 
         helpeeid_txt.setText("Helpee : " + helpee.getId());
         helpeephone_txt.setText("Helpee 전화번호: " + helpee.getPhonenumber());
         helpeefeedback_txt.setText("Helpee 피드백: " + helpee.getFeedback());
+        helptype_txt.setText("봉사 종류: "+help.getType());
+        String date = help.getYear() +"년 " + help.getMonth()+"월 " + help.getDay() +"일  " + help.getHour()+"시 " + help.getMinute()+"분";
+        helpdate_txt.setText("봉사 시간: "+date);
+        helplocation_txt.setText("봉사 주소:"+address);
 
     }
 
@@ -59,7 +101,11 @@ public class RegisterHelp_popup extends Activity {
     public void mOnRegister(View v){
         //데이터 전달하기
         Toast.makeText(getApplicationContext(),"미구현",Toast.LENGTH_SHORT);
+        Log.d("registerbtn","asd");
         //액티비티(팝업) 닫기
+
+        new PUTRegisterHelpAPI().execute();
+
         finish();
     }
 
