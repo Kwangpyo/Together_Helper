@@ -8,6 +8,7 @@ import java.io.Serializable;
 public class Help implements Serializable {
 
     Helpee helpee;
+    Helper helper;
     String helpeeId;
     double lon;
     double lat;
@@ -56,6 +57,14 @@ public class Help implements Serializable {
 
     public void setHelpee(Helpee helpee) {
         this.helpee = helpee;
+    }
+
+    public Helper getHelper() {
+        return helper;
+    }
+
+    public void setHelper(Helper helper) {
+        this.helper = helper;
     }
 
     public double getLon() {

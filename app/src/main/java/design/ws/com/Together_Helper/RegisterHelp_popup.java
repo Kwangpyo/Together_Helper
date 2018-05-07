@@ -10,6 +10,9 @@ import android.view.Window;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+
 public class RegisterHelp_popup extends Activity {
 
     @Override
@@ -20,12 +23,35 @@ public class RegisterHelp_popup extends Activity {
 
 
         //UI 객체생성
-        TextView helpee = (TextView)findViewById(R.id.registerHelp_helpee);
+        TextView helpeeid_txt = (TextView)findViewById(R.id.registerHelp_helpeeid);
+        TextView helpeephone_txt = (TextView)findViewById(R.id.registerHelp_helpeephone);
+        TextView helpeefeedback_txt = (TextView)findViewById(R.id.registerHelp_helpeefeedback);
 
         //데이터 가져오기
         Intent intent = getIntent();
-        String help = intent.getStringExtra("help");
-        helpee.setText("Helpee : " + help);
+        String helpeeid = intent.getStringExtra("helpeeid");
+        ArrayList<Helpee> ps = new ArrayList<>();
+
+        GetHelpeeAPITask t = new GetHelpeeAPITask();
+        try
+        {
+            ps = t.execute(helpeeid).get();
+        }
+
+        catch (InterruptedException e) {
+            e.printStackTrace();
+
+        }
+        catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        Helpee helpee = ps.get(0);
+
+
+        helpeeid_txt.setText("Helpee : " + helpee.getId());
+        helpeephone_txt.setText("Helpee 전화번호: " + helpee.getPhonenumber());
+        helpeefeedback_txt.setText("Helpee 피드백: " + helpee.getFeedback());
 
     }
 

@@ -112,6 +112,7 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
             @Override
             public void onClick(View view) {
 
+                markerArrayList.clear();
                 mMap.clear();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     checkMyPermissionLocation();
@@ -141,7 +142,7 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
             if(marker.getTag().equals(markerArrayList.get(i).getTag()))
             {
                 Intent intent = new Intent(getApplicationContext(),RegisterHelp_popup.class);
-                intent.putExtra("help",marker.getTitle());
+                intent.putExtra("helpeeid",marker.getTitle());
                 startActivity(intent);
             }
         }
