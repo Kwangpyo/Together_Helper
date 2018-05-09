@@ -32,18 +32,21 @@ public class CustomSearch extends AppCompatActivity {
     private ImageView refresh;
     private ImageView home;
     private TextView title;
+
+
+    private ImageView mindate_btn;
+    private ImageView maxdate_btn;
+    private ImageView minclock_btn;
+    private ImageView maxclock_btn;
+
     private TextView mindate;
     private TextView maxdate;
-
-    private Button mindate_btn;
-    private Button maxdate_btn;
-    private Button minclock_btn;
     private TextView minclock_txt;
-    private Button maxclock_btn;
     private TextView maxclock_txt;
-    private Button loc_btn;
+
     private EditText loc_txt;
-    private TextView lanlon;
+
+    private TextView search_btn;
 
     Integer today_year;
     Integer today_month;
@@ -71,20 +74,23 @@ public class CustomSearch extends AppCompatActivity {
 
         refresh = (ImageView)findViewById(R.id.toolbar_refresh);
         home = (ImageView)findViewById(R.id.home);
-
         title = (TextView)findViewById(R.id.refreshtoolbar_text);
         title.setText("맞춤검색");
-        mindate_btn = (Button)findViewById(R.id.customsearch_mindate_btn);
-        maxdate_btn = (Button)findViewById(R.id.customsearch_maxdate_btn);
+
         mindate = (TextView)findViewById(R.id.custom_search_mindate_txt);
         maxdate = (TextView)findViewById(R.id.custom_search_maxdate_txt);
-        minclock_btn = (Button)findViewById(R.id.customsearch_minclock_btn);
         minclock_txt = (TextView)findViewById(R.id.custom_search_minclock_txt);
-        maxclock_btn = (Button)findViewById(R.id.customsearch_maxclock_btn);
         maxclock_txt = (TextView)findViewById(R.id.custom_search_maxclock_txt);
-        loc_btn = (Button)findViewById(R.id.custom_search_loc_btn);
-        loc_txt = (EditText)findViewById(R.id.custom_search_loc_txt);
-        lanlon = (TextView)findViewById(R.id.custom_search_lanlon_txt);
+
+        mindate_btn = (ImageView)findViewById(R.id.customsearch_mindate_img);
+        maxdate_btn = (ImageView)findViewById(R.id.customsearch_maxdate_img);
+
+        minclock_btn = (ImageView)findViewById(R.id.customsearch_minclock_img);
+        maxclock_btn = (ImageView)findViewById(R.id.customsearch_maxclock_img);
+
+
+        loc_txt = (EditText)findViewById(R.id.custom_search_loc_edittxt);
+        search_btn = (TextView) findViewById(R.id.custom_search_find_btn);
 
         Calendar cal = Calendar.getInstance();
 
@@ -114,7 +120,7 @@ public class CustomSearch extends AppCompatActivity {
                                 min_year = year;
                                 min_month = month+1;
                                 min_day = dayOfMonth;
-                                mindate.setText("select date : "+ min_year + "-"+min_month+"-"+min_day);
+                                mindate.setText( min_year + "-"+min_month+"-"+min_day);
                                 calendar_flag =1;
                             }
                         },
@@ -154,7 +160,7 @@ public class CustomSearch extends AppCompatActivity {
                                     max_year = year;
                                     max_month = month+1;
                                     max_day = dayOfMonth;
-                                    maxdate.setText("select date : "+ max_year + "-"+max_month+"-"+max_day);
+                                    maxdate.setText( max_year + "-"+max_month+"-"+max_day);
                                 }
                             },
                             pickedDate.get(Calendar.YEAR),
@@ -200,7 +206,8 @@ public class CustomSearch extends AppCompatActivity {
             }
         });
 
-        loc_btn.setOnClickListener(new View.OnClickListener()
+
+        search_btn.setOnClickListener(new View.OnClickListener()
         {
 
             @Override
@@ -219,9 +226,8 @@ public class CustomSearch extends AppCompatActivity {
 
                 if (list != null) {
                     if (list.size() == 0) {
-                        lanlon.setText("해당되는 주소 정보는 없습니다");
+                        Toast.makeText(getApplicationContext(),"해당되는 주소 정보는 없습니다",Toast.LENGTH_SHORT);
                     } else {
-                        lanlon.setText("위도 : " + list.get(0).getLatitude() +" 경도 : " + list.get(0).getLongitude());
                         lat = list.get(0).getLatitude();
                         lon = list.get(0).getLongitude();
 
@@ -257,6 +263,8 @@ public class CustomSearch extends AppCompatActivity {
 
             }
         });
+
+
 
 
     }

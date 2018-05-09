@@ -54,6 +54,7 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login" />
+
         <activity
             android:name=".RegisterHelp_popup"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />

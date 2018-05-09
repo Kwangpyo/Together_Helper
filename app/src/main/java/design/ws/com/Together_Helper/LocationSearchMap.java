@@ -113,14 +113,19 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
             @Override
             public void onClick(View view) {
 
+            /*    helpMarkers.clear();
                 markerArrayList.clear();
                 mMap.clear();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     checkMyPermissionLocation();
                 } else {
                     initGoogleMapLocation();
-                }
+                }*/
 
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(getIntent());
+                overridePendingTransition(0, 0);
             }
         });
 
@@ -386,8 +391,6 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
         //안드로이드 백버튼 막기
         return;
     }
-
-
 
 }
 

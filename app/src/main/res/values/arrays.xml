@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="help">
+        <item >외출</item>
+        <item >가사</item>
+        <item >말동무</item>
+        <item >교육</item>
+    </string-array>
+
+</resources>
