@@ -128,6 +128,8 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(),Login.class);
+                startActivity(intent);
                 Toast.makeText(getApplicationContext(),"미구현",Toast.LENGTH_SHORT).show();
 
             }
