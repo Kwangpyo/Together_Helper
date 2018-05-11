@@ -45,8 +45,8 @@ public class POSTLoginAPI extends AsyncTask<String,Void,String> {
         HttpConnectionParams.setConnectionTimeout(params, 5000);
         HttpConnectionParams.setSoTimeout(params, 5000);
 
-        // Post객체 생성
-        HttpPost httpPost = new HttpPost("http://192.168.17.15:9001/helper/login");
+        // Post객체 생
+        HttpPost httpPost = new HttpPost("http://192.168.0.16:9001/helper/login");
 
         try {
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(post, "UTF-8");

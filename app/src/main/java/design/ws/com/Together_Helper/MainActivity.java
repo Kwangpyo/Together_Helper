@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private HelpAdapter mAdapter;
 
+    private Helper HELPER_ME;
+
     private SwipeRefreshLayout swipeRefreshLayout;
 
     private TextView location_search;
@@ -53,6 +55,11 @@ public class MainActivity extends AppCompatActivity {
        // help_detail = (TextView)findViewById(R.id.help_detail);
        // helpee_detail = (TextView)findViewById(R.id.helpee_detail);
         profile = (ImageView)findViewById(R.id.profile);
+
+        Intent intent = getIntent();
+        Helper helper = (Helper)intent.getSerializableExtra("helper");
+        HELPER_ME = helper;
+        Log.d("mainhelper",helper.getId());
 
         HelpList = new ArrayList<>();
 
@@ -118,6 +125,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),Profile_popup.class);
+                intent.putExtra("helper",HELPER_ME);
                 startActivity(intent);
 
             }
@@ -128,8 +136,6 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),Login.class);
-                startActivity(intent);
                 Toast.makeText(getApplicationContext(),"미구현",Toast.LENGTH_SHORT).show();
 
             }

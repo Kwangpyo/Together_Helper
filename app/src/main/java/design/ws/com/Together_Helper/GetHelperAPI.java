@@ -16,14 +16,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class GetHelpeeAPI {
-
+public class GetHelperAPI {
 
     String userId;
-    ArrayList<Helpee> helpees = new ArrayList<>();
+    ArrayList<Helper> helpers = new ArrayList<>();
 
 
-    public ArrayList<Helpee> getJson(String id) {
+    public ArrayList<Helper> getJson(String id) {
 
         String urlLocation = "http://192.168.0.16:9001/helper/getUserInfo/";
         final String openURL = urlLocation + id;
@@ -67,7 +66,9 @@ public class GetHelpeeAPI {
 
         }
 
-        return helpees;
+        Log.d("sisi",helpers.get(0).getId()+"******");
+
+        return helpers;
     }
 
 
@@ -97,18 +98,27 @@ public class GetHelpeeAPI {
 
         JSONArray Jarray = new JSONArray(result);
 
-            JSONObject JObject = null;
-            JObject = Jarray.getJSONObject(0);
+        JSONObject JObject = null;
+        JObject = Jarray.getJSONObject(0);
 
-            String id = JObject.getString("userID");
-            String phone = JObject.getString("user_phone");
-            Integer feedback = JObject.getInt("userFeedbackScore");
-            String token = JObject.getString("token");
-            double lat = JObject.getDouble("helpee_latitude");
-            double lon = JObject.getDouble("helpee_longitude");
-            Helpee helpee = new Helpee(token, lat, lon, feedback, id, phone);
+        String id = JObject.getString("userID");
+        String psw = JObject.getString("helper_pwd");
+        String name = JObject.getString("helper_name");
+        String phone = JObject.getString("user_phone");
+        Integer feedback;
+        if(JObject.getString("userFeedbackScore").equals("null"))
+        {
+            feedback = 0;
+        }
+        else
+        {
+            feedback = JObject.getInt("userFeedbackScore");
+        }
 
-            helpees.add(helpee);
+        String token = JObject.getString("token");
+        Helper helper = new Helper(name,feedback,id,psw,phone,token);
+        Log.d("qweqeqew",helper.getId());
+        helpers.add(helper);
 
     }
 
@@ -141,3 +151,4 @@ public class GetHelpeeAPI {
         return sb.toString();
     }
 }
+

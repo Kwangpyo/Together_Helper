@@ -16,6 +16,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 public class Login extends AppCompatActivity {
@@ -55,8 +56,9 @@ public class Login extends AppCompatActivity {
         loginId = auto.getString("inputId",null);
         loginPwd = auto.getString("inputPwd",null);
 
-
         if (loginId != null && loginPwd != null) {
+
+            Log.d("1","1");
 
             String result="";
             POSTLoginAPI postloginAPI = new POSTLoginAPI();
@@ -68,11 +70,50 @@ public class Login extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            Log.d("result",result);
 
-            Toast.makeText(getApplicationContext(), loginId + "님 자동로그인 입니다.", Toast.LENGTH_SHORT).show();
-            Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-            startActivity(intent);
+
+            if(result.equals("success") && result != null)
+            {
+                Log.d("2","2");
+                Log.d("result",result);
+                ArrayList<Helper> ps = new ArrayList<>();
+
+                GetHelperAPITask t = new GetHelperAPITask();
+                try
+                {
+                    ps = t.execute(loginId).get();
+                }
+
+                catch (InterruptedException e) {
+                    e.printStackTrace();
+
+                }
+                catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+
+                Helper helper = ps.get(0);
+
+                Toast.makeText(getApplicationContext(), loginId + "님 자동로그인 입니다.", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                intent.putExtra("helper",helper);
+                startActivity(intent);
+            }
+
+            else
+            {
+                Log.d("3","3");
+                Log.d("result",result);
+                SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor  = auto.edit();
+                editor.clear();
+                editor.commit();
+                loginId=null;
+                loginPwd=null;
+                Toast.makeText(getApplicationContext(), "다시 시도해주세요", Toast.LENGTH_SHORT).show();
+
+            }
+
         }
 
         else if (loginId == null && loginPwd == null)
@@ -109,7 +150,26 @@ public class Login extends AppCompatActivity {
                         autoLogin.putString("inputPwd", psw);
                         autoLogin.commit();
 
+                        ArrayList<Helper> ps = new ArrayList<>();
+
+                        GetHelperAPITask t = new GetHelperAPITask();
+                        try
+                        {
+                            ps = t.execute(id).get();
+                        }
+
+                        catch (InterruptedException e) {
+                            e.printStackTrace();
+
+                        }
+                        catch (ExecutionException e) {
+                            e.printStackTrace();
+                        }
+
+                        Helper helper = ps.get(0);
+
                         Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                        intent.putExtra("helper",helper);
                         startActivity(intent);
                     }
 
