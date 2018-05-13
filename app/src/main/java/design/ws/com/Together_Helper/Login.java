@@ -58,12 +58,12 @@ public class Login extends AppCompatActivity {
 
         if (loginId != null && loginPwd != null) {
 
-            Log.d("1","1");
+            Log.d("login1", "1");
 
-            String result="";
+            String result = null;
             POSTLoginAPI postloginAPI = new POSTLoginAPI();
             try {
-                result = postloginAPI.execute(loginId,loginPwd).get();
+                result = postloginAPI.execute(loginId, loginPwd).get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -71,48 +71,56 @@ public class Login extends AppCompatActivity {
             }
 
 
-
-            if(result.equals("success") && result != null)
-            {
-                Log.d("2","2");
-                Log.d("result",result);
-                ArrayList<Helper> ps = new ArrayList<>();
-
-                GetHelperAPITask t = new GetHelperAPITask();
-                try
-                {
-                    ps = t.execute(loginId).get();
-                }
-
-                catch (InterruptedException e) {
-                    e.printStackTrace();
-
-                }
-                catch (ExecutionException e) {
-                    e.printStackTrace();
-                }
-
-                Helper helper = ps.get(0);
-
-                Toast.makeText(getApplicationContext(), loginId + "님 자동로그인 입니다.", Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getApplicationContext(),MainActivity.class);
-                intent.putExtra("helper",helper);
-                startActivity(intent);
-            }
-
-            else
-            {
-                Log.d("3","3");
-                Log.d("result",result);
+            if (result == null) {
+                Log.d("login2", "2");
                 SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
-                SharedPreferences.Editor editor  = auto.edit();
+                SharedPreferences.Editor editor = auto.edit();
                 editor.clear();
                 editor.commit();
-                loginId=null;
-                loginPwd=null;
-                Toast.makeText(getApplicationContext(), "다시 시도해주세요", Toast.LENGTH_SHORT).show();
+                loginId = null;
+                loginPwd = null;
+                Toast.makeText(getApplicationContext(), "네트워크 상태를 확인해주세요", Toast.LENGTH_SHORT).show();
+            } else if (result != null)
+            {
+                if (result.equals("success")) {
+                    Log.d("login3", "3");
+                    Log.d("2", "2");
+                    Log.d("result", result);
+                    ArrayList<Helper> ps = new ArrayList<>();
 
-            }
+                    GetHelperAPITask t = new GetHelperAPITask();
+                    try {
+                        ps = t.execute(loginId).get();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+
+                    Helper helper = ps.get(0);
+
+                    Toast.makeText(getApplicationContext(), loginId + "님 자동로그인 입니다.", Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                    intent.putExtra("helper", helper);
+                    startActivity(intent);
+                }
+
+                else {
+                    Log.d("3", "3");
+                    Log.d("login4", "4");
+                    Log.d("result", result);
+                    SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+                    SharedPreferences.Editor editor = auto.edit();
+                    editor.clear();
+                    editor.commit();
+                    loginId = null;
+                    loginPwd = null;
+                    Toast.makeText(getApplicationContext(), "다시 시도해주세요", Toast.LENGTH_SHORT).show();
+
+                }
+
+        }
 
         }
 
@@ -140,7 +148,15 @@ public class Login extends AppCompatActivity {
                         e.printStackTrace();
                     }
 
-                    Log.d("result",result);
+
+                    if(result == null)
+                    {
+                        Log.d("login10","10");
+                        Toast.makeText(getApplicationContext(), "네트워크 상태를 확인해주세요", Toast.LENGTH_SHORT).show();
+                    }
+
+                    else if(result != null)
+                    {
 
                     if(result.equals("success"))
                     {
@@ -176,6 +192,10 @@ public class Login extends AppCompatActivity {
                     else if(result.equals("fail"))
                     {
                         Toast.makeText(getApplicationContext(),"아이디나 비밀번호를 확인하세요",Toast.LENGTH_SHORT).show();
+                    }
+
+                    else
+                        Toast.makeText(getApplicationContext(),"네트워크 상태를 확인해주세요",Toast.LENGTH_SHORT).show();
                     }
 
                 }

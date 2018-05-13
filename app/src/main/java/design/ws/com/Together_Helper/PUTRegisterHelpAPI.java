@@ -18,10 +18,14 @@ import cz.msebera.android.httpclient.params.HttpConnectionParams;
 import cz.msebera.android.httpclient.params.HttpParams;
 import cz.msebera.android.httpclient.util.EntityUtils;
 
-public class PUTRegisterHelpAPI extends AsyncTask<Void,Void,String> {
+public class PUTRegisterHelpAPI extends AsyncTask<MyTaskParam,Void,String> {
 
-    protected String doInBackground(Void... unused) {
-        String content = executeClient();
+    protected String doInBackground(MyTaskParam... unused) {
+
+        int volunteerid = unused[0].foo;
+            String helperid = unused[0].str;
+
+        String content = executeClient(volunteerid,helperid);
         return content;
     }
 
@@ -30,10 +34,10 @@ public class PUTRegisterHelpAPI extends AsyncTask<Void,Void,String> {
     }
 
     // 실제 전송하는 부분
-    public String executeClient() {
+    public String executeClient(int volunteerid,String helperID) {
         ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
-        post.add(new BasicNameValuePair("volunteer_id", "1"));
-        post.add(new BasicNameValuePair("helper_ID", "koongkwang"));
+        post.add(new BasicNameValuePair("volunteer_id", Integer.toString(volunteerid)));
+        post.add(new BasicNameValuePair("helper_ID", helperID));
 
         // 연결 HttpClient 객체 생성
         HttpClient client = new DefaultHttpClient();
@@ -44,7 +48,7 @@ public class PUTRegisterHelpAPI extends AsyncTask<Void,Void,String> {
         HttpConnectionParams.setSoTimeout(params, 5000);
 
         // Post객체 생성
-        HttpPut httpPost = new HttpPut("http://192.168.31.181:9001/helper/assignVolunteer");
+        HttpPut httpPost = new HttpPut("http://192.168.0.47:9001/helper/assignVolunteer");
 
         try {
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(post, "UTF-8");

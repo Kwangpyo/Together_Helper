@@ -66,6 +66,8 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
     private FusedLocationProviderClient mFusedLocationClient;
     private String provider;
 
+    Helper HELPER_ME;
+
     Marker myMarker;
     ArrayList<Marker> markerArrayList = new ArrayList<>();
     ArrayList<Help> ps = new ArrayList<>();
@@ -78,6 +80,10 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
 
         refresh = (ImageView)findViewById(R.id.toolbar_refresh);
         home = (ImageView)findViewById(R.id.home);
+
+        Intent intent = getIntent();
+        Helper helper = (Helper)intent.getSerializableExtra("helper");
+        HELPER_ME = helper;
 
         provider = LocationManager.GPS_PROVIDER;
 
@@ -103,6 +109,7 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                intent.putExtra("helper",HELPER_ME);
                 startActivity(intent);
             }
         });
@@ -165,6 +172,7 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
                 HelpMarker helpMarker = helpMarkers.get(i);
                 Help help = helpMarker.getHelp();
                 intent.putExtra("help",help);
+                intent.putExtra("helper",HELPER_ME);
                 startActivity(intent);
             }
         }
@@ -204,7 +212,7 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
                 Log.d("qwe","qwe");
                 Log.d("loc", String.valueOf(mCurrentLocation.getAltitude()));
 
-                MarkerOptions options = new MarkerOptions();
+
                 LatLng myplace = new LatLng(mCurrentLocation.getLatitude(), mCurrentLocation.getLongitude());
 
                 GetHelpAPITask t = new GetHelpAPITask();
@@ -256,6 +264,8 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
                     }
 
                 }
+
+                MarkerOptions options = new MarkerOptions();
 
                 myMarker =mMap.addMarker(new MarkerOptions()
                         .position(myplace)

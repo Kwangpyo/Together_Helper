@@ -54,7 +54,7 @@ public class POSTSignupAPI extends AsyncTask<String,Void,String> {
         HttpConnectionParams.setSoTimeout(params, 5000);
 
         // Post객체 생성
-        HttpPost httpPost = new HttpPost("http://192.168.0.16:9001/helper/addUser");
+        HttpPost httpPost = new HttpPost("http://192.168.0.47:9001/helper/addUser");
 
         try {
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(post, "UTF-8");

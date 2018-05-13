@@ -67,10 +67,17 @@ public class CustomSearch extends AppCompatActivity {
     double lon;
     double lat;
 
+    Helper HELPER_ME;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_custom_search);
+
+
+        Intent intent = getIntent();
+        Helper helper = (Helper)intent.getSerializableExtra("helper");
+        HELPER_ME = helper;
 
         refresh = (ImageView)findViewById(R.id.toolbar_refresh);
         home = (ImageView)findViewById(R.id.home);
@@ -238,6 +245,12 @@ public class CustomSearch extends AppCompatActivity {
                 }
 
             }
+
+
+
+
+
+
         });
 
 
@@ -249,6 +262,7 @@ public class CustomSearch extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+                intent.putExtra("helper",HELPER_ME);
                 startActivity(intent);
             }
         });

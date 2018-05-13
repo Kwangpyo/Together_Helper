@@ -24,7 +24,7 @@ public class GetHelperAPI {
 
     public ArrayList<Helper> getJson(String id) {
 
-        String urlLocation = "http://192.168.0.16:9001/helper/getUserInfo/";
+        String urlLocation = "http://192.168.0.47:9001/helper/getUserInfo/";
         final String openURL = urlLocation + id;
 
         try {

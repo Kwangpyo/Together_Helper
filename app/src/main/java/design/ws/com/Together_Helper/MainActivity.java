@@ -67,6 +67,23 @@ public class MainActivity extends AppCompatActivity {
   //      HelpList.add(help2);
 
 
+        GETMyHelpAPITask t = new GETMyHelpAPITask();
+        try
+        {
+            HelpList = t.execute(HELPER_ME.getId()).get();
+        }
+
+        catch (InterruptedException e) {
+            e.printStackTrace();
+
+        }
+        catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("main_helperme",HelpList.get(0).getHelpeeId());
+
+
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -77,10 +94,8 @@ public class MainActivity extends AppCompatActivity {
                         // Simulates a long running task (updating data)
                         swipeRefreshLayout.setRefreshing(false);
                         Log.d("asd","asd");
-                        ArrayList<Help> HelpList1 = new ArrayList<>();
-   //                     HelpList1.add(help2);
-   //                     HelpList1.add(help1);
-                        mAdapter = new HelpAdapter(MainActivity.this,HelpList1);
+
+                        mAdapter = new HelpAdapter(MainActivity.this,HelpList);
                         recyclerView.setAdapter(mAdapter);
                     }
                 }, 2000);
@@ -105,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),CustomSearch.class);
+                intent.putExtra("helper",HELPER_ME);
                 startActivity(intent);
             }
         });
@@ -115,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(),LocationSearchMap.class);
+                intent.putExtra("helper",HELPER_ME);
                 startActivity(intent);
             }
         });

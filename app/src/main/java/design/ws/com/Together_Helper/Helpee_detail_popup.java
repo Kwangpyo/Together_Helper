@@ -9,9 +9,13 @@ import android.view.View;
 import android.view.Window;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.concurrent.ExecutionException;
+
 public class Helpee_detail_popup extends Activity {
 
     private TextView helpee_name;
+    private TextView helpee_feedback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,10 +24,30 @@ public class Helpee_detail_popup extends Activity {
         setContentView(R.layout.activity_helpee_detail_popup);
 
         helpee_name = (TextView)findViewById(R.id.helpee_detail_name);
+        helpee_feedback =(TextView)findViewById(R.id.helpee_detail_feedback);
 
         Intent intent = getIntent();
-        Helpee helpee = (Helpee)intent.getSerializableExtra("helpee");
-        helpee_name.setText(helpee.getName());
+        String helpeeid = (String)intent.getStringExtra("helpee");
+
+        ArrayList<Helpee> ps = new ArrayList<>();
+        GetHelpeeAPITask t = new GetHelpeeAPITask();
+        try
+        {
+            ps = t.execute(helpeeid).get();
+        }
+
+        catch (InterruptedException e) {
+            e.printStackTrace();
+
+        }
+        catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        Helpee helpee = ps.get(0);
+
+        helpee_name.setText("Helpee ID : " + helpee.getId());
+        helpee_feedback.setText("Helpee feedback : "+ helpee.getFeedback());
 
     }
 

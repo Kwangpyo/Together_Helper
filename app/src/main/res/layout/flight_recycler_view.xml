@@ -75,17 +75,6 @@
             android:weightSum="1">
 
             <customfonts.MyTextView_Bold
-                android:id="@+id/help_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="봉사 상세보기"
-                android:textSize="14dp"
-                android:layout_weight="0.5"
-                android:textColor="#2d2d2d"
-                android:layout_marginTop="3dp"
-                android:textStyle="bold"/>
-
-            <customfonts.MyTextView_Bold
                 android:id="@+id/helpee_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -95,6 +84,21 @@
                 android:textColor="#2d2d2d"
                 android:layout_marginTop="3dp"
                 android:textStyle="bold"/>
+
+
+            <customfonts.MyTextView_Bold
+                android:id="@+id/Help_startfinish"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:textColor="#2c2c2c"
+                android:textSize="20dp"
+                android:layout_gravity="center"
+                android:text="시작하기"/>
+
+
 
         </LinearLayout>
 
@@ -135,15 +139,15 @@
 
 
             <customfonts.MyTextView_Bold
-                android:id="@+id/Help_startfinish"
+                android:id="@+id/Help_cancel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_marginRight="10dp"
-                android:textColor="#2c2c2c"
+                android:textColor="#ff0000"
                 android:textSize="15dp"
                 android:layout_gravity="center"
-                android:text="시작"/>
+                android:text="취소하기"/>
 
         </LinearLayout>
 

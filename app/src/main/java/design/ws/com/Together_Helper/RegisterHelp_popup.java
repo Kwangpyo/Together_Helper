@@ -24,6 +24,11 @@ public class RegisterHelp_popup extends Activity {
     Geocoder geocoder;
     String address;
 
+    Help help;
+    String helpeeid;
+
+    Helper HELPER_ME;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +37,7 @@ public class RegisterHelp_popup extends Activity {
 
 
         //UI 객체생성
+        TextView helperid_txt = (TextView)findViewById(R.id.registerHelp_helperid);
         TextView helpeeid_txt = (TextView)findViewById(R.id.registerHelp_helpeeid);
         TextView helpeephone_txt = (TextView)findViewById(R.id.registerHelp_helpeephone);
         TextView helpeefeedback_txt = (TextView)findViewById(R.id.registerHelp_helpeefeedback);
@@ -41,11 +47,15 @@ public class RegisterHelp_popup extends Activity {
 
         //데이터 가져오기
         Intent intent = getIntent();
-        String helpeeid = intent.getStringExtra("helpeeid");
-        Help help = (Help)intent.getSerializableExtra("help");
+        helpeeid = intent.getStringExtra("helpeeid");
+        help = (Help)intent.getSerializableExtra("help");
         ArrayList<Helpee> ps = new ArrayList<>();
+        Helper helper = (Helper)intent.getSerializableExtra("helper");
+        HELPER_ME = helper;
 
-        Log.d("registerhelptest",help.getHelpeeId());
+
+        Log.d("registerhelptest1",HELPER_ME.getId());
+        Log.d("registerhelptest2",helpeeid);
 
         GetHelpeeAPITask t = new GetHelpeeAPITask();
         try
@@ -88,25 +98,55 @@ public class RegisterHelp_popup extends Activity {
 
 
         helpeeid_txt.setText("Helpee : " + helpee.getId());
-        helpeephone_txt.setText("Helpee 전화번호: " + helpee.getPhonenumber());
-        helpeefeedback_txt.setText("Helpee 피드백: " + helpee.getFeedback());
-        helptype_txt.setText("봉사 종류: "+help.getType());
+        helpeephone_txt.setText("Helpee 전화번호 : " + helpee.getPhonenumber());
+        helpeefeedback_txt.setText("Helpee 피드백 : " + helpee.getFeedback());
+        helptype_txt.setText("봉사 종류 : "+help.getType());
         String date = help.getYear() +"년 " + help.getMonth()+"월 " + help.getDay() +"일  " + help.getHour()+"시 " + help.getMinute()+"분";
-        helpdate_txt.setText("봉사 시간: "+date);
-        helplocation_txt.setText("봉사 주소:"+address);
+        helpdate_txt.setText("봉사 시간 : "+date);
+        helplocation_txt.setText("봉사 주소 :"+address);
+
+
+        if(help.getHelperId().equals(""))
+        {
+            helperid_txt.setText("신청 가능" );
+        }
+
+        else{
+            helperid_txt.setText("누가 이미 신청했습니다");
+        }
 
     }
 
     //신청 버튼 클릭
     public void mOnRegister(View v){
         //데이터 전달하기
-        Toast.makeText(getApplicationContext(),"미구현",Toast.LENGTH_SHORT);
-        Log.d("registerbtn","asd");
+
+
+        if(help.getHelperId().equals(""))
+        {
+            MyTaskParam param = new MyTaskParam(help.getHelpId(),HELPER_ME.getId());
+            new PUTRegisterHelpAPI().execute(param);
+            Toast.makeText(getApplicationContext(),"신청이 완료되었습니다.",Toast.LENGTH_SHORT).show();
+
+            Intent intent = new Intent(getApplicationContext(),LocationSearchMap.class);
+            intent.putExtra("helper",HELPER_ME);
+            startActivity(intent);
+
+        }
+
+        else
+        {
+            Log.d("registerbtn","asd");
+            Toast.makeText(getApplicationContext(),"이미 신청된 봉사입니다.",Toast.LENGTH_SHORT).show();
+            finish();
+
+        }
+
         //액티비티(팝업) 닫기
 
-        new PUTRegisterHelpAPI().execute();
 
-        finish();
+
+
     }
 
     //확인 버튼 클릭

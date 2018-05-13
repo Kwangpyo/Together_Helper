@@ -10,6 +10,7 @@ public class Help implements Serializable {
     Helpee helpee;
     Helper helper;
     String helpeeId;
+    String helperId;
     double lon;
     double lat;
     int hour;
@@ -44,7 +45,7 @@ public class Help implements Serializable {
         this.content = content;
     }
 
-    public Help(String helpeeId, double lon, double lat, int hour, int minute, int duration, int year, int month, int day, String type, int match_status, int start_status, String content, int helpId) {
+    public Help(String helpeeId, double lon, double lat, int hour, int minute, int duration, int year, int month, int day, String type, int match_status, int start_status, String content, int helpId,String helperid) {
         this.helpeeId = helpeeId;
         this.lon = lon;
         this.lat = lat;
@@ -59,6 +60,15 @@ public class Help implements Serializable {
         this.start_status = start_status;
         this.content = content;
         this.helpId = helpId;
+        this.helperId = helperid;
+    }
+
+    public String getHelperId() {
+        return helperId;
+    }
+
+    public void setHelperId(String helperId) {
+        this.helperId = helperId;
     }
 
     public int getHelpId() {

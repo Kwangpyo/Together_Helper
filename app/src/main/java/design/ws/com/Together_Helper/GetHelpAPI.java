@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class GetHelpAPI {
 
-    final static String openURL = "http://192.168.31.181:9001/helper/getVolunteerList";
+    final static String openURL = "http://192.168.0.47:9001/helper/getVolunteerList";
     ArrayList<Help> helps = new ArrayList<>();
 
 
@@ -116,9 +116,10 @@ public class GetHelpAPI {
             Integer year = JObject.getInt("year");
             Integer month = JObject.getInt("month");
             Integer day = JObject.getInt("day");
+            String helperid = JObject.getString("helper_ID");
 
             Log.d("testparsing",JObject.getString("type"));
-            Help st = new Help(HelpeeID,lon,lat,hour,minute,duration,year,month,day,type,matching_status,start_status,content,volunteerId);
+            Help st = new Help(HelpeeID,lon,lat,hour,minute,duration,year,month,day,type,matching_status,start_status,content,volunteerId,helperid);
 
 
             //       public Help( Helpee helpee, double lon, double lat, int hour, int minute, int duration, int year, int month, int day, String type, int match_status, int start_status, String content)

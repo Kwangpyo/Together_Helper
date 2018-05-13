@@ -16,16 +16,13 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class GetHelpeeAPI {
+public class GETMyHelpAPI {
 
+    ArrayList<Help> helps = new ArrayList<>();
 
-    String userId;
-    ArrayList<Helpee> helpees = new ArrayList<>();
+    public ArrayList<Help> getJson(String id) {
 
-
-    public ArrayList<Helpee> getJson(String id) {
-
-        String urlLocation = "http://192.168.0.47:9001/helper/getUserInfo/";
+        String urlLocation = "http://192.168.0.47:9001/helper/getVolunteerList/";
         final String openURL = urlLocation + id;
 
         try {
@@ -67,7 +64,7 @@ public class GetHelpeeAPI {
 
         }
 
-        return helpees;
+        return helps;
     }
 
 
@@ -97,18 +94,38 @@ public class GetHelpeeAPI {
 
         JSONArray Jarray = new JSONArray(result);
 
+        int size = Jarray.length();
+
+        for(int i=0;i<size;i++)
+        {
             JSONObject JObject = null;
-            JObject = Jarray.getJSONObject(0);
+            JObject = Jarray.getJSONObject(i);
 
-            String id = JObject.getString("userID");
-            String phone = JObject.getString("user_phone");
-            Integer feedback = JObject.getInt("userFeedbackScore");
-            String token = JObject.getString("token");
-            double lat = JObject.getDouble("helpee_latitude");
-            double lon = JObject.getDouble("helpee_longitude");
-            Helpee helpee = new Helpee(token, lat, lon, feedback, id, phone);
+            Integer volunteerId= JObject.getInt("volunteer_id");
+            String type = JObject.getString("type");
+            String HelpeeID = JObject.getString("helpee_ID");
+            double lon = JObject.getDouble("longitude");
+            double lat = JObject.getDouble("latitude");
+            Integer matching_status = JObject.getInt("matchingStatus");
+            Integer start_status = JObject.getInt("startStatus");
+            String content = JObject.getString("content");
+            Integer hour = JObject.getInt("hour");
+            Integer minute = JObject.getInt("minute");
+            Integer duration = JObject.getInt("duration");
+            Integer year = JObject.getInt("year");
+            Integer month = JObject.getInt("month");
+            Integer day = JObject.getInt("day");
+            String helperid = JObject.getString("helper_ID");
 
-            helpees.add(helpee);
+            Log.d("testparsing",JObject.getString("type"));
+            Help st = new Help(HelpeeID,lon,lat,hour,minute,duration,year,month,day,type,matching_status,start_status,content,volunteerId,helperid);
+
+
+            //       public Help( Helpee helpee, double lon, double lat, int hour, int minute, int duration, int year, int month, int day, String type, int match_status, int start_status, String content)
+            //       Help st = new Help(datas.getJSONObject(i).getString("title"),datas.getJSONObject(i).getString("password"),datas.getJSONObject(i).getString("content"));
+            helps.add(st);
+        }
+
 
     }
 
@@ -141,3 +158,4 @@ public class GetHelpeeAPI {
         return sb.toString();
     }
 }
+
