@@ -84,7 +84,7 @@
         <TextView
             android:id="@+id/registerHelp_helperid"
             android:textSize="15sp"
-            android:textColor="#FFCC00"
+            android:textColor="#FF0000"
             android:layout_weight="0.4"
             android:alpha="0.87"
             android:gravity="center"

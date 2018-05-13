@@ -237,11 +237,33 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
                     LatLng place = new LatLng(ps.get(i).getLat(),ps.get(i).getLon());
 
                     Marker marker;
+                    MarkerOptions options = new MarkerOptions();
 
-                    marker =mMap.addMarker(new MarkerOptions()
-                            .position(place)
-                            .title(helpeeid));
-                    marker.setTag(i);
+
+
+                    if(ps.get(i).getMatch_status()==0) {
+
+                        marker =mMap.addMarker(new MarkerOptions()
+                                .position(place)
+                                .snippet("신청자가 없습니다")
+                                .title(helpeeid));
+                        marker.setTag(i);
+
+                        marker.showInfoWindow();
+                    }
+
+                    else
+                    {
+                        marker =mMap.addMarker(new MarkerOptions()
+                                .position(place)
+                                .snippet("신청자가 있습니다")
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                                .title(helpeeid));
+                        marker.setTag(i);
+
+                        marker.showInfoWindow();
+
+                    }
 
                     int flag=0;
                    /* for(int a =0;a<markerArrayList.size();a++) {
@@ -265,18 +287,20 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
 
                 }
 
-                MarkerOptions options = new MarkerOptions();
+                MarkerOptions MYoptions = new MarkerOptions();
 
                 myMarker =mMap.addMarker(new MarkerOptions()
                         .position(myplace)
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
                         .title("내 위치"));
                 myMarker.setTag(1000);
-                options.position(myplace);
+                myMarker.showInfoWindow();
+                /*MYoptions.position(myplace);
                 BitmapDescriptor icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN);
-                options.icon(icon);
-                Marker marker = mMap.addMarker(options);
-
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(marker.getPosition(), 14));
+                MYoptions.icon(icon);
+                Marker marker = mMap.addMarker(MYoptions);
+*/
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myMarker.getPosition(), 14));
 
                 /**
                  * 지속적으로 위치정보를 받으려면

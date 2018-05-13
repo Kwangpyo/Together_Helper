@@ -124,8 +124,8 @@ public class Login extends AppCompatActivity {
 
         }
 
-        else if (loginId == null && loginPwd == null)
-        {
+        //else if (loginId == null && loginPwd == null)
+      //  {
             login.setOnClickListener(new View.OnClickListener()
             {
 
@@ -200,7 +200,7 @@ public class Login extends AppCompatActivity {
 
                 }
             });
-        }
+   //     }
 
 
 

@@ -108,7 +108,7 @@ public class RegisterHelp_popup extends Activity {
 
         if(help.getHelperId().equals(""))
         {
-            helperid_txt.setText("신청 가능" );
+            helperid_txt.setText("신청 가능합니다" );
         }
 
         else{
