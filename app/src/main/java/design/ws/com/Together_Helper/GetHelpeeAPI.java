@@ -25,7 +25,7 @@ public class GetHelpeeAPI {
 
     public ArrayList<Helpee> getJson(String id) {
 
-        String urlLocation = "http://192.168.0.47:9001/helper/getUserInfo/";
+        String urlLocation = "http://210.89.191.125/helper/user/";
         final String openURL = urlLocation + id;
 
         try {
@@ -100,12 +100,30 @@ public class GetHelpeeAPI {
             JSONObject JObject = null;
             JObject = Jarray.getJSONObject(0);
 
-            String id = JObject.getString("userID");
-            String phone = JObject.getString("user_phone");
-            Integer feedback = JObject.getInt("userFeedbackScore");
+            String id = JObject.getString("userId");
+            String phone = JObject.getString("userPhone");
+            Integer feedback;
+            try {
+                feedback = JObject.getInt("userFeedbackScore");
+            }
+            catch(Exception e)
+        {
+            feedback =0;
+        }
             String token = JObject.getString("token");
-            double lat = JObject.getDouble("helpee_latitude");
-            double lon = JObject.getDouble("helpee_longitude");
+
+        double lat;
+        double lon;
+            try {
+                lat = JObject.getDouble("helpeeLatitude");
+                lon = JObject.getDouble("helpeeLongitude");
+            }
+            catch (Exception e)
+            {
+                lat = 0;
+                lon = 0;
+            }
+
             Helpee helpee = new Helpee(token, lat, lon, feedback, id, phone);
 
             helpees.add(helpee);

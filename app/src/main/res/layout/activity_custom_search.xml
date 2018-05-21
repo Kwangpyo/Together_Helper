@@ -34,7 +34,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="9dp"
                     android:layout_marginLeft="32dp"
-                    android:text="From" />
+                    android:text="날짜(~부터)" />
 
                 <ImageView
                     android:layout_width="20dp"
@@ -75,7 +75,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="9dp"
                     android:layout_marginLeft="32dp"
-                    android:text="From" />
+                    android:text="시간(~부터)" />
 
                 <ImageView
                     android:layout_width="20dp"
@@ -111,14 +111,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="9dp"
                 android:layout_marginLeft="32dp"
-                android:text="봉사 종류" />
+                android:text="봉사 종류 (아래 텍스트를 클릭하여 선택해 주세요)" />
 
             <Spinner
                 android:id="@+id/custom_search_spinner"
                 android:layout_width="150dp"
                 android:layout_height="29dp"
                 android:layout_marginBottom="18dp"
-                android:background="@android:color/transparent"
                 android:entries="@array/help"
                 android:maxLength="10"
                 android:maxLines="1"
@@ -141,7 +140,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="9dp"
                     android:layout_marginLeft="32dp"
-                    android:text="위치" />
+                    android:text="위치 (ex:경기도 수원시 영통구 영통동)" />
 
 
             </LinearLayout>
@@ -188,7 +187,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="9dp"
                     android:layout_marginLeft="32dp"
-                    android:text="To" />
+                    android:text="날짜(~까지)" />
 
                 <ImageView
                     android:layout_width="20dp"
@@ -228,7 +227,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="9dp"
                     android:layout_marginLeft="32dp"
-                    android:text="To" />
+                    android:text="시간(~까지)" />
 
                 <ImageView
                     android:layout_width="20dp"
@@ -290,6 +289,7 @@
                 android:background="@drawable/border"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="10dp" />
+
 
         </LinearLayout>
     </LinearLayout>

@@ -6,7 +6,8 @@
     android:orientation="vertical"
     android:layout_width="300dp"
     android:layout_height="match_parent"
-    tools:context=".Help_detail_popup">
+    tools:context=".Help_start_popup">
+
 
     <LinearLayout
         android:padding="24dp"
@@ -14,53 +15,25 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/help_detail_helpee"
-                android:textSize="15sp"
-                android:textColor="#000"
-                android:layout_weight="0.4"
-                android:alpha="0.87"
-                android:gravity="center"
-                android:layout_marginBottom="3dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
         <TextView
-            android:id="@+id/help_detail_location"
             android:textSize="15sp"
             android:textColor="#000"
-            android:alpha="0.87"
-            android:gravity="center"
-            android:layout_marginBottom="3dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/help_detail_time"
-            android:textSize="15sp"
-            android:textColor="#000"
-            android:alpha="0.87"
-            android:gravity="center"
-            android:layout_marginBottom="3dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-        <TextView
-            android:id="@+id/help_detail_status"
-            android:textSize="15sp"
-            android:textColor="#000"
+            android:text="봉사를 시작하려면 HELPEE의 핸드폰으로 전송된 인증번호를 입력하세요"
+            android:layout_weight="0.4"
             android:alpha="0.87"
             android:gravity="center"
             android:layout_marginBottom="3dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <TextView
-            android:id="@+id/help_detail_content"
-            android:textSize="15sp"
-            android:textColor="#000"
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.4"
             android:alpha="0.87"
             android:gravity="center"
-            android:layout_marginBottom="3dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_marginBottom="3dp"/>
+
     </LinearLayout>
 
     <View
@@ -71,6 +44,7 @@
     <LinearLayout
         android:orientation="horizontal"
         android:gravity="center"
+        android:weightSum="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <Button
@@ -78,12 +52,25 @@
             android:textSize="15sp"
             android:textColor="#FFCC00"
             android:padding="16dp"
-            android:gravity="center"
+            android:layout_weight="0.5"
+            android:background="#00000000"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:onClick="mOnClick"/>
+
+        <Button
+            android:text="취소"
+            android:textSize="15sp"
+            android:textColor="#FFCC00"
+            android:layout_weight="0.5"
+            android:padding="16dp"
             android:background="#00000000"
             android:layout_width="match_parent"
             android:layout_height="53dp"
             android:onClick="mOnClose"/>
+
     </LinearLayout>
+
 
 
 </LinearLayout>

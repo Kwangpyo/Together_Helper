@@ -44,7 +44,7 @@ public class Login extends AppCompatActivity {
         ImageView Togethericon = (ImageView) findViewById(R.id.login_background);
 
         GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(Togethericon);
-        Glide.with(this).load(R.drawable.gif).into(gifImage);
+        Glide.with(this).load(R.drawable.gif2).into(gifImage);
 
         idInput = (EditText) findViewById(R.id.login_emailInput);
         passwordInput = (EditText) findViewById(R.id.login_passwordInput);
@@ -79,7 +79,7 @@ public class Login extends AppCompatActivity {
                 editor.commit();
                 loginId = null;
                 loginPwd = null;
-                Toast.makeText(getApplicationContext(), "네트워크 상태를 확인해주세요", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "자동로그인에 실패했습니다. 네트워크 상태를 확인해주세요", Toast.LENGTH_SHORT).show();
             } else if (result != null)
             {
                 if (result.equals("success")) {

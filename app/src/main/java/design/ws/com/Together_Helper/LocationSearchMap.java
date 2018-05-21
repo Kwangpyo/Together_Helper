@@ -1,9 +1,12 @@
 package design.ws.com.Together_Helper;
 
 import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -14,8 +17,11 @@ import android.os.Looper;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -72,6 +78,7 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
     ArrayList<Marker> markerArrayList = new ArrayList<>();
     ArrayList<Help> ps = new ArrayList<>();
     ArrayList<HelpMarker> helpMarkers = new ArrayList<>();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -229,6 +236,8 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
                     e.printStackTrace();
                 }
 
+//                BitmapDescriptor yes_icon = BitmapDescriptorFactory.fromResource(R.drawable.okay);
+  //              BitmapDescriptor no_icon = BitmapDescriptorFactory.fromResource(R.drawable.no);
 
                 for(int i=0;i<ps.size();i++)
                 {
@@ -245,23 +254,23 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
 
                         marker =mMap.addMarker(new MarkerOptions()
                                 .position(place)
-                                .snippet("신청자가 없습니다")
-                                .title(helpeeid));
+                               // .snippet("신청자가 없습니다")
+                                .title(helpeeid)
+                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
                         marker.setTag(i);
 
-                        marker.showInfoWindow();
+                     //   marker.showInfoWindow();
                     }
 
                     else
                     {
                         marker =mMap.addMarker(new MarkerOptions()
                                 .position(place)
-                                .snippet("신청자가 있습니다")
-                                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ORANGE))
+                              //  .snippet("신청자가 있습니다")
                                 .title(helpeeid));
                         marker.setTag(i);
 
-                        marker.showInfoWindow();
+                     //   marker.showInfoWindow();
 
                     }
 
@@ -287,20 +296,13 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
 
                 }
 
-                MarkerOptions MYoptions = new MarkerOptions();
-
                 myMarker =mMap.addMarker(new MarkerOptions()
                         .position(myplace)
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
                         .title("내 위치"));
                 myMarker.setTag(1000);
-                myMarker.showInfoWindow();
-                /*MYoptions.position(myplace);
-                BitmapDescriptor icon = BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN);
-                MYoptions.icon(icon);
-                Marker marker = mMap.addMarker(MYoptions);
-*/
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myMarker.getPosition(), 14));
+              //  myMarker.showInfoWindow();
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myplace, 14));
 
                 /**
                  * 지속적으로 위치정보를 받으려면
@@ -425,6 +427,24 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
         //안드로이드 백버튼 막기
         return;
     }
+
+
+    private Bitmap createDrawableFromView(Context context, View view) {
+
+        DisplayMetrics displayMetrics = new DisplayMetrics();
+        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+        view.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+        view.measure(displayMetrics.widthPixels, displayMetrics.heightPixels);
+        view.layout(0, 0, displayMetrics.widthPixels, displayMetrics.heightPixels);
+        view.buildDrawingCache();
+        Bitmap bitmap = Bitmap.createBitmap(view.getMeasuredWidth(), view.getMeasuredHeight(), Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(bitmap);
+        view.draw(canvas);
+
+        return bitmap;
+    }
+
 
 }
 

@@ -17,7 +17,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.lang.ref.WeakReference;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -27,20 +29,17 @@ import java.util.Locale;
 public class HelpAdapter extends RecyclerView.Adapter<HelpAdapter.MyViewHolder> {
 Context context;
 
-    boolean showingFirst = true;
-
     private List<Help> helpList;
-
-    ImageView NormalImageView;
-    Bitmap ImageBit;
-    float ImageRadius = 40.0f;
 
     Geocoder geocoder;
     String address;
 
     private Context mContext;
+    private Helper HELPER_ME;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    Help help;
+
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView image;
         TextView matching_status;
@@ -50,6 +49,7 @@ Context context;
         TextView Help_time;
         TextView Help_start;
         TextView help_cancel;
+
 
         public MyViewHolder(View view) {
             super(view);
@@ -63,29 +63,115 @@ Context context;
             Help_start = (TextView) view.findViewById(R.id.Help_startfinish);
             help_cancel = (TextView)view.findViewById(R.id.Help_cancel);
 
+            Helpee_detail.setOnClickListener(this);
+            help_cancel.setOnClickListener(this);
+            Help_start.setOnClickListener(this);
+
         }
+
+        @Override
+        public void onClick(View v) {
+            if (v.getId() == Helpee_detail.getId()) {
+                help = helpList.get(getAdapterPosition());
+                 Intent intent = new Intent(context,Helpee_detail_popup.class);
+                 intent.putExtra("helpee",help.getHelpeeId());
+                 context.startActivity(intent);
+
+            } else if(v.getId() == help_cancel.getId()){
+                help = helpList.get(getAdapterPosition());
+                Intent intent = new Intent(context,Help_cancel_popup.class);
+                intent.putExtra("helperid",HELPER_ME.getId());
+                intent.putExtra("helpid",help.getHelpId());
+                intent.putExtra("helper",HELPER_ME);
+                context.startActivity(intent);
+            }
+            else if(v.getId() == Help_start.getId()){
+                help = helpList.get(getAdapterPosition());
+                Date from_date = new Date();
+                from_date.setYear(help.getYear());
+                from_date.setMonth(help.getMonth());
+                from_date.setDate(help.getDay());
+                from_date.setHours(help.getHour());
+                from_date.setMinutes(help.getMinute());
+
+                Date late_date = new Date();
+                late_date.setHours(help.getHour());
+                late_date.setMinutes(help.getMinute());
+                late_date.setYear(help.getYear());
+                late_date.setMonth(help.getMonth());
+                late_date.setDate(help.getDay()+10);
+
+                Calendar cals = Calendar.getInstance();
+                int nowyear = cals.get(cals.YEAR);
+                int nowmonth = cals.get ( cals.MONTH ) + 1 ;
+                int nowdate = cals.get ( cals.DATE ) ;
+                int nowhour = cals.get ( cals.HOUR_OF_DAY ) ;
+                int nowmin = cals.get ( cals.MINUTE );
+
+                Date now_date = new Date();
+                now_date.setYear(nowyear);
+                now_date.setMonth(nowmonth);
+                now_date.setDate(nowdate);
+                now_date.setHours(nowhour);
+                now_date.setMinutes(nowmin);
+
+                Log.d("fromhour",from_date.toString());
+                Log.d("latehour",late_date.toString());
+                Log.d("nowdate",now_date.toString());
+
+                if(from_date.compareTo(now_date)>0 && late_date.compareTo(now_date)>0)
+                {
+                    Toast.makeText(context,"아직 약속 시간이 아닙니다.",Toast.LENGTH_SHORT).show();
+                }
+                else if(late_date.compareTo(now_date)>0 && from_date.compareTo(now_date)<0)
+                {
+
+                    Intent intent = new Intent(context,Help_start_popup.class);
+                    intent.putExtra("helperid",HELPER_ME.getId());
+                    intent.putExtra("helpid",help.getHelpId());
+                    intent.putExtra("helper",HELPER_ME);
+                    context.startActivity(intent);
+                }
+                else if(late_date.compareTo(now_date)<0 && from_date.compareTo(now_date)<0)
+                {
+                    Toast.makeText(context,"약속 시간이 지났습니다",Toast.LENGTH_SHORT).show();
+                }
+
+                Intent intent = new Intent(context,Help_start_popup.class);
+                intent.putExtra("helperid",HELPER_ME.getId());
+                intent.putExtra("helpid",help.getHelpId());
+                intent.putExtra("helper",HELPER_ME);
+                context.startActivity(intent);
+
+
+            }
+
+        }
+
+
     }
 
 
-    public HelpAdapter(MainActivity mainActivityContacts, List<Help> helpsList) {
+    public HelpAdapter(MainActivity mainActivityContacts, List<Help> helpsList,Helper helper) {
         this.helpList = helpsList;
        this.context = mainActivityContacts;
         mContext = mainActivityContacts;
+        HELPER_ME = helper;
     }
 
 
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.flight_recycler_view, parent, false);
+                .inflate(R.layout.main_recycler_view, parent, false);
 
         return new MyViewHolder(itemView);
     }
 
     @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
     @Override
-    public void onBindViewHolder(final MyViewHolder holder, int position) {
-        final Help help = helpList.get(position);
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
+        help = helpList.get(position);
         if(help.getMatch_status() == 1)
         {
             holder.matching_status.setText("매칭 중");
@@ -124,42 +210,16 @@ Context context;
 
       holder.Help_location.setText(address);
       holder.Help_time.setText(help.getMonth() +"월 "+help.getDay()+"일 " + help.getHour()+"시 " + help.getMinute()+"분");
-        //holder.image.setImageResource(movie.getImage());
 
-
-
-
-        holder.Helpee_detail.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(context,Helpee_detail_popup.class);
-                intent.putExtra("helpee",help.getHelpeeId());
-                context.startActivity(intent);
-            }
-        });
-
-        holder.Help_start.setOnClickListener(new View.OnClickListener()
-        {
-
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(context,"미구현",Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        holder.help_cancel.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View view) {
-
-                Toast.makeText(context,"미구현",Toast.LENGTH_SHORT).show();
-            }
-        });
     }
+
 
     @Override
     public int getItemCount() {
+        if(helpList!=null)
         return helpList.size();
+        else
+            return 0;
     }
 
 }
