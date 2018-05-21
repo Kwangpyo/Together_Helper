@@ -30,7 +30,7 @@ public class CustomHelpAdapter extends RecyclerView.Adapter<CustomHelpAdapter.My
 
 
 
-    public class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView image;
         TextView Helpee_name;
@@ -50,6 +50,18 @@ public class CustomHelpAdapter extends RecyclerView.Adapter<CustomHelpAdapter.My
             Help_time = (TextView) view.findViewById(R.id.custom_Help_time);
             Help_detail = (TextView) view.findViewById(R.id.custom_help_detail);
             help_register = (TextView)view.findViewById(R.id.custom_Help_register);
+
+            help_register.setOnClickListener(this);
+
+        }
+
+        @Override
+        public void onClick(View view) {
+
+            if (view.getId() == help_register.getId()) {
+                help = helpList.get(getAdapterPosition());
+            }
+
 
         }
     }
