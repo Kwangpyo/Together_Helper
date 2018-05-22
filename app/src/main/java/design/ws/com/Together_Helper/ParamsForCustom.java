@@ -1,6 +1,8 @@
 package design.ws.com.Together_Helper;
 
-public class ParamsForCustom {
+import java.io.Serializable;
+
+public class ParamsForCustom implements Serializable {
 
     int fromYear;
     int fromMonth;

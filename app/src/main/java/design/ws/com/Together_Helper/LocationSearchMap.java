@@ -79,6 +79,7 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
     ArrayList<Help> ps = new ArrayList<>();
     ArrayList<HelpMarker> helpMarkers = new ArrayList<>();
 
+    private int searchFlag=1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -180,6 +181,7 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
                 Help help = helpMarker.getHelp();
                 intent.putExtra("help",help);
                 intent.putExtra("helper",HELPER_ME);
+                intent.putExtra("searchflag",searchFlag);
                 startActivity(intent);
             }
         }

@@ -12,9 +12,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
+
+import cz.msebera.android.httpclient.entity.HttpEntityWrapper;
 
 public class Custom_RecyclerView extends AppCompatActivity {
 
@@ -28,6 +31,7 @@ public class Custom_RecyclerView extends AppCompatActivity {
 
     private Helper HELPER_ME;
     private ArrayList<Help> HelpList;
+
 
 
     @Override
@@ -46,9 +50,21 @@ public class Custom_RecyclerView extends AppCompatActivity {
 
         Intent intent = getIntent();
         Helper helper = (Helper)intent.getSerializableExtra("helper");
-        HelpList = (ArrayList<Help>)intent.getSerializableExtra("help");
         HELPER_ME = helper;
+        ParamsForCustom params = (ParamsForCustom)intent.getSerializableExtra("params");
+        GETCustomHelpAPITask t = new GETCustomHelpAPITask();
+        try {
+          HelpList = t.execute(params).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
+        if(HelpList.size()==0)
+        {
+            Toast.makeText(getApplicationContext(),"검색된 결과가 없습니다.",Toast.LENGTH_SHORT).show();
+        }
 
         mAdapter = new CustomHelpAdapter(Custom_RecyclerView.this,HelpList,HELPER_ME);
 
@@ -68,6 +84,10 @@ public class Custom_RecyclerView extends AppCompatActivity {
                         swipeRefreshLayout.setRefreshing(false);
                         Log.d("asd","asd");
 
+                        if(HelpList.size()==0)
+                        {
+                            Toast.makeText(getApplicationContext(),"검색된 결과가 없습니다.",Toast.LENGTH_SHORT).show();
+                        }
                         mAdapter = new CustomHelpAdapter(Custom_RecyclerView.this,HelpList,HELPER_ME);
                         recyclerView.setAdapter(mAdapter);
                     }

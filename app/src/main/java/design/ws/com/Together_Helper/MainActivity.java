@@ -33,7 +33,7 @@ public class MainActivity extends AppCompatActivity{
 
     private TextView location_search;
     private TextView custom_search;
-    private TextView current_help;
+    private TextView registered_help;
 
     private ImageView profile;
 
@@ -46,8 +46,8 @@ public class MainActivity extends AppCompatActivity{
         recyclerView = (RecyclerView) findViewById(R.id.recycleview);
         location_search = (TextView)findViewById(R.id.location_search);
         custom_search = (TextView)findViewById(R.id.custom_search);
-        current_help = (TextView)findViewById(R.id.current_help);
         profile = (ImageView)findViewById(R.id.profile);
+        registered_help = (TextView)findViewById(R.id.main_registered_help);
 
         Intent intent = getIntent();
         Helper helper = (Helper)intent.getSerializableExtra("helper");
@@ -70,6 +70,11 @@ public class MainActivity extends AppCompatActivity{
             e.printStackTrace();
         }
 
+        if(HelpList.size()==0)
+        {
+            Toast.makeText(getApplicationContext(),"신청한 봉사가 없습니다.",Toast.LENGTH_SHORT).show();
+            registered_help.setText("신청한 봉사가 없습니다.");
+        }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -81,6 +86,12 @@ public class MainActivity extends AppCompatActivity{
                         // Simulates a long running task (updating data)
                         swipeRefreshLayout.setRefreshing(false);
                         Log.d("asd","asd");
+
+                        if(HelpList.size()==0)
+                        {
+                            registered_help.setText("신청한 봉사가 없습니다.");
+                            Toast.makeText(getApplicationContext(),"신청한 봉사가 없습니다.",Toast.LENGTH_SHORT).show();
+                        }
 
                         mAdapter = new HelpAdapter(MainActivity.this,HelpList,HELPER_ME);
                         recyclerView.setAdapter(mAdapter);
@@ -134,15 +145,6 @@ public class MainActivity extends AppCompatActivity{
             }
         });
 
-        current_help.setOnClickListener(new View.OnClickListener()
-        {
-
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(getApplicationContext(),"미구현",Toast.LENGTH_SHORT).show();
-
-            }
-        });
 
     }
 

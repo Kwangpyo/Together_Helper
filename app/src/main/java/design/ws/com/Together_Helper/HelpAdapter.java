@@ -85,8 +85,12 @@ Context context;
                 intent.putExtra("helper",HELPER_ME);
                 context.startActivity(intent);
             }
-            else if(v.getId() == Help_start.getId()){
+            else if(v.getId() == Help_start.getId()) {
                 help = helpList.get(getAdapterPosition());
+
+
+                if(help.getMatch_status()==2){
+
                 Date from_date = new Date();
                 from_date.setYear(help.getYear());
                 from_date.setMonth(help.getMonth());
@@ -96,17 +100,17 @@ Context context;
 
                 Date late_date = new Date();
                 late_date.setHours(help.getHour());
-                late_date.setMinutes(help.getMinute());
+                late_date.setMinutes(help.getMinute() + 10);
                 late_date.setYear(help.getYear());
                 late_date.setMonth(help.getMonth());
-                late_date.setDate(help.getDay()+10);
+                late_date.setDate(help.getDay());
 
                 Calendar cals = Calendar.getInstance();
                 int nowyear = cals.get(cals.YEAR);
-                int nowmonth = cals.get ( cals.MONTH ) + 1 ;
-                int nowdate = cals.get ( cals.DATE ) ;
-                int nowhour = cals.get ( cals.HOUR_OF_DAY ) ;
-                int nowmin = cals.get ( cals.MINUTE );
+                int nowmonth = cals.get(cals.MONTH) + 1;
+                int nowdate = cals.get(cals.DATE);
+                int nowhour = cals.get(cals.HOUR_OF_DAY);
+                int nowmin = cals.get(cals.MINUTE);
 
                 Date now_date = new Date();
                 now_date.setYear(nowyear);
@@ -115,33 +119,44 @@ Context context;
                 now_date.setHours(nowhour);
                 now_date.setMinutes(nowmin);
 
-                Log.d("fromhour",from_date.toString());
-                Log.d("latehour",late_date.toString());
-                Log.d("nowdate",now_date.toString());
+                Log.d("fromhour", from_date.toString());
+                Log.d("latehour", late_date.toString());
+                Log.d("nowdate", now_date.toString());
 
-                if(from_date.compareTo(now_date)>0 && late_date.compareTo(now_date)>0)
-                {
-                    Toast.makeText(context,"아직 약속 시간이 아닙니다.",Toast.LENGTH_SHORT).show();
-                }
-                else if(late_date.compareTo(now_date)>0 && from_date.compareTo(now_date)<0)
-                {
+                if (from_date.compareTo(now_date) > 0 && late_date.compareTo(now_date) > 0) {
+                    Toast.makeText(context, "아직 약속 시간이 아닙니다.", Toast.LENGTH_SHORT).show();
+                } else if (late_date.compareTo(now_date) > 0 && from_date.compareTo(now_date) < 0) {
 
-                    Intent intent = new Intent(context,Help_start_popup.class);
-                    intent.putExtra("helperid",HELPER_ME.getId());
-                    intent.putExtra("helpid",help.getHelpId());
-                    intent.putExtra("helper",HELPER_ME);
+                    Intent intent = new Intent(context, Help_start_popup.class);
+                    intent.putExtra("helperid", HELPER_ME.getId());
+                    intent.putExtra("helpid", help.getHelpId());
+                    intent.putExtra("helper", HELPER_ME);
                     context.startActivity(intent);
+                } else if (late_date.compareTo(now_date) < 0 && from_date.compareTo(now_date) < 0) {
+                    Toast.makeText(context, "약속 시간이 지났습니다. 관리자에게 문의하세요.", Toast.LENGTH_SHORT).show();
                 }
-                else if(late_date.compareTo(now_date)<0 && from_date.compareTo(now_date)<0)
+
+
+            }
+
+            else
                 {
-                    Toast.makeText(context,"약속 시간이 지났습니다",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context,"아직 Helpee가 봉사 승인을 하지 않았습니다.",Toast.LENGTH_SHORT).show();
                 }
+
+
+
+
 
                 Intent intent = new Intent(context,Help_start_popup.class);
                 intent.putExtra("helperid",HELPER_ME.getId());
                 intent.putExtra("helpid",help.getHelpId());
                 intent.putExtra("helper",HELPER_ME);
                 context.startActivity(intent);
+
+
+
+
 
 
             }
@@ -180,6 +195,12 @@ Context context;
         else if(help.getMatch_status() == 2)
         {
             holder.matching_status.setText("매칭 완료");
+
+            if(help.getStart_status()==1)
+            {
+                holder.matching_status.setText("봉사 중");
+            }
+
         }
 
         holder.Helpee_name.setText(help.getHelpeeId());

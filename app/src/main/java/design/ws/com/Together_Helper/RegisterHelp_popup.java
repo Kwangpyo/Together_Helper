@@ -28,6 +28,7 @@ public class RegisterHelp_popup extends Activity {
     String helpeeid;
 
     Helper HELPER_ME;
+    private int searchFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +53,7 @@ public class RegisterHelp_popup extends Activity {
         ArrayList<Helpee> ps = new ArrayList<>();
         Helper helper = (Helper)intent.getSerializableExtra("helper");
         HELPER_ME = helper;
+        searchFlag = (Integer)intent.getIntExtra("searchflag",-1);
 
 
         Log.d("registerhelptest1",HELPER_ME.getId());
@@ -128,10 +130,18 @@ public class RegisterHelp_popup extends Activity {
             new PUTRegisterHelpAPI().execute(param);
             Toast.makeText(getApplicationContext(),"신청이 완료되었습니다.",Toast.LENGTH_SHORT).show();
 
-            Intent intent = new Intent(getApplicationContext(),LocationSearchMap.class);
-            intent.putExtra("helper",HELPER_ME);
-            startActivity(intent);
+            if(searchFlag==1) {
+                Intent intent = new Intent(getApplicationContext(), LocationSearchMap.class);
+                intent.putExtra("helper", HELPER_ME);
+                startActivity(intent);
+            }
 
+            else if(searchFlag==2)
+            {
+                Intent intent = new Intent(getApplicationContext(), Custom_RecyclerView.class);
+                intent.putExtra("helper", HELPER_ME);
+                startActivity(intent);
+            }
         }
 
         else
