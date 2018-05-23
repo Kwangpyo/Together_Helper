@@ -29,7 +29,7 @@
             android:layout_width="80dp"
             android:layout_height="80dp"
             android:layout_gravity="center"
-            android:background="@drawable/police"/>
+            android:background="@drawable/noimage"/>
 
         <TextView
             android:id="@+id/profile_id"

@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
@@ -29,16 +31,15 @@ public class CustomHelpAdapter extends RecyclerView.Adapter<CustomHelpAdapter.My
     String address;
 
 
-
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         ImageView image;
         TextView Helpee_name;
         TextView Help_location;
-        TextView Helpee_detail;
         TextView Help_time;
-        TextView Help_detail;
         TextView help_register;
+        TextView help_duration;
+        TextView help_type;
 
         public MyViewHolder(View view) {
             super(view);
@@ -46,11 +47,10 @@ public class CustomHelpAdapter extends RecyclerView.Adapter<CustomHelpAdapter.My
             image = (ImageView) view.findViewById(R.id.custom_image);
             Helpee_name = (TextView) view.findViewById(R.id.custom_Helpee_name);
             Help_location = (TextView) view.findViewById(R.id.custom_Help_location);
-            Helpee_detail = (TextView) view.findViewById(R.id.custom_helpee_detail);
             Help_time = (TextView) view.findViewById(R.id.custom_Help_time);
-            Help_detail = (TextView) view.findViewById(R.id.custom_help_detail);
             help_register = (TextView)view.findViewById(R.id.custom_Help_register);
-
+            help_duration = (TextView)view.findViewById(R.id.custom_help_duration);
+            help_type = (TextView)view.findViewById(R.id.custom_help_type);
             help_register.setOnClickListener(this);
 
         }
@@ -59,7 +59,15 @@ public class CustomHelpAdapter extends RecyclerView.Adapter<CustomHelpAdapter.My
         public void onClick(View view) {
 
             if (view.getId() == help_register.getId()) {
+                int searchFlag=2;
                 help = helpList.get(getAdapterPosition());
+                Log.d("custom_helpeeid2",help.getHelpeeId());
+                Intent intent = new Intent(context,RegisterHelp_popup.class);
+                intent.putExtra("helpeeid",help.getHelpeeId());
+                intent.putExtra("help",help);
+                intent.putExtra("helper",HELPER_ME);
+                intent.putExtra("searchflag",searchFlag);
+                context.startActivity(intent);
             }
 
 
@@ -115,46 +123,25 @@ public class CustomHelpAdapter extends RecyclerView.Adapter<CustomHelpAdapter.My
         holder.Helpee_name.setText(help.getHelpeeId());
         holder.Help_location.setText(address);
         holder.Help_time.setText(help.getMonth() +"월 "+help.getDay()+"일 " + help.getHour()+"시 " + help.getMinute()+"분");
-        holder.Help_detail.setOnClickListener(new View.OnClickListener()
+        String type="";
+        if(help.getType().equals("housework"))
         {
-            @Override
-            public void onClick(View view) {
-
-
-
-            }
-        });
-
-        holder.help_register.setOnClickListener(new View.OnClickListener()
+            type = "가사";
+        }
+        else if(help.getType().equals("outdoor"))
         {
-            @Override
-            public void onClick(View view) {
-
-                if(itemClick != null)
-                {
-                    itemClick.onClick(view,position,help);
-                }
-/*
-                Log.d("custom_helpeeid2",help.getHelpeeId());
-                Intent intent = new Intent(context,RegisterHelp_popup.class);
-                intent.putExtra("helpeeid",help.getHelpeeId());
-                intent.putExtra("help",help);
-                intent.putExtra("helper",HELPER_ME);
-                context.startActivity(intent);*/
-
-            }
-        });
-
-        holder.Helpee_detail.setOnClickListener(new View.OnClickListener()
+            type = "외출";
+        }
+        else if(help.getType().equals("education"))
         {
-            @Override
-            public void onClick(View view) {
-
-
-
-            }
-        });
-
+            type = "교육";
+        }
+        else if(help.getType().equals("talk"))
+        {
+            type = "말동무";
+        }
+        holder.help_type.setText("타입: " +type);
+        holder.help_duration.setText("기간: "+help.getDuration()+"시간");
 
     }
 

@@ -53,8 +53,6 @@ public class CustomSearch extends AppCompatActivity {
 
     private Spinner type_spinner;
 
-    ArrayList<Help> ps = new ArrayList<>();
-
     Integer today_year;
     Integer today_month;
     Integer today_day;
@@ -77,6 +75,7 @@ public class CustomSearch extends AppCompatActivity {
     double lat;
 
     Helper HELPER_ME;
+    Integer error_flag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -279,18 +278,9 @@ public class CustomSearch extends AppCompatActivity {
                     ParamsForCustom paramsForCustom = new ParamsForCustom(min_year, min_month, min_day, min_hour, min_minute, max_year, max_month, max_day, max_hour, max_minute, lat, lon, help_type);
 
 
-                    try {
-                        ps = t.execute(paramsForCustom).get();
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    } catch (ExecutionException e) {
-                        e.printStackTrace();
-                    }
-
-                    Log.d("customhelp_ps", ps.get(0).getHelpeeId());
                     Intent intent = new Intent(getApplicationContext(),Custom_RecyclerView.class);
+                    intent.putExtra("params",paramsForCustom);
                     intent.putExtra("helper",HELPER_ME);
-                    intent.putExtra("help",ps);
                     startActivity(intent);
 
                 }

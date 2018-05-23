@@ -1,5 +1,6 @@
 package design.ws.com.Together_Helper;
 
+import android.os.AsyncTask;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -16,19 +17,31 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-public class GetHelperAPI {
+import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.HttpResponse;
+import cz.msebera.android.httpclient.NameValuePair;
+import cz.msebera.android.httpclient.client.ClientProtocolException;
+import cz.msebera.android.httpclient.client.HttpClient;
+import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
+import cz.msebera.android.httpclient.client.methods.HttpGet;
+import cz.msebera.android.httpclient.client.methods.HttpPost;
+import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
+import cz.msebera.android.httpclient.message.BasicNameValuePair;
+import cz.msebera.android.httpclient.params.HttpConnectionParams;
+import cz.msebera.android.httpclient.params.HttpParams;
+import cz.msebera.android.httpclient.util.EntityUtils;
 
-    String userId;
-    ArrayList<Helper> helpers = new ArrayList<>();
+public class GETPhotoURLAPI {
 
+    String photoURL;
 
-    public ArrayList<Helper> getJson(String id) {
+    public String getJson(String id) {
 
-        String urlLocation = "http://210.89.191.125/helper/user/";
+        String urlLocation = "http://210.89.191.125/helpee/photo/";
         final String openURL = urlLocation + id;
 
         try {
-
+            Log.d("getphotourl",openURL);
             URL url = new URL(openURL);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
@@ -39,21 +52,13 @@ public class GetHelperAPI {
             String result ="";
             result =getStringFromInputStream(in);
             Log.d("resultTest",result);
-            parsing(result);
+            photoURL=result;
 
         } catch (MalformedURLException e) {
 
             System.err.println("Malformed URL");
 
             e.printStackTrace();
-            return null;
-
-        } catch (JSONException e) {
-
-            System.err.println("JSON parsing error");
-
-            e.printStackTrace();
-
             return null;
 
         } catch (IOException e) {
@@ -66,41 +71,8 @@ public class GetHelperAPI {
 
         }
 
-        Log.d("sisi",helpers.get(0).getId()+"******");
-
-        return helpers;
+        return photoURL;
     }
-
-
-    private void parsing(String result) throws JSONException {
-
-        JSONArray Jarray = new JSONArray(result);
-
-        JSONObject JObject = null;
-        JObject = Jarray.getJSONObject(0);
-
-        String id = JObject.getString("userId");
-        String psw = JObject.getString("helperPwd");
-        String name = JObject.getString("helperName");
-        String phone = JObject.getString("userPhone");
-        Integer feedback;
-        if(JObject.getString("userFeedbackScore").equals("null"))
-        {
-            feedback = 0;
-        }
-        else
-        {
-            feedback = JObject.getInt("userFeedbackScore");
-        }
-
-        String token = JObject.getString("token");
-        Helper helper = new Helper(name,feedback,id,psw,phone,token);
-        Log.d("qweqeqew",helper.getId());
-        helpers.add(helper);
-
-    }
-
-
 
     private static String getStringFromInputStream(InputStream is) {
 

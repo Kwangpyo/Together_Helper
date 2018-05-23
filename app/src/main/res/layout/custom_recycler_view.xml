@@ -65,26 +65,27 @@
                 android:weightSum="1">
 
                 <customfonts.MyTextView_Bold
-                    android:id="@+id/custom_helpee_detail"
+                    android:id="@+id/custom_help_type"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Helpee 상세보기"
-                    android:textSize="14dp"
+                    android:text="타입"
+                    android:textSize="12dp"
                     android:layout_weight="0.5"
                     android:textColor="#2d2d2d"
                     android:layout_marginTop="3dp"
                     android:textStyle="bold"/>
 
                 <customfonts.MyTextView_Bold
-                    android:id="@+id/custom_help_detail"
+                    android:id="@+id/custom_help_duration"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Help 상세보기"
-                    android:textSize="14dp"
+                    android:text="기간"
+                    android:textSize="12dp"
                     android:layout_weight="0.5"
                     android:textColor="#2d2d2d"
                     android:layout_marginTop="3dp"
                     android:textStyle="bold"/>
+
 
             </LinearLayout>
 

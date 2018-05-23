@@ -35,13 +35,13 @@
     <customfonts.MyTextView_Medium
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/current_help"
-        android:text="주변에 신청된 봉사 보기"
+        android:id="@+id/main_registered_help"
+        android:text="신청한 봉사 리스트"
         android:textColor="#2f2f2f"
+        android:gravity="center"
         android:layout_gravity="center"
         android:layout_marginTop="15dp"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="20dp"/>
+        android:layout_marginBottom="15dp"/>
 
 
     </android.support.design.widget.CollapsingToolbarLayout>
@@ -80,7 +80,18 @@
 </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
+
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/main_fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:src="@android:drawable/ic_dialog_info" />
+
+
     </android.support.design.widget.CoordinatorLayout>
+
+
 
 
 </LinearLayout>
