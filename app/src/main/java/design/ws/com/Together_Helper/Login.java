@@ -80,7 +80,7 @@ public class Login extends AppCompatActivity {
                 editor.commit();
                 loginId = null;
                 loginPwd = null;
-                Toast.makeText(getApplicationContext(), "자동로그인에 실패했습니다. 네트워크 상태를 확인해주세요", Toast.LENGTH_SHORT).show();
+                Snackbar.make(login,"자동로그인에 실패했습니다. 네트워크 상태를 확인해주세요", Snackbar.LENGTH_LONG).show();
             } else if (result != null)
             {
                 if (result.equals("success")) {
@@ -101,7 +101,7 @@ public class Login extends AppCompatActivity {
 
                     Helper helper = ps.get(0);
 
-                    Toast.makeText(getApplicationContext(), loginId + "님 자동로그인 입니다.", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(login,loginId + "님 자동로그인 입니다.", Snackbar.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("helper", helper);
                     startActivity(intent);
@@ -117,7 +117,7 @@ public class Login extends AppCompatActivity {
                     editor.commit();
                     loginId = null;
                     loginPwd = null;
-                    Toast.makeText(getApplicationContext(), "다시 시도해주세요", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(login,"다시 시도해주세요", Snackbar.LENGTH_LONG).show();
 
                 }
 
@@ -153,7 +153,7 @@ public class Login extends AppCompatActivity {
                     if(result == null)
                     {
                         Log.d("login10","10");
-                        Toast.makeText(getApplicationContext(), "네트워크 상태를 확인해주세요", Toast.LENGTH_SHORT).show();
+                        Snackbar.make(login,"네트워크 상태를 확인해주세요", Snackbar.LENGTH_LONG).show();
 
                     }
 
@@ -193,11 +193,11 @@ public class Login extends AppCompatActivity {
 
                     else if(result.equals("fail"))
                     {
-                        Toast.makeText(getApplicationContext(),"아이디나 비밀번호를 확인하세요",Toast.LENGTH_SHORT).show();
+                        Snackbar.make(login,"아이디나 비밀번호를 확인하세요", Snackbar.LENGTH_LONG).show();
                     }
 
                     else
-                        Toast.makeText(getApplicationContext(),"네트워크 상태를 확인해주세요",Toast.LENGTH_SHORT).show();
+                        Snackbar.make(login,"네트워크 상태를 확인해주세요", Snackbar.LENGTH_LONG).show();
                     }
 
                 }
