@@ -71,28 +71,6 @@ public class GetHelpeeAPI {
     }
 
 
-/*
-    private void parseJSON(JSONObject json) throws JSONException {
-
-        JSONArray datas = json.getJSONArray(result);
-
-        int size = datas.length();
-
-        for(int i=0;i<size;i++)
-        {
-            Log.d("testparsing",result);
-            Help st = new Help(datas.getJSONObject(i).getString("type"));
-
-
-         //       public Help( Helpee helpee, double lon, double lat, int hour, int minute, int duration, int year, int month, int day, String type, int match_status, int start_status, String content)
-         //       Help st = new Help(datas.getJSONObject(i).getString("title"),datas.getJSONObject(i).getString("password"),datas.getJSONObject(i).getString("content"));
-                helps.add(st);
-        }
-
-
-    }  */
-
-
     private void parsing(String result) throws JSONException {
 
         JSONArray Jarray = new JSONArray(result);
