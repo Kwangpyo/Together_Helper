@@ -106,7 +106,7 @@ public class RegisterHelp_popup extends Activity {
         helplocation_txt.setText("봉사 주소 :"+address);
 
 
-        if(help.getHelperId().equals(""))
+        if(help.getMatch_status()==0)
         {
             helperid_txt.setText("신청 가능합니다" );
         }
@@ -122,7 +122,7 @@ public class RegisterHelp_popup extends Activity {
         //데이터 전달하기
 
 
-        if(help.getHelperId().equals(""))
+        if(help.getMatch_status()==0)
         {
             MyTaskParam param = new MyTaskParam(help.getHelpId(),HELPER_ME.getId());
             new PUTRegisterHelpAPI().execute(param);

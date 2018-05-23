@@ -24,7 +24,7 @@ public class GetHelperAPI {
 
     public ArrayList<Helper> getJson(String id) {
 
-        String urlLocation = "http://192.168.0.47:9001/helper/getUserInfo/";
+        String urlLocation = "http://210.89.191.125/helper/user/";
         final String openURL = urlLocation + id;
 
         try {
@@ -101,10 +101,10 @@ public class GetHelperAPI {
         JSONObject JObject = null;
         JObject = Jarray.getJSONObject(0);
 
-        String id = JObject.getString("userID");
-        String psw = JObject.getString("helper_pwd");
-        String name = JObject.getString("helper_name");
-        String phone = JObject.getString("user_phone");
+        String id = JObject.getString("userId");
+        String psw = JObject.getString("helperPwd");
+        String name = JObject.getString("helperName");
+        String phone = JObject.getString("userPhone");
         Integer feedback;
         if(JObject.getString("userFeedbackScore").equals("null"))
         {

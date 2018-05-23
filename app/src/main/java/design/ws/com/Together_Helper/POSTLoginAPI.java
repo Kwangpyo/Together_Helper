@@ -34,8 +34,8 @@ public class POSTLoginAPI extends AsyncTask<String,Void,String> {
     // 실제 전송하는 부분
     public String executeClient(String id,String pwd) {
         ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
-        post.add(new BasicNameValuePair("userID", id));
-        post.add(new BasicNameValuePair("helper_pwd", pwd));
+        post.add(new BasicNameValuePair("userId", id));
+        post.add(new BasicNameValuePair("helperPwd", pwd));
 
         // 연결 HttpClient 객체 생성
         HttpClient client = new DefaultHttpClient();
@@ -46,7 +46,7 @@ public class POSTLoginAPI extends AsyncTask<String,Void,String> {
         HttpConnectionParams.setSoTimeout(params, 5000);
 
         // Post객체 생
-        HttpPost httpPost = new HttpPost("http://192.168.0.47:9001/helper/login");
+        HttpPost httpPost = new HttpPost("http://210.89.191.125/helper/login");
 
         try {
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(post, "UTF-8");

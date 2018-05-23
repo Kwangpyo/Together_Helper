@@ -18,7 +18,7 @@ import java.util.ArrayList;
 
 public class GetHelpAPI {
 
-    final static String openURL = "http://192.168.0.47:9001/helper/getVolunteerList";
+    final static String openURL = "http://210.89.191.125/helper/volunteers";
     ArrayList<Help> helps = new ArrayList<>();
 
 
@@ -27,7 +27,6 @@ public class GetHelpAPI {
 
 
         try {
-
             URL url = new URL(openURL);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
@@ -102,23 +101,49 @@ public class GetHelpAPI {
             JSONObject JObject = null;
             JObject = Jarray.getJSONObject(i);
 
-            Integer volunteerId= JObject.getInt("volunteer_id");
+            Integer volunteerId= JObject.getInt("volunteerId");
             String type = JObject.getString("type");
-            String HelpeeID = JObject.getString("helpee_ID");
+            String HelpeeID = JObject.getString("helpeeId");
             double lon = JObject.getDouble("longitude");
             double lat = JObject.getDouble("latitude");
             Integer matching_status = JObject.getInt("matchingStatus");
             Integer start_status = JObject.getInt("startStatus");
             String content = JObject.getString("content");
-            Integer hour = JObject.getInt("hour");
-            Integer minute = JObject.getInt("minute");
+            //Integer hour = JObject.getInt("hour");
+            //Integer minute = JObject.getInt("minute");
             Integer duration = JObject.getInt("duration");
-            Integer year = JObject.getInt("year");
-            Integer month = JObject.getInt("month");
-            Integer day = JObject.getInt("day");
-            String helperid = JObject.getString("helper_ID");
+            //Integer year = JObject.getInt("year");
+            //Integer month = JObject.getInt("month");
+            //Integer day = JObject.getInt("day");
+            String helperid = JObject.getString("helperId");
 
-            Log.d("testparsing",JObject.getString("type"));
+            Integer year;
+            Integer month;
+            Integer day ;
+
+            String date = JObject.getString("date");
+            if(date.contains("T"))
+            {
+                String[] date_word = date.split("T");
+                String[] dates = date_word[0].split("-");
+                year = Integer.parseInt(dates[0]);
+                month = Integer.parseInt(dates[1]);
+                day = Integer.parseInt(dates[2]);
+            }
+            else
+            {
+                String[] dates = date.split("-");
+                year = Integer.parseInt(dates[0]);
+                month = Integer.parseInt(dates[1]);
+                day = Integer.parseInt(dates[2]);
+            }
+
+
+            String time = JObject.getString("time");
+            String[] times = time.split(":");
+            Integer hour = Integer.parseInt(times[0]);
+            Integer minute = Integer.parseInt(times[1]);
+
             Help st = new Help(HelpeeID,lon,lat,hour,minute,duration,year,month,day,type,matching_status,start_status,content,volunteerId,helperid);
 
 

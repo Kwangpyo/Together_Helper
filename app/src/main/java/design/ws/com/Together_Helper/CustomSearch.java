@@ -9,10 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -26,6 +28,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 public class CustomSearch extends AppCompatActivity {
 
@@ -48,9 +51,14 @@ public class CustomSearch extends AppCompatActivity {
 
     private TextView search_btn;
 
+    private Spinner type_spinner;
+
+    ArrayList<Help> ps = new ArrayList<>();
+
     Integer today_year;
     Integer today_month;
     Integer today_day;
+
     Integer min_year;
     Integer min_month;
     Integer min_day;
@@ -63,6 +71,7 @@ public class CustomSearch extends AppCompatActivity {
     Integer min_minute;
     Integer max_hour;
     Integer max_minute;
+    String help_type;
 
     double lon;
     double lat;
@@ -99,6 +108,8 @@ public class CustomSearch extends AppCompatActivity {
         loc_txt = (EditText)findViewById(R.id.custom_search_loc_edittxt);
         search_btn = (TextView) findViewById(R.id.custom_search_find_btn);
 
+        type_spinner = (Spinner)findViewById(R.id.custom_search_spinner);
+
         Calendar cal = Calendar.getInstance();
 
         today_year = cal.get(Calendar.YEAR);
@@ -108,6 +119,21 @@ public class CustomSearch extends AppCompatActivity {
         calendar_flag=0;
 
         geocoder = new Geocoder(this, Locale.getDefault());
+
+
+
+        type_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
+            {
+                help_type = parent.getItemAtPosition(position).toString();
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {}
+        });
+
+
+
 
 
         mindate_btn.setOnClickListener(new View.OnClickListener()
@@ -229,11 +255,12 @@ public class CustomSearch extends AppCompatActivity {
                 } catch (IOException e) {
                     e.printStackTrace();
                     Log.e("test","입출력 오류 - 서버에서 주소변환시 에러발생");
+                  //  Toast.makeText(getApplicationContext(),"주소를 입력해주세요",Toast.LENGTH_SHORT).show();
                 }
 
                 if (list != null) {
                     if (list.size() == 0) {
-                        Toast.makeText(getApplicationContext(),"해당되는 주소 정보는 없습니다",Toast.LENGTH_SHORT);
+                        Toast.makeText(getApplicationContext(),"해당되는 주소 정보는 없습니다",Toast.LENGTH_SHORT).show();
                     } else {
                         lat = list.get(0).getLatitude();
                         lon = list.get(0).getLongitude();
@@ -243,6 +270,36 @@ public class CustomSearch extends AppCompatActivity {
                         //          list.get(0).getLongitude();    // 경도
                     }
                 }
+
+
+
+                GETCustomHelpAPITask t = new GETCustomHelpAPITask();
+
+                try {
+                    ParamsForCustom paramsForCustom = new ParamsForCustom(min_year, min_month, min_day, min_hour, min_minute, max_year, max_month, max_day, max_hour, max_minute, lat, lon, help_type);
+
+
+                    try {
+                        ps = t.execute(paramsForCustom).get();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+
+                    Log.d("customhelp_ps", ps.get(0).getHelpeeId());
+                    Intent intent = new Intent(getApplicationContext(),Custom_RecyclerView.class);
+                    intent.putExtra("helper",HELPER_ME);
+                    intent.putExtra("help",ps);
+                    startActivity(intent);
+
+                }
+                catch (Exception e)
+                {
+                    Toast.makeText(getApplicationContext(),"정보를 모두 입력해주세요",Toast.LENGTH_SHORT).show();
+                }
+
+
 
             }
 
@@ -273,7 +330,10 @@ public class CustomSearch extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Toast.makeText(getApplicationContext(),"미구현",Toast.LENGTH_SHORT).show();
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(getIntent());
+                overridePendingTransition(0, 0);
 
             }
         });
@@ -295,7 +355,6 @@ public class CustomSearch extends AppCompatActivity {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
-            Toast.makeText(getApplicationContext(), hourOfDay + "시 " + minute + "분", Toast.LENGTH_SHORT).show();
             minclock_txt.setText(hourOfDay + "시 " + minute + "분");
             min_hour = hourOfDay;
             min_minute = minute;
@@ -307,10 +366,30 @@ public class CustomSearch extends AppCompatActivity {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
-            Toast.makeText(getApplicationContext(), hourOfDay + "시 " + minute + "분", Toast.LENGTH_SHORT).show();
-            maxclock_txt.setText(hourOfDay + "시 " + minute + "분");
-            max_hour = hourOfDay;
-            max_minute = minute;
+            if(min_hour==null)
+            {
+                Toast.makeText(getApplicationContext(),"MIN 시간을 먼저 선택해주세요",Toast.LENGTH_SHORT).show();
+            }
+
+            else{
+/*
+                if(min_hour <max_hour)
+                {
+                    if(min_minute < max_minute)
+                    {
+
+
+                    }
+                }*/
+                maxclock_txt.setText(hourOfDay + "시 " + minute + "분");
+                max_hour = hourOfDay;
+                max_minute = minute;
+
+            }
+
+            //maxclock_txt.setText(hourOfDay + "시 " + minute + "분");
+            //max_hour = hourOfDay;
+            //max_minute = minute;
         }
     };
 
