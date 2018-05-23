@@ -20,7 +20,6 @@
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_marginLeft="15dp"
-            android:src="@drawable/noimage"
             android:layout_gravity="center"/>
 
         <TextView

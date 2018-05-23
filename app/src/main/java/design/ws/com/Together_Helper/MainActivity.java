@@ -78,7 +78,6 @@ public class MainActivity extends AppCompatActivity{
         if(HelpList.size()==0)
         {
             registered_help.setText("신청한 봉사가 없습니다.");
-            Snackbar.make(fab,"신청한 봉사가 없습니다", Snackbar.LENGTH_LONG).show();
         }
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
