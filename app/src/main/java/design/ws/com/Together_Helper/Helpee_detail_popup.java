@@ -64,60 +64,6 @@ public class Helpee_detail_popup extends Activity {
         helpee_name.setText("Helpee ID : " + helpee.getId());
         helpee_feedback.setText("Helpee feedback : "+ helpee.getFeedback());
 
-
-
-        GETPhotoURLAPITask t2 = new GETPhotoURLAPITask();
-
-        try
-        {
-            photoURL = t2.execute(helpee.getId()).get();
-        }
-
-        catch (InterruptedException e) {
-            e.printStackTrace();
-
-        }
-        catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        Log.d("photoURL",photoURL);
-
-
-
-        Thread mThread = new Thread(){
-            @Override
-            public void run() {
-                try
-                {
-                    URL url =new URL(photoURL);
-                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-                    conn.setDoInput(true);
-                    conn.connect();
-
-                    InputStream is = conn.getInputStream();
-                    bitmap = BitmapFactory.decodeStream(is);
-                }catch (MalformedURLException e)
-                {
-                    e.printStackTrace();
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-
-            }
-        };
-        mThread.start();
-
-        try {
-            mThread.join();
-            helpee_image.setImageBitmap(bitmap);
-        }catch (InterruptedException e)
-        {
-            helpee_image.setImageResource(R.drawable.noimage);
-            e.printStackTrace();
-        }
-
     }
 
     //확인 버튼 클릭
