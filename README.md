@@ -1,6 +1,4 @@
-# Together 어플
-
-# <USER : HELPER>
+# Together 어플(HELPER 용)
 
 
 
