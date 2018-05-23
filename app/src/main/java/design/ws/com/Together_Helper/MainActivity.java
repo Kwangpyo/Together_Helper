@@ -77,7 +77,6 @@ public class MainActivity extends AppCompatActivity{
 
         if(HelpList.size()==0)
         {
-            Toast.makeText(getApplicationContext(),"신청한 봉사가 없습니다.",Toast.LENGTH_SHORT).show();
             registered_help.setText("신청한 봉사가 없습니다.");
             Snackbar.make(fab,"신청한 봉사가 없습니다", Snackbar.LENGTH_LONG).show();
         }
@@ -96,7 +95,6 @@ public class MainActivity extends AppCompatActivity{
                         if(HelpList.size()==0)
                         {
                             registered_help.setText("신청한 봉사가 없습니다.");
-                            Toast.makeText(getApplicationContext(),"신청한 봉사가 없습니다.",Toast.LENGTH_SHORT).show();
                             Snackbar.make(fab,"신청한 봉사가 없습니다", Snackbar.LENGTH_LONG).show();
                         }
 
@@ -156,7 +154,7 @@ public class MainActivity extends AppCompatActivity{
             @Override
             public void onClick(View view) {
                 Snackbar.make(view,"fab", Snackbar.LENGTH_LONG).show();
-                Log.d("fabview", String.valueOf(view));
+
             }
         });
 
