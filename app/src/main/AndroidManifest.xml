@@ -9,6 +9,7 @@
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <!-- To auto-complete the email text field in the login form with the user's emails -->
     <uses-permission android:name="android.permission.GET_ACCOUNTS" />
@@ -27,7 +28,8 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".CustomSearch" />
+        <activity android:name=".CustomSearch"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Help_cancel_popup"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
@@ -48,11 +50,14 @@
 
         <activity
             android:name=".LocationSearchMap"
-            android:label="@string/title_activity_location_search_map" />
+            android:label="@string/title_activity_location_search_map"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".GPS_popup"
-            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name=".LocationSearch" />
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".LocationSearch"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".RegisterHelp_popup"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
@@ -61,19 +66,23 @@
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
             android:name=".SplashActivity"
-            android:theme="@style/SplashTheme">
+            android:theme="@style/SplashTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Login" />
-        <activity android:name=".Signup" />
+        <activity android:name=".Login"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Signup"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Help_start_popup"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name=".Custom_RecyclerView"></activity>
+        <activity android:name=".Custom_RecyclerView"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

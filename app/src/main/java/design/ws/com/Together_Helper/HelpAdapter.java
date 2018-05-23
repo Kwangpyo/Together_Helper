@@ -3,6 +3,7 @@ package design.ws.com.Together_Helper;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.location.Address;
 import android.location.Geocoder;
 import android.os.Build;
@@ -17,11 +18,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
-import java.lang.ref.WeakReference;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Rp on 6/14/2016.
@@ -36,8 +41,9 @@ Context context;
 
     private Context mContext;
     private Helper HELPER_ME;
-
+    String photoURL="";
     Help help;
+    Bitmap bitmap;
 
     public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
@@ -54,7 +60,7 @@ Context context;
         public MyViewHolder(View view) {
             super(view);
 
-            image = (ImageView) view.findViewById(R.id.image);
+            image = (ImageView) view.findViewById(R.id.main_image);
             matching_status = (TextView) view.findViewById(R.id.help_status);
             Helpee_name = (TextView) view.findViewById(R.id.Helpee_name);
             Help_location = (TextView) view.findViewById(R.id.Help_location);
@@ -231,6 +237,59 @@ Context context;
 
       holder.Help_location.setText(address);
       holder.Help_time.setText(help.getMonth() +"월 "+help.getDay()+"일 " + help.getHour()+"시 " + help.getMinute()+"분");
+
+
+        GETPhotoURLAPITask t = new GETPhotoURLAPITask();
+
+        try
+        {
+            photoURL = t.execute(help.getHelpeeId()).get();
+        }
+
+        catch (InterruptedException e) {
+            e.printStackTrace();
+
+        }
+        catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        Log.d("photoURL",photoURL);
+
+
+
+        Thread mThread = new Thread(){
+            @Override
+            public void run() {
+                try
+                {
+                    URL url =new URL(photoURL);
+                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
+                    conn.setDoInput(true);
+                    conn.connect();
+
+                    InputStream is = conn.getInputStream();
+                    bitmap = BitmapFactory.decodeStream(is);
+                }catch (MalformedURLException e)
+                {
+                    e.printStackTrace();
+                }
+                catch (IOException e)
+                {
+                    e.printStackTrace();
+                }
+
+            }
+        };
+        mThread.start();
+
+        try {
+            mThread.join();
+            holder.image.setImageBitmap(bitmap);
+        }catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+
 
     }
 
