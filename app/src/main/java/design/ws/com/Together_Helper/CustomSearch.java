@@ -77,6 +77,8 @@ public class CustomSearch extends AppCompatActivity {
     Helper HELPER_ME;
     Integer error_flag;
 
+    private ArrayList<Help> HelpList;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -277,12 +279,25 @@ public class CustomSearch extends AppCompatActivity {
                 try {
                     ParamsForCustom paramsForCustom = new ParamsForCustom(min_year, min_month, min_day, min_hour, min_minute, max_year, max_month, max_day, max_hour, max_minute, lat, lon, help_type);
 
+                    try {
+                        HelpList = t.execute(paramsForCustom).get();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
 
-                    Intent intent = new Intent(getApplicationContext(),Custom_RecyclerView.class);
-                    intent.putExtra("params",paramsForCustom);
-                    intent.putExtra("helper",HELPER_ME);
-                    startActivity(intent);
+                    if(HelpList.size()==0)
+                    {
+                        Toast.makeText(getApplicationContext(),"검색된 결과가 없습니다.",Toast.LENGTH_SHORT).show();
+                    }
+                    else {
 
+                        Intent intent = new Intent(getApplicationContext(), Custom_RecyclerView.class);
+                        intent.putExtra("params", paramsForCustom);
+                        intent.putExtra("helper", HELPER_ME);
+                        startActivity(intent);
+                    }
                 }
                 catch (Exception e)
                 {

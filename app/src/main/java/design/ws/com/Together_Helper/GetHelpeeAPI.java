@@ -88,7 +88,7 @@ public class GetHelpeeAPI {
         {
             feedback =0;
         }
-            String token = JObject.getString("token");
+            String token = JObject.getString("deviceId");
 
         double lat;
         double lon;

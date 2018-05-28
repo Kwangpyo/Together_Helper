@@ -1,16 +1,8 @@
 package design.ws.com.Together_Helper;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.HttpEntity;
@@ -20,16 +12,17 @@ import cz.msebera.android.httpclient.client.ClientProtocolException;
 import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
 import cz.msebera.android.httpclient.client.methods.HttpPost;
+import cz.msebera.android.httpclient.client.methods.HttpPut;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import cz.msebera.android.httpclient.message.BasicNameValuePair;
 import cz.msebera.android.httpclient.params.HttpConnectionParams;
 import cz.msebera.android.httpclient.params.HttpParams;
 import cz.msebera.android.httpclient.util.EntityUtils;
 
-public class POSTSignupAPI extends AsyncTask<String,Void,String> {
+public class PUTUpdateToken  extends AsyncTask<String,Void,String> {
 
     protected String doInBackground(String... unused) {
-        String content = executeClient(unused[0],unused[1],unused[2],unused[3]);
+        String content = executeClient(unused[0],unused[1]);
         return content;
     }
 
@@ -38,13 +31,10 @@ public class POSTSignupAPI extends AsyncTask<String,Void,String> {
     }
 
     // 실제 전송하는 부분
-    public String executeClient(String id, String password, String name,String deviceid) {
+    public String executeClient(String token,String devicekey) {
         ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
-        post.add(new BasicNameValuePair("userId", id));
-        post.add(new BasicNameValuePair("helperPwd", password));
-        post.add(new BasicNameValuePair("helperName", name));
-        post.add(new BasicNameValuePair("deviceKey", deviceid));
-
+        post.add(new BasicNameValuePair("token", token));
+        post.add(new BasicNameValuePair("deviceKey", devicekey));
 
         // 연결 HttpClient 객체 생성
         HttpClient client = new DefaultHttpClient();
@@ -54,8 +44,8 @@ public class POSTSignupAPI extends AsyncTask<String,Void,String> {
         HttpConnectionParams.setConnectionTimeout(params, 5000);
         HttpConnectionParams.setSoTimeout(params, 5000);
 
-        // Post객체 생성
-        HttpPost httpPost = new HttpPost("http://210.89.191.125/helper/signup");
+        // Post객체 생
+        HttpPut httpPost = new HttpPut("http://210.89.191.125/helper/device/token/update");
 
         try {
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(post, "UTF-8");
@@ -63,7 +53,6 @@ public class POSTSignupAPI extends AsyncTask<String,Void,String> {
             HttpResponse response = client.execute(httpPost);
             HttpEntity hentity = response.getEntity();
             String result = EntityUtils.toString(hentity);
-            Log.d("postsignup",result);
             return result;
         } catch (ClientProtocolException e) {
             e.printStackTrace();
@@ -72,6 +61,7 @@ public class POSTSignupAPI extends AsyncTask<String,Void,String> {
         }
         return null;
     }
+
 
 
 }

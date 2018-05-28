@@ -2,10 +2,6 @@ package design.ws.com.Together_Helper;
 
 import android.util.Log;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -14,21 +10,18 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 
-public class GetHelperAPI {
+public class GETHelperPhotoURLAPI {
 
-    String userId;
-    ArrayList<Helper> helpers = new ArrayList<>();
+    String photoURL;
 
+    public String getJson(String id) {
 
-    public ArrayList<Helper> getJson(String id) {
-
-        String urlLocation = "http://210.89.191.125/helper/user/";
+        String urlLocation = "http://210.89.191.125/helper/photo/";
         final String openURL = urlLocation + id;
 
         try {
-
+            Log.d("getphotourl",openURL);
             URL url = new URL(openURL);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
@@ -39,21 +32,13 @@ public class GetHelperAPI {
             String result ="";
             result =getStringFromInputStream(in);
             Log.d("resultTest",result);
-            parsing(result);
+            photoURL=result;
 
         } catch (MalformedURLException e) {
 
             System.err.println("Malformed URL");
 
             e.printStackTrace();
-            return null;
-
-        } catch (JSONException e) {
-
-            System.err.println("JSON parsing error");
-
-            e.printStackTrace();
-
             return null;
 
         } catch (IOException e) {
@@ -66,41 +51,8 @@ public class GetHelperAPI {
 
         }
 
-        Log.d("sisi",helpers.get(0).getId()+"******");
-
-        return helpers;
+        return photoURL;
     }
-
-
-    private void parsing(String result) throws JSONException {
-
-        JSONArray Jarray = new JSONArray(result);
-
-        JSONObject JObject = null;
-        JObject = Jarray.getJSONObject(0);
-
-        String id = JObject.getString("userId");
-        String psw = JObject.getString("helperPwd");
-        String name = JObject.getString("name");
-        String phone = JObject.getString("userPhone");
-        Integer feedback;
-        if(JObject.getString("userFeedbackScore").equals("null"))
-        {
-            feedback = 0;
-        }
-        else
-        {
-            feedback = JObject.getInt("userFeedbackScore");
-        }
-
-        String token = JObject.getString("deviceId");
-        Helper helper = new Helper(name,feedback,id,psw,phone,token);
-        Log.d("qweqeqew",helper.getId());
-        helpers.add(helper);
-
-    }
-
-
 
     private static String getStringFromInputStream(InputStream is) {
 
@@ -129,4 +81,5 @@ public class GetHelperAPI {
         return sb.toString();
     }
 }
+
 

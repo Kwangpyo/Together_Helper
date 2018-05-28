@@ -24,6 +24,7 @@ public class Help implements Serializable {
     int start_status;
     String content;
     int helpId;
+    String accept_status;
 
     public Help(String type) {
         this.type = type;
@@ -61,6 +62,25 @@ public class Help implements Serializable {
         this.content = content;
         this.helpId = helpId;
         this.helperId = helperid;
+    }
+
+    public Help(String helpeeId, double lon, double lat, int hour, int minute, int duration, int year, int month, int day, String type, int match_status, int start_status, String content, int helpId,String helperid, String accept_status) {
+        this.helpeeId = helpeeId;
+        this.lon = lon;
+        this.lat = lat;
+        this.hour = hour;
+        this.minute = minute;
+        this.duration = duration;
+        this.year = year;
+        this.month = month;
+        this.day = day;
+        this.type = type;
+        this.match_status = match_status;
+        this.start_status = start_status;
+        this.content = content;
+        this.helpId = helpId;
+        this.helperId = helperid;
+        this.accept_status = accept_status;
     }
 
     public String getHelperId() {
@@ -198,5 +218,13 @@ public class Help implements Serializable {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getAccept_status() {
+        return accept_status;
+    }
+
+    public void setAccept_status(String accept_status) {
+        this.accept_status = accept_status;
     }
 }

@@ -1,5 +1,7 @@
 package design.ws.com.Together_Helper;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -28,6 +30,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
+import static android.content.Context.ALARM_SERVICE;
+
 /**
  * Created by Rp on 6/14/2016.
  */
@@ -53,7 +57,7 @@ Context context;
         TextView Help_location;
         TextView Helpee_detail;
         TextView Help_time;
-        TextView Help_start;
+        TextView Help_finish;
         TextView help_cancel;
 
 
@@ -66,12 +70,13 @@ Context context;
             Help_location = (TextView) view.findViewById(R.id.Help_location);
             Helpee_detail = (TextView) view.findViewById(R.id.helpee_detail);
             Help_time = (TextView) view.findViewById(R.id.Help_time);
-            Help_start = (TextView) view.findViewById(R.id.Help_startfinish);
+            Help_finish = (TextView) view.findViewById(R.id.Help_startfinish);
             help_cancel = (TextView)view.findViewById(R.id.Help_cancel);
 
             Helpee_detail.setOnClickListener(this);
             help_cancel.setOnClickListener(this);
-            Help_start.setOnClickListener(this);
+            Help_finish.setOnClickListener(this);
+
 
         }
 
@@ -81,17 +86,21 @@ Context context;
                 help = helpList.get(getAdapterPosition());
                  Intent intent = new Intent(context,Helpee_detail_popup.class);
                  intent.putExtra("helpee",help.getHelpeeId());
+                 intent.putExtra("help",help);
                  context.startActivity(intent);
 
             } else if(v.getId() == help_cancel.getId()){
                 help = helpList.get(getAdapterPosition());
+
+
+
                 Intent intent = new Intent(context,Help_cancel_popup.class);
                 intent.putExtra("helperid",HELPER_ME.getId());
                 intent.putExtra("helpid",help.getHelpId());
                 intent.putExtra("helper",HELPER_ME);
                 context.startActivity(intent);
             }
-            else if(v.getId() == Help_start.getId()) {
+            else if(v.getId() == Help_finish.getId()) {
                 help = helpList.get(getAdapterPosition());
 
 
@@ -130,16 +139,16 @@ Context context;
                 Log.d("nowdate", now_date.toString());
 
                 if (from_date.compareTo(now_date) > 0 && late_date.compareTo(now_date) > 0) {
-                    Toast.makeText(context, "아직 약속 시간이 아닙니다.", Toast.LENGTH_SHORT).show();
+             //       Toast.makeText(context, "아직 약속 시간이 아닙니다.", Toast.LENGTH_SHORT).show();
                 } else if (late_date.compareTo(now_date) > 0 && from_date.compareTo(now_date) < 0) {
 
-                    Intent intent = new Intent(context, Help_start_popup.class);
+                    Intent intent = new Intent(context, Help_finish_popup.class);
                     intent.putExtra("helperid", HELPER_ME.getId());
                     intent.putExtra("helpid", help.getHelpId());
                     intent.putExtra("helper", HELPER_ME);
                     context.startActivity(intent);
                 } else if (late_date.compareTo(now_date) < 0 && from_date.compareTo(now_date) < 0) {
-                    Toast.makeText(context, "약속 시간이 지났습니다. 관리자에게 문의하세요.", Toast.LENGTH_SHORT).show();
+               //     Toast.makeText(context, "약속 시간이 지났습니다. 관리자에게 문의하세요.", Toast.LENGTH_SHORT).show();
                 }
 
 
@@ -147,24 +156,26 @@ Context context;
 
             else
                 {
-                    Toast.makeText(context,"아직 Helpee가 봉사 승인을 하지 않았습니다.",Toast.LENGTH_SHORT).show();
+                 //   Toast.makeText(context,"아직 Helpee가 봉사 승인을 하지 않았습니다.",Toast.LENGTH_SHORT).show();
                 }
 
 
 
 
-
-                Intent intent = new Intent(context,Help_start_popup.class);
-                intent.putExtra("helperid",HELPER_ME.getId());
-                intent.putExtra("helpid",help.getHelpId());
+                Intent intent = new Intent(context,Help_finish_popup.class);
+                intent.putExtra("help",help);
                 intent.putExtra("helper",HELPER_ME);
                 context.startActivity(intent);
 
 
 
+            }
 
-
-
+            else if(v.getId() == image.getId())
+            {
+                Intent intent = new Intent();
+               intent.putExtra("bitmap",bitmap);
+               context.startActivity(intent);
             }
 
         }
@@ -205,6 +216,7 @@ Context context;
             if(help.getStart_status()==1)
             {
                 holder.matching_status.setText("봉사 중");
+                holder.help_cancel.setVisibility(View.GONE);
             }
 
         }
@@ -237,6 +249,11 @@ Context context;
 
       holder.Help_location.setText(address);
       holder.Help_time.setText(help.getMonth() +"월 "+help.getDay()+"일 " + help.getHour()+"시 " + help.getMinute()+"분");
+
+        if(help.getStart_status() ==1)
+        {
+            holder.Help_finish.setVisibility(View.VISIBLE);
+        }
 
 
         GETPhotoURLAPITask t = new GETPhotoURLAPITask();
@@ -301,6 +318,10 @@ Context context;
         else
             return 0;
     }
+
+
+
+
 
 }
 
