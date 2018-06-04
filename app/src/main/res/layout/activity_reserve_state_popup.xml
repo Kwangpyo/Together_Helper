@@ -6,8 +6,7 @@
     android:orientation="vertical"
     android:layout_width="300dp"
     android:layout_height="match_parent"
-    tools:context=".Help_start_popup">
-
+    tools:context=".ReserveState_popup">
 
     <LinearLayout
         android:padding="24dp"
@@ -16,24 +15,23 @@
         android:layout_height="wrap_content">
 
         <TextView
-            android:textSize="15sp"
+            android:textSize="17sp"
             android:textColor="#000"
-            android:text="봉사를 시작하려면 HELPEE의 핸드폰으로 전송된 인증번호를 입력하세요"
-            android:layout_weight="0.4"
+            android:text="예약한 봉사 위치"
             android:alpha="0.87"
             android:gravity="center"
             android:layout_marginBottom="3dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <EditText
-            android:id="@+id/helpstart_certificate_num"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.4"
+        <TextView
+            android:textSize="15sp"
+            android:textColor="#000"
             android:alpha="0.87"
             android:gravity="center"
-            android:layout_marginBottom="3dp"/>
+            android:layout_marginBottom="3dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
 
@@ -48,30 +46,33 @@
         android:weightSum="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
+        <Button
+            android:text="예약 취소하기"
+            android:textSize="15sp"
+            android:layout_weight="0.5"
+            android:textColor="#000000"
+            android:padding="16dp"
+            android:gravity="center"
+            android:background="#00000000"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:onClick="mOnCancel"/>
+
         <Button
             android:text="확인"
             android:textSize="15sp"
-            android:textColor="#FFCC00"
+            android:textColor="#000000"
             android:padding="16dp"
             android:layout_weight="0.5"
+            android:gravity="center"
             android:background="#00000000"
             android:layout_width="match_parent"
             android:layout_height="53dp"
-            android:onClick="mOnClick_start"/>
-
-        <Button
-            android:text="취소"
-            android:textSize="15sp"
-            android:textColor="#FFCC00"
-            android:layout_weight="0.5"
-            android:padding="16dp"
-            android:background="#00000000"
-            android:layout_width="match_parent"
-            android:layout_height="53dp"
-            android:onClick="mOnClose_start"/>
-
+            android:onClick="mOnClose"/>
     </LinearLayout>
 
 
-
 </LinearLayout>
+
+

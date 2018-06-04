@@ -48,6 +48,7 @@ public class Custom_RecyclerView extends AppCompatActivity {
         title.setText("맞춤 검색");
 
 
+
         Intent intent = getIntent();
         Helper helper = (Helper)intent.getSerializableExtra("helper");
         HELPER_ME = helper;

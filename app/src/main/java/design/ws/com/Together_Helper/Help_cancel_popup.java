@@ -46,6 +46,7 @@ public class Help_cancel_popup extends Activity {
         Intent intent = new Intent(getApplicationContext(),MainActivity.class);
         intent.putExtra("helper",HELPER_ME);
         startActivity(intent);
+    //    finish();
     }
 
 

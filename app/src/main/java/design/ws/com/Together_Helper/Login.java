@@ -8,11 +8,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
@@ -36,16 +36,18 @@ public class Login extends AppCompatActivity {
 
     Helper helper_me;
 
+    private String datas="no";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
 
         ImageView Togethericon = (ImageView) findViewById(R.id.login_background);
 
         GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(Togethericon);
-        Glide.with(this).load(R.drawable.gif2).into(gifImage);
+        Glide.with(this).load(R.drawable.signupgif).into(gifImage);
 
         idInput = (EditText) findViewById(R.id.login_emailInput);
         passwordInput = (EditText) findViewById(R.id.login_passwordInput);
@@ -104,6 +106,7 @@ public class Login extends AppCompatActivity {
                     Snackbar.make(login,loginId + "님 자동로그인 입니다.", Snackbar.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("helper", helper);
+                    intent.putExtra("pushdata",datas);
                     startActivity(intent);
                 }
 
@@ -226,4 +229,16 @@ public class Login extends AppCompatActivity {
     public void onBackPressed() {
         //super.onBackPressed();
     }
+
+
+    @Override
+    public void onResume(){
+        super.onResume();
+
+
+
+
+    }
+
+
 }

@@ -29,7 +29,7 @@ import cz.msebera.android.httpclient.util.EntityUtils;
 public class POSTSignupAPI extends AsyncTask<String,Void,String> {
 
     protected String doInBackground(String... unused) {
-        String content = executeClient(unused[0],unused[1],unused[2]);
+        String content = executeClient(unused[0],unused[1],unused[2],unused[3]);
         return content;
     }
 
@@ -38,11 +38,12 @@ public class POSTSignupAPI extends AsyncTask<String,Void,String> {
     }
 
     // 실제 전송하는 부분
-    public String executeClient(String id, String password, String name) {
+    public String executeClient(String id, String password, String name,String deviceid) {
         ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
         post.add(new BasicNameValuePair("userId", id));
         post.add(new BasicNameValuePair("helperPwd", password));
         post.add(new BasicNameValuePair("helperName", name));
+        post.add(new BasicNameValuePair("deviceKey", deviceid));
 
 
         // 연결 HttpClient 객체 생성
@@ -54,7 +55,7 @@ public class POSTSignupAPI extends AsyncTask<String,Void,String> {
         HttpConnectionParams.setSoTimeout(params, 5000);
 
         // Post객체 생성
-        HttpPost httpPost = new HttpPost("http://210.89.191.125/helper/signup");
+        HttpPost httpPost = new HttpPost("http://210.89.191.125/helper/gif");
 
         try {
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(post, "UTF-8");

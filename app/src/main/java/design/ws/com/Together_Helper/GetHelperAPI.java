@@ -81,7 +81,7 @@ public class GetHelperAPI {
 
         String id = JObject.getString("userId");
         String psw = JObject.getString("helperPwd");
-        String name = JObject.getString("helperName");
+        String name = JObject.getString("name");
         String phone = JObject.getString("userPhone");
         Integer feedback;
         if(JObject.getString("userFeedbackScore").equals("null"))
@@ -93,8 +93,9 @@ public class GetHelperAPI {
             feedback = JObject.getInt("userFeedbackScore");
         }
 
-        String token = JObject.getString("token");
-        Helper helper = new Helper(name,feedback,id,psw,phone,token);
+        String token = JObject.getString("deviceId");
+        String admitTime = JObject.getString("admitTime");
+        Helper helper = new Helper(name,feedback,id,psw,phone,token,admitTime);
         Log.d("qweqeqew",helper.getId());
         helpers.add(helper);
 

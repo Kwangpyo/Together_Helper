@@ -298,11 +298,11 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
 
                 }
 
-                myMarker =mMap.addMarker(new MarkerOptions()
-                        .position(myplace)
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
-                        .title("내 위치"));
-                myMarker.setTag(1000);
+              //  myMarker =mMap.addMarker(new MarkerOptions()
+              //          .position(myplace)
+              //          .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+              //          .title("내 위치"));
+              //  myMarker.setTag(1000);
               //  myMarker.showInfoWindow();
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myplace, 14));
 

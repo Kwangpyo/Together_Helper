@@ -27,8 +27,12 @@ public class Helpee_detail_popup extends Activity {
     private TextView helpee_name;
     private TextView helpee_feedback;
     private ImageView helpee_image;
+    private TextView help_duration;
+    private TextView help_type;
     Bitmap bitmap;
     String photoURL="";
+
+    private Help help;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,10 +43,12 @@ public class Helpee_detail_popup extends Activity {
         helpee_name = (TextView)findViewById(R.id.helpee_detail_name);
         helpee_feedback =(TextView)findViewById(R.id.helpee_detail_feedback);
         helpee_image = (ImageView)findViewById(R.id.helpee_detail_image);
-
+        help_duration = (TextView)findViewById(R.id.helpee_detail_duration);
+        help_type = (TextView)findViewById(R.id.helpee_detail_type);
 
         Intent intent = getIntent();
         String helpeeid = (String)intent.getStringExtra("helpee");
+        help = (Help)intent.getSerializableExtra("help");
 
         ArrayList<Helpee> ps = new ArrayList<>();
         GetHelpeeAPITask t = new GetHelpeeAPITask();
@@ -61,62 +67,28 @@ public class Helpee_detail_popup extends Activity {
 
         Helpee helpee = ps.get(0);
 
-        helpee_name.setText("Helpee ID : " + helpee.getId());
-        helpee_feedback.setText("Helpee feedback : "+ helpee.getFeedback());
-
-
-
-        GETPhotoURLAPITask t2 = new GETPhotoURLAPITask();
-
-        try
+        helpee_name.setText("Helpee 번호 : " + helpee.getId());
+        helpee_feedback.setText("Helpee 피드백 : "+ helpee.getFeedback());
+        help_duration.setText("봉사 시간 : "+help.getDuration()+"시간");
+        String type="";
+        if(help.getType().equals("housework"))
         {
-            photoURL = t2.execute(helpee.getId()).get();
+            type = "가사";
         }
-
-        catch (InterruptedException e) {
-            e.printStackTrace();
-
-        }
-        catch (ExecutionException e) {
-            e.printStackTrace();
-        }
-        Log.d("photoURL",photoURL);
-
-
-
-        Thread mThread = new Thread(){
-            @Override
-            public void run() {
-                try
-                {
-                    URL url =new URL(photoURL);
-                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-                    conn.setDoInput(true);
-                    conn.connect();
-
-                    InputStream is = conn.getInputStream();
-                    bitmap = BitmapFactory.decodeStream(is);
-                }catch (MalformedURLException e)
-                {
-                    e.printStackTrace();
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-
-            }
-        };
-        mThread.start();
-
-        try {
-            mThread.join();
-            helpee_image.setImageBitmap(bitmap);
-        }catch (InterruptedException e)
+        else if(help.getType().equals("outdoor"))
         {
-            helpee_image.setImageResource(R.drawable.noimage);
-            e.printStackTrace();
+            type = "외출";
         }
+        else if(help.getType().equals("education"))
+        {
+            type = "교육";
+        }
+        else if(help.getType().equals("talk"))
+        {
+            type = "말동무";
+        }
+
+        help_type.setText("봉사 종류 : " +type);
 
     }
 
