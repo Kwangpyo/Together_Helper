@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_width="300dp"
     android:layout_height="match_parent"
-    tools:context=".Helpee_detail_popup">
+    tools:context=".popup.Helpee_detail_popup">
 
 
     <LinearLayout

@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_width="300dp"
     android:layout_height="match_parent"
-    tools:context=".Profile_popup">
+    tools:context=".popup.Profile_popup">
 
 
     <LinearLayout

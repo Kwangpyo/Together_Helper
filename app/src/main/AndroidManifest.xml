@@ -4,7 +4,7 @@
 
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
-         Google Maps Android API v2, but you must specify either coarse or fine
+         Google Maps Android design.ws.com.Together_Helper.API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality. 
     -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -28,34 +28,34 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <service android:name=".MyFirebaseMessagingService">
+        <service android:name=".firebase.MyFirebaseMessagingService">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name=".MyFirebaseInstanceIDService">
+        <service android:name=".firebase.MyFirebaseInstanceIDService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
 
         <activity
-            android:name=".MainActivity"
+            android:name=".activity.MainActivity"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".CustomSearch"
+            android:name=".activity.CustomSearch"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Help_cancel_popup"
+            android:name=".popup.Help_cancel_popup"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
-            android:name=".Profile_popup"
+            android:name=".popup.Profile_popup"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <!--
-             The API key for Google Maps-based APIs is defined as a string resource.
+             The design.ws.com.Together_Helper.API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
-             Note that the API key is linked to the encryption key used to sign the APK.
-             You need a different API key for each encryption key, including the release key that is used to
+             Note that the design.ws.com.Together_Helper.API key is linked to the encryption key used to sign the APK.
+             You need a different design.ws.com.Together_Helper.API key for each encryption key, including the release key that is used to
              sign the APK for publishing.
              You can define the keys for the debug and release targets in src/debug/ and src/release/. 
         -->
@@ -64,24 +64,24 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".LocationSearchMap"
+            android:name=".activity.LocationSearchMap"
             android:label="@string/title_activity_location_search_map"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".GPS_popup"
+            android:name=".popup.GPS_popup"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
             android:name=".LocationSearch"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".RegisterHelp_popup"
+            android:name=".popup.RegisterHelp_popup"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
-            android:name=".Helpee_detail_popup"
+            android:name=".popup.Helpee_detail_popup"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".activity.SplashActivity"
             android:screenOrientation="portrait"
             android:theme="@style/SplashTheme">
             <intent-filter>
@@ -91,41 +91,41 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".Login"
+            android:name=".activity.Login"
             android:screenOrientation="portrait" />
 
-        <receiver android:name=".processTimerReceiver">
+        <receiver android:name=".receiver.processTimerReceiver">
             <intent-filter>
                 <action android:name="processTimerReceiver" />
             </intent-filter>
         </receiver>
 
         <activity
-            android:name=".Signup"
+            android:name=".activity.Signup"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Help_finish_popup"
+            android:name=".popup.Help_finish_popup"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
-            android:name=".Custom_RecyclerView"
+            android:name=".recyclerview.Custom_RecyclerView"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".Explain_popup"
+            android:name=".popup.Explain_popup"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name=".History_RecyclerView" />
+        <activity android:name=".recyclerview.History_RecyclerView" />
         <activity
-            android:name=".Photo_popup"
-            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity
-            android:name=".Question_popup"
+            android:name=".popup.Photo_popup"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
-            android:name=".fcm_popup"
+            android:name=".popup.Question_popup"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
-            android:name=".Register_popup"
+            android:name=".popup.fcm_popup"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name=".ReserveState_popup"
+        <activity
+            android:name=".popup.Register_popup"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity android:name=".popup.ReserveState_popup"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"></activity>
     </application>
 
