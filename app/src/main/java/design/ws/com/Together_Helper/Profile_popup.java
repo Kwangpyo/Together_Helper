@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
@@ -102,7 +104,7 @@ public class Profile_popup extends Activity {
 
 
 
-        Thread mThread = new Thread(){
+/*        Thread mThread = new Thread(){
             @Override
             public void run() {
                 try
@@ -134,7 +136,11 @@ public class Profile_popup extends Activity {
         {
             e.printStackTrace();
         }
+*/
 
+        Picasso.with(getApplicationContext())
+                .load(photoURL)
+                .into(image);
 
 
 
@@ -182,8 +188,8 @@ public class Profile_popup extends Activity {
                     intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
                     intent.setData(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(intent, 1);
-                    change_picture.setText("확인");
-                    changeflag=1;
+                    //change_picture.setText("확인");
+                    //changeflag=1;
                 }
 
                 else if(changeflag==1)
@@ -211,6 +217,18 @@ public class Profile_popup extends Activity {
                 }
 
 
+
+            }
+        });
+
+        image.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(getApplicationContext(),Photo_popup.class);
+                intent.putExtra("url",photoURL);
+                startActivity(intent);
 
             }
         });
@@ -254,9 +272,17 @@ public class Profile_popup extends Activity {
                     Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), data.getData());
 
 //                    배치해놓은 ImageView에 이미지를 넣어봅시다.
-                    picture = bitmap;
-                    image.setImageBitmap(picture);
 
+                    if(bitmap!=null) {
+                        picture = bitmap;
+                        image.setImageBitmap(picture);
+                        change_picture.setText("확인");
+                        changeflag = 1;
+                    }
+                    else
+                    {
+                        Toast.makeText(getApplicationContext(),"사진을 선택하지 않았습니다.",Toast.LENGTH_SHORT).show();
+                    }
 //                    Glide.with(mContext).load(data.getData()).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView); // OOM 없애기위해 그레들사용
 
 

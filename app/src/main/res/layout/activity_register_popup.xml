@@ -2,11 +2,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:background="#eeeeee"
-    android:orientation="vertical"
-    android:layout_width="300dp"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Question_popup">
+    android:orientation="vertical"
+    tools:context=".Register_popup">
+
 
 
     <LinearLayout
@@ -15,11 +15,56 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <TextView
+            android:id="@+id/register_loc_txt"
+            android:textSize="18sp"
+            android:textColor="#000"
+            android:alpha="0.87"
+            android:text="봉사를 하실 주소를 입력해주세요"
+            android:gravity="center"
+            android:layout_marginBottom="15dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="1"
+            android:orientation="horizontal">
+
+            <EditText
+                android:id="@+id/register_loc_edit"
+                android:textSize="15sp"
+                android:textColor="#000"
+                android:layout_weight="0.3"
+                android:alpha="0.87"
+                android:hint="위치를 입력해주세요"
+                android:gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:textSize="20sp"
+                android:textColor="#000"
+                android:layout_weight="0.7"
+                android:alpha="0.87"
+                android:textStyle="bold"
+                android:id="@+id/register_change"
+                android:gravity="center"
+                android:layout_marginBottom="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="변환하기"/>
+
+        </LinearLayout>
+
+
 
 
         <TextView
+            android:id="@+id/register_latlon_txt"
             android:textSize="15sp"
-            android:text="질문"
             android:textColor="#000"
             android:layout_weight="0.4"
             android:alpha="0.87"
@@ -27,29 +72,6 @@
             android:layout_marginBottom="3dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
-
-        <TextView
-            android:textSize="15sp"
-            android:text="답변"
-            android:textColor="#000"
-            android:layout_weight="0.4"
-            android:alpha="0.87"
-            android:gravity="center"
-            android:layout_marginBottom="3dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <EditText
-            android:textSize="15sp"
-            android:hint="문의할 질문을 적어주세요"
-            android:textColor="#000"
-            android:layout_weight="0.4"
-            android:alpha="0.87"
-            android:gravity="center"
-            android:layout_marginBottom="3dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
 
 
     </LinearLayout>
@@ -61,32 +83,29 @@
 
     <LinearLayout
         android:orientation="horizontal"
+        android:gravity="center"
         android:weightSum="1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <Button
-            android:text="전송"
-            android:textSize="15sp"
             android:layout_weight="0.5"
+            android:text="예약"
+            android:textSize="15sp"
             android:textColor="#000000"
             android:padding="16dp"
             android:background="#00000000"
-            android:gravity="center"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="53dp"
-            android:onClick="mOnSend"/>
-
-
+            android:onClick="mOnRegister"/>
         <Button
             android:text="취소"
+            android:layout_weight="0.5"
             android:textSize="15sp"
             android:textColor="#000000"
-            android:layout_weight="0.5"
             android:padding="16dp"
-            android:gravity="center"
             android:background="#00000000"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="53dp"
             android:onClick="mOnClose"/>
     </LinearLayout>

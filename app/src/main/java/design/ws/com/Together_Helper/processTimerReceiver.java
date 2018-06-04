@@ -85,7 +85,7 @@ public class processTimerReceiver extends BroadcastReceiver {
         }
 
         // 실제 전송하는 부분
-        public String executeClient(double lon,double lat) {
+        public String executeClient(double lat,double lon) {
             ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
             post.add(new BasicNameValuePair("helperLongitude", String.valueOf(lon)));
             post.add(new BasicNameValuePair("helperLatitude", String.valueOf(lat)));

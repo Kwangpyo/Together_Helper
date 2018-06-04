@@ -113,15 +113,71 @@
                 android:layout_marginLeft="32dp"
                 android:text="봉사 종류 (아래 텍스트를 클릭하여 선택해 주세요)" />
 
-            <Spinner
-                android:id="@+id/custom_search_spinner"
-                android:layout_width="150dp"
-                android:layout_height="29dp"
-                android:layout_marginBottom="18dp"
-                android:entries="@array/help"
-                android:maxLength="10"
-                android:maxLines="1"
-                android:paddingLeft="31dp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/custom_outside"
+                    android:layout_width="150dp"
+                    android:layout_height="29dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="32dp"
+                    android:text="외출"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_weight="0.5"/>
+
+                <TextView
+                    android:id="@+id/custom_home"
+                    android:layout_width="150dp"
+                    android:layout_height="29dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="32dp"
+                    android:text="가사"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_weight="0.5"/>
+
+
+            </LinearLayout>
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:weightSum="1">
+
+                <TextView
+                    android:id="@+id/custom_talk"
+                    android:layout_width="150dp"
+                    android:layout_height="29dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="32dp"
+                    android:text="말동무"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_weight="0.5"/>
+
+                <TextView
+                    android:id="@+id/custom_education"
+                    android:layout_width="150dp"
+                    android:layout_height="29dp"
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginLeft="32dp"
+                    android:text="교육"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:layout_weight="0.5"/>
+
+
+            </LinearLayout>
+
+
+
 
             <View
                 android:layout_width="130dp"

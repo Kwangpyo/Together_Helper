@@ -94,7 +94,8 @@ public class GetHelperAPI {
         }
 
         String token = JObject.getString("deviceId");
-        Helper helper = new Helper(name,feedback,id,psw,phone,token);
+        String admitTime = JObject.getString("admitTime");
+        Helper helper = new Helper(name,feedback,id,psw,phone,token,admitTime);
         Log.d("qweqeqew",helper.getId());
         helpers.add(helper);
 

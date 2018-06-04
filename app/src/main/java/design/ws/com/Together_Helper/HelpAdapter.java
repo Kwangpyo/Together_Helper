@@ -19,6 +19,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -171,15 +173,7 @@ Context context;
 
             }
 
-            else if(v.getId() == image.getId())
-            {
-                Intent intent = new Intent();
-               intent.putExtra("bitmap",bitmap);
-               context.startActivity(intent);
-            }
-
         }
-
 
     }
 
@@ -273,7 +267,7 @@ Context context;
         Log.d("photoURL",photoURL);
 
 
-
+/*
         Thread mThread = new Thread(){
             @Override
             public void run() {
@@ -305,7 +299,11 @@ Context context;
         }catch (InterruptedException e)
         {
             e.printStackTrace();
-        }
+        } */
+
+        Picasso.with(context)
+                .load(photoURL)
+                .into(holder.image);
 
 
     }

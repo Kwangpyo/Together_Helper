@@ -5,12 +5,10 @@ import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -26,7 +24,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
 import okhttp3.MediaType;
@@ -63,7 +60,7 @@ public class Signup extends AppCompatActivity {
 
         ImageView Togethericon = (ImageView) findViewById(R.id.signup_background);
         GlideDrawableImageViewTarget gifImage = new GlideDrawableImageViewTarget(Togethericon);
-        Glide.with(this).load(R.drawable.gif).into(gifImage);
+        Glide.with(this).load(R.drawable.signupgif).into(gifImage);
 
         signupcomplete = (Button)findViewById(R.id.login_loginButton);
         newid = (EditText)findViewById(R.id.signup_id);
@@ -131,6 +128,7 @@ public class Signup extends AppCompatActivity {
                         try {
                             OutputStream stream = null;
                             stream = new FileOutputStream(file);
+                            picture.compress(Bitmap.CompressFormat.JPEG, 10, stream);
                             stream.flush();
                             stream.close();
                         } catch (IOException e) // Catch the exception
@@ -141,10 +139,6 @@ public class Signup extends AppCompatActivity {
                         Uri savedImageURI = Uri.parse(file.getAbsolutePath());
 
                         uploadFile(savedImageURI);
-
-
-
-
 
                         Toast.makeText(getApplicationContext(), "회원 가입 완료", Toast.LENGTH_SHORT).show();
                         Intent intent2 = new Intent(getApplicationContext(), Login.class);

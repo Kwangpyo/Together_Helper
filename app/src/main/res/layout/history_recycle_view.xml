@@ -28,8 +28,7 @@
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginLeft="15dp"
-                android:layout_gravity="center"
-                android:background="@drawable/police"/>
+                android:layout_gravity="center"/>
 
             <LinearLayout
                 android:layout_weight="1"

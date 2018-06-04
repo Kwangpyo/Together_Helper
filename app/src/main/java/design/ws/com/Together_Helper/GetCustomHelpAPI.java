@@ -27,7 +27,7 @@ public class GetCustomHelpAPI{
 
             if(volunteerType.equals("외출"))
             {
-                volunteerType = "outdoor";
+                volunteerType = "outside";
             }
             else if(volunteerType.equals("가사"))
             {
@@ -39,7 +39,7 @@ public class GetCustomHelpAPI{
             }
             else if(volunteerType.equals("말동무"))
             {
-                volunteerType="malice";
+                volunteerType="talk";
             }
 
 

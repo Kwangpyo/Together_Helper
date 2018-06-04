@@ -46,7 +46,6 @@ public class History_RecyclerView extends Activity {
         title.setText("봉사 내역 보기");
 
         home.setVisibility(View.GONE);
-        back.setVisibility(View.GONE);
 
         Intent intent = getIntent();
         Helper helper = (Helper)intent.getSerializableExtra("helper");
@@ -119,5 +118,22 @@ public class History_RecyclerView extends Activity {
         });
 
 
+        back.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View view) {
+
+               finish();
+
+            }
+        });
+
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        return;
     }
 }

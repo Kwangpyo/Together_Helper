@@ -116,9 +116,16 @@
         <activity
             android:name=".Photo_popup"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name=".Question_popup"
-            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"/>
-        <activity android:name=".fcm_popup"
+        <activity
+            android:name=".Question_popup"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity
+            android:name=".fcm_popup"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity
+            android:name=".Register_popup"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity android:name=".ReserveState_popup"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"></activity>
     </application>
 

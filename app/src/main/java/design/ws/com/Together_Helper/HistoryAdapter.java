@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -75,6 +77,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
                 intent.putExtra("help",help);
                 context.startActivity(intent);
             }
+
 
         }
     }
@@ -162,6 +165,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
             holder.help_accept.setText("봉사 시간 승인 거부 되었습니다");
         }
 
+
         GETPhotoURLAPITask t = new GETPhotoURLAPITask();
 
         try
@@ -179,7 +183,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         Log.d("photoURL",photoURL);
 
 
-
+/*
         Thread mThread = new Thread(){
             @Override
             public void run() {
@@ -212,6 +216,13 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         {
             e.printStackTrace();
         }
+
+*/
+
+        Picasso.with(context)
+                .load(photoURL)
+                .into(holder.image);
+
 
 
 

@@ -40,7 +40,6 @@ public class fcm_popup extends Activity {
         id = intent.getStringExtra("id");
 
         Log.d("fcmpop",message);
-        Log.d("fcmid",id);
 
         message_txt = (TextView)findViewById(R.id.fcm_txt);
         message_txt.setText(message);
@@ -65,7 +64,6 @@ public class fcm_popup extends Activity {
             processTimer.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),repeatTime*1000, pendingIntent);
 
         }
-
 
         Intent intent = new Intent(getApplicationContext(),Login.class);
         startActivity(intent);

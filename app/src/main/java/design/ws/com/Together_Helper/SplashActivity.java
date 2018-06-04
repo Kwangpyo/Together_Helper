@@ -29,17 +29,12 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-
         String token = FirebaseInstanceId.getInstance().getToken();
-        Log.d("splashtoken", token);
-
+       // Log.d("splashtoken", token);
 
         String uniqueID = Settings.Secure.getString(getContentResolver(), Settings.Secure.ANDROID_ID);
 
-        Log.d("splashid",uniqueID);
-
-
-
+       // Log.d("splashid",uniqueID);
 
         String deviceresult = "";
         GETDeviceKeyAPITask getDeviceKeyAPITask = new GETDeviceKeyAPITask();

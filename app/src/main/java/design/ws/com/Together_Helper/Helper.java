@@ -10,7 +10,7 @@ public class Helper implements Serializable {
     String password;
     String phone_number;
     String token;
-
+    String admitTime;
 
     public Helper(String name, int feedback, String id, String password, String phone_number, String token) {
         this.name = name;
@@ -19,6 +19,24 @@ public class Helper implements Serializable {
         this.password = password;
         this.phone_number = phone_number;
         this.token = token;
+    }
+
+    public Helper(String name, int feedback, String id, String password, String phone_number, String token,String admitTime) {
+        this.name = name;
+        this.feedback = feedback;
+        this.id = id;
+        this.password = password;
+        this.phone_number = phone_number;
+        this.token = token;
+        this.admitTime = admitTime;
+    }
+
+    public String getAdmitTime() {
+        return admitTime;
+    }
+
+    public void setAdmitTime(String admitTime) {
+        this.admitTime = admitTime;
     }
 
     public String getName() {

@@ -64,6 +64,7 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
             e.printStackTrace();
         }
 
+
         Log.d("fcm_message: " , message);
         Intent intent = new Intent(this, SplashActivity.class);
         intent.putExtra("data", message);

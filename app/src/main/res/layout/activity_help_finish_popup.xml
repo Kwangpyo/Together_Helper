@@ -22,7 +22,7 @@
             android:layout_weight="0.4"
             android:alpha="0.87"
             android:gravity="center"
-            android:layout_marginBottom="3dp"
+            android:layout_marginBottom="9dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
         
@@ -36,28 +36,28 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="1점 별루였음"
-                android:layout_marginBottom="3dp"/>
+                android:layout_marginBottom="5dp"/>
 
             <RadioButton
                 android:id="@+id/feedback_radio1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2점 그냥 그랬음"
-                android:layout_marginBottom="3dp"/>
+                android:layout_marginBottom="5dp"/>
 
             <RadioButton
                 android:id="@+id/feedback_radio2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="3점 괜춘했음"
-                android:layout_marginBottom="3dp"/>
+                android:layout_marginBottom="5dp"/>
 
             <RadioButton
                 android:id="@+id/feedback_radio3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="4점 좋았음"
-                android:layout_marginBottom="3dp"/>
+                android:layout_marginBottom="5dp"/>
 
             <RadioButton
                 android:id="@+id/feedback_radio4"
@@ -85,7 +85,7 @@
         <Button
             android:text="종료하기"
             android:textSize="15sp"
-            android:textColor="#FFCC00"
+            android:textColor="#000000"
             android:padding="16dp"
             android:layout_weight="0.5"
             android:background="#00000000"
@@ -96,7 +96,7 @@
         <Button
             android:text="취소"
             android:textSize="15sp"
-            android:textColor="#FFCC00"
+            android:textColor="#000000"
             android:layout_weight="0.5"
             android:padding="16dp"
             android:background="#00000000"

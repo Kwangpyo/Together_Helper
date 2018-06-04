@@ -3,6 +3,7 @@ package design.ws.com.Together_Helper;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.support.v7.app.AppCompatActivity;
@@ -51,7 +52,10 @@ public class CustomSearch extends AppCompatActivity {
 
     private TextView search_btn;
 
-    private Spinner type_spinner;
+    private TextView type_outside;
+    private TextView type_home;
+    private TextView type_talk;
+    private TextView type_education;
 
     Integer today_year;
     Integer today_month;
@@ -109,7 +113,10 @@ public class CustomSearch extends AppCompatActivity {
         loc_txt = (EditText)findViewById(R.id.custom_search_loc_edittxt);
         search_btn = (TextView) findViewById(R.id.custom_search_find_btn);
 
-        type_spinner = (Spinner)findViewById(R.id.custom_search_spinner);
+        type_education= (TextView)findViewById(R.id.custom_education);
+        type_home = (TextView)findViewById(R.id.custom_home);
+        type_outside = (TextView)findViewById(R.id.custom_outside);
+        type_talk = (TextView)findViewById(R.id.custom_talk);
 
         Calendar cal = Calendar.getInstance();
 
@@ -120,19 +127,6 @@ public class CustomSearch extends AppCompatActivity {
         calendar_flag=0;
 
         geocoder = new Geocoder(this, Locale.getDefault());
-
-
-
-        type_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                help_type = parent.getItemAtPosition(position).toString();
-            }
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
-
 
 
 
@@ -237,6 +231,61 @@ public class CustomSearch extends AppCompatActivity {
                 dialog.show();
 
 
+            }
+        });
+
+        type_talk.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View view) {
+
+                help_type = "말동무";
+                type_talk.setTextColor(Color.parseColor("#FFCC00"));
+                type_education.setTextColor(Color.parseColor("#000000"));
+                type_home.setTextColor(Color.parseColor("#000000"));
+                type_outside.setTextColor(Color.parseColor("#000000"));
+
+            }
+        });
+
+        type_outside.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View view) {
+
+                help_type = "외출";
+                type_outside.setTextColor(Color.parseColor("#FFCC00"));
+                type_education.setTextColor(Color.parseColor("#000000"));
+                type_home.setTextColor(Color.parseColor("#000000"));
+                type_talk.setTextColor(Color.parseColor("#000000"));
+            }
+        });
+
+        type_home.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View view) {
+
+                help_type = "가사";
+                type_home.setTextColor(Color.parseColor("#FFCC00"));
+                type_talk.setTextColor(Color.parseColor("#000000"));
+                type_education.setTextColor(Color.parseColor("#000000"));
+                type_outside.setTextColor(Color.parseColor("#000000"));
+            }
+        });
+
+        type_education.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                help_type = "교육";
+                type_education.setTextColor(Color.parseColor("#FFCC00"));
+                type_talk.setTextColor(Color.parseColor("#000000"));
+                type_outside.setTextColor(Color.parseColor("#000000"));
+                type_home.setTextColor(Color.parseColor("#000000"));
             }
         });
 
