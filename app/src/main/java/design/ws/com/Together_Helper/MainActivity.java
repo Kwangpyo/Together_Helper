@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -72,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView registered_help;
     private TextView register_btn;
 
-    private TextView profile;
     public static FloatingActionButton fab;
 
     private String pushdata;
@@ -91,6 +91,8 @@ public class MainActivity extends AppCompatActivity {
     private String photoURL="";
     int changeflag=0;
     private TextView helptime_txt;
+    private TextView logout_txt;
+    private TextView help_history;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,7 +104,6 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) findViewById(R.id.recycleview);
         location_search = (TextView) findViewById(R.id.location_search);
         custom_search = (TextView) findViewById(R.id.custom_search);
-        profile = (TextView) findViewById(R.id.profile);
         registered_help = (TextView) findViewById(R.id.main_registered_help);
         fab = (FloatingActionButton) findViewById(R.id.main_fab);
         register_btn = (TextView)findViewById(R.id.help_reserve);
@@ -111,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
         image = (ImageView) findViewById(R.id.profile_image);
         change_picture =(TextView)findViewById(R.id.profile_change_picture);
         helptime_txt = (TextView)findViewById(R.id.profile_helptime);
+        logout_txt = (TextView)findViewById(R.id.profile_logout);
+        help_history = (TextView)findViewById(R.id.help_history);
 
         Intent intent = getIntent();
         Helper helper = (Helper) intent.getSerializableExtra("helper");
@@ -270,6 +273,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+/*
         profile.setOnClickListener(new View.OnClickListener()
         {
 
@@ -281,6 +285,7 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+*/
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -372,9 +377,34 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        logout_txt.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View view) {
+
+                Intent intent1 = new Intent(getApplicationContext(), Login.class);
+                startActivity(intent1);
+                SharedPreferences auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
+                SharedPreferences.Editor editor  = auto.edit();
+                editor.clear();
+                editor.commit();
+                Toast.makeText(getApplicationContext(), "로그아웃", Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        });
 
 
+        help_history.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+                Intent intent = new Intent(getApplicationContext(),History_RecyclerView.class);
+                intent.putExtra("helper",HELPER_ME);
+                startActivity(intent);
+
+            }
+        });
 
 
     }
