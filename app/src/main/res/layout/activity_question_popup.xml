@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_width="300dp"
     android:layout_height="match_parent"
-    tools:context=".Question_popup">
+    tools:context=".popup.Question_popup">
 
 
     <LinearLayout

@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_width="300dp"
     android:layout_height="match_parent"
-    tools:context=".Help_finish_popup">
+    tools:context=".popup.Help_finish_popup">
 
 
     <LinearLayout
