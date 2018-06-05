@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.os.Handler;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -32,9 +33,14 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
+import design.ws.com.Together_Helper.API.GETCheckPauseUserAPITask;
 import design.ws.com.Together_Helper.API.GETHelperPhotoURLAPITask;
 import design.ws.com.Together_Helper.API.GETMyHelpAPITask;
+import design.ws.com.Together_Helper.API.GETReservationCheckAPITask;
 import design.ws.com.Together_Helper.API.PUTUpdateLocation;
+import design.ws.com.Together_Helper.params.ReserveParam;
+import design.ws.com.Together_Helper.popup.RejectUser_popup;
+import design.ws.com.Together_Helper.popup.ReserveState_popup;
 import design.ws.com.Together_Helper.util.GPSInfo;
 import design.ws.com.Together_Helper.adapter.HelpAdapter;
 import design.ws.com.Together_Helper.recyclerview.History_RecyclerView;
@@ -92,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView helptime_txt;
     private TextView logout_txt;
     private TextView help_history;
+    private TextView feedback_txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -113,12 +120,29 @@ public class MainActivity extends AppCompatActivity {
         helptime_txt = (TextView)findViewById(R.id.profile_helptime);
         logout_txt = (TextView)findViewById(R.id.profile_logout);
         help_history = (TextView)findViewById(R.id.help_history);
+        feedback_txt = (TextView)findViewById(R.id.profile_feedback);
 
         Intent intent = getIntent();
         Helper helper = (Helper) intent.getSerializableExtra("helper");
         HELPER_ME = helper;
         Log.d("mainhelper", helper.getId());
 
+
+        String checkUserFlag="";
+        GETCheckPauseUserAPITask getCheckPauseUserAPITask = new GETCheckPauseUserAPITask();
+        try {
+            checkUserFlag = getCheckPauseUserAPITask.execute(helper.getId()).get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+
+        if(checkUserFlag.equals("reject"))
+        {
+            Intent intent1 = new Intent(getApplicationContext(),RejectUser_popup.class);
+            startActivity(intent1);
+        }
 
 
         id_txt.setText("아이디 : "+helper.getId());
@@ -132,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
         helptime_txt.setText("총 봉사 시간 : "+HELPER_ME.getAdmitTime());
 
+        feedback_txt.setText("평점 : "+HELPER_ME.getFeedback());
 
         GETHelperPhotoURLAPITask t2 = new GETHelperPhotoURLAPITask();
 
@@ -303,13 +328,40 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                
+                ReserveParam reserve_test = null;
+                GETReservationCheckAPITask getReservationCheckAPITask = new GETReservationCheckAPITask();
+                try {
+                    reserve_test = getReservationCheckAPITask.execute(HELPER_ME.getId()).get();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
 
 
 
-                Intent intent = new Intent(getApplicationContext(),Register_popup.class);
-                intent.putExtra("helper",HELPER_ME);
-                startActivity(intent);
+                if(reserve_test.getCount().equals("1"))
+                {
+                    Intent intent = new Intent(getApplicationContext(),ReserveState_popup.class);
+                    intent.putExtra("helper",HELPER_ME);
+                    intent.putExtra("reserveparam",reserve_test);
+                    startActivity(intent);
+                }
+
+                else if(reserve_test.getCount().equals("0"))
+                {
+                    Intent intent = new Intent(getApplicationContext(),Register_popup.class);
+                    intent.putExtra("helper",HELPER_ME);
+                    startActivity(intent);
+
+                }
+
+                else
+                {
+                    Toast.makeText(getApplicationContext(),"error",Toast.LENGTH_SHORT).show();
+                }
+
+
 
             }
         });

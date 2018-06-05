@@ -1,10 +1,19 @@
 package design.ws.com.Together_Helper.popup;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Looper;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -13,25 +22,62 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.ApiException;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationAvailability;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.LocationSettingsRequest;
+import com.google.android.gms.location.LocationSettingsResponse;
+import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.android.gms.location.SettingsClient;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.ExecutionException;
 
+import design.ws.com.Together_Helper.API.GetHelpAPITask;
 import design.ws.com.Together_Helper.API.POSTReserveAPI;
+import design.ws.com.Together_Helper.activity.LocationSearchMap;
+import design.ws.com.Together_Helper.domain.HelpMarker;
 import design.ws.com.Together_Helper.domain.Helper;
 import design.ws.com.Together_Helper.R;
+import design.ws.com.Together_Helper.util.PermissionSettingUtils;
 
-public class Register_popup extends Activity {
+public class Register_popup extends FragmentActivity implements OnMapReadyCallback,GoogleMap.OnMarkerClickListener{
 
     private EditText loc_txt;
-    private TextView latlon_txt;
-    private TextView change_txt;
     private Geocoder geocoder;
     private double lat;
     private double lon;
     private Helper HELPER_ME;
 
     private int flag;
+    private GoogleMap mMap;
+
+    private LocationRequest mLocationRequest;
+    private LocationCallback mLocationCallback;
+    private Location mCurrentLocation;
+    private FusedLocationProviderClient mFusedLocationClient;
+    private String provider;
+
+    private TextView map_txt;
+
+    Marker myMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,17 +86,24 @@ public class Register_popup extends Activity {
         setContentView(R.layout.activity_register_popup);
 
         loc_txt = (EditText)findViewById(R.id.register_loc_edit);
-        latlon_txt = (TextView)findViewById(R.id.register_latlon_txt);
-        change_txt = (TextView)findViewById(R.id.register_change);
+        map_txt = (TextView)findViewById(R.id.register_map);
 
         HELPER_ME = (Helper) getIntent().getSerializableExtra("helper");
         geocoder = new Geocoder(this, Locale.getDefault());
 
+        provider = LocationManager.GPS_PROVIDER;
+
         flag =0;
 
-        change_txt.setOnClickListener(new View.OnClickListener() {
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
+        map_txt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 String location_name =loc_txt.getText().toString();
                 Log.d("reserve",location_name);
                 List<Address> list = null;
@@ -61,34 +114,60 @@ public class Register_popup extends Activity {
                 } catch (IOException e) {
                     e.printStackTrace();
                     Log.e("reservetest","입출력 오류 - 서버에서 주소변환시 에러발생");
-                     Toast.makeText(getApplicationContext(),"주소를 입력해주세요",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(),"주소를 입력해주세요",Toast.LENGTH_SHORT).show();
                 }
 
                 if (list != null) {
                     if (list.size() == 0) {
                         Toast.makeText(getApplicationContext(),"해당되는 주소 정보는 없습니다",Toast.LENGTH_SHORT).show();
-                        latlon_txt.setText("");
                     } else {
                         lat = list.get(0).getLatitude();
                         lon = list.get(0).getLongitude();
                         flag=1;
-                        //          list.get(0).getCountryName();  // 국가명
-                        //          list.get(0).getLatitude();        // 위도
-                        //          list.get(0).getLongitude();    // 경도
-
-                        double lat_6 = Double.parseDouble(String.format("%.6f",lat));
-                        double lon_6 = Double.parseDouble(String.format("%.6f",lon));
-                        latlon_txt.setText("위도 : "+lat_6 +" 경도 : "+lon_6);
                     }
                 }
 
-
+                initGoogleMapLocation();
             }
         });
+
+
+
     }
 
 
     public void mOnRegister(View v){
+
+        String location_name =loc_txt.getText().toString();
+        Log.d("reserve",location_name);
+        List<Address> list = null;
+        try {
+            list = geocoder.getFromLocationName(
+                    location_name, // 지역 이름
+                    10); // 읽을 개수
+        } catch (IOException e) {
+            e.printStackTrace();
+            Log.e("reservetest","입출력 오류 - 서버에서 주소변환시 에러발생");
+            Toast.makeText(getApplicationContext(),"주소를 입력해주세요",Toast.LENGTH_SHORT).show();
+        }
+
+        if (list != null) {
+            if (list.size() == 0) {
+                Toast.makeText(getApplicationContext(),"해당되는 주소 정보는 없습니다",Toast.LENGTH_SHORT).show();
+          //      latlon_txt.setText("");
+            } else {
+                lat = list.get(0).getLatitude();
+                lon = list.get(0).getLongitude();
+                flag=1;
+                //          list.get(0).getCountryName();  // 국가명
+                //          list.get(0).getLatitude();        // 위도
+                //          list.get(0).getLongitude();    // 경도
+
+                double lat_6 = Double.parseDouble(String.format("%.6f",lat));
+                double lon_6 = Double.parseDouble(String.format("%.6f",lon));
+             //   latlon_txt.setText("위도 : "+lat_6 +" 경도 : "+lon_6);
+            }
+        }
 
         if(flag==1)
         {
@@ -98,6 +177,7 @@ public class Register_popup extends Activity {
             Intent intent = new Intent();
             intent.putExtra("result", "Close Popup");
             setResult(RESULT_OK, intent);
+            finish();
             Toast.makeText(getApplicationContext(),"예약 완료되었습니다.",Toast.LENGTH_SHORT).show();
         }
 
@@ -133,6 +213,172 @@ public class Register_popup extends Activity {
         //안드로이드 백버튼 막기
         return;
     }
+
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        return false;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+
+        mMap = googleMap;
+        mMap.getUiSettings().setZoomControlsEnabled(true);
+        LatLng startplace = new LatLng(37.2635730, 127.0286010);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startplace, 14));
+
+        mMap.setOnMarkerClickListener(this);
+
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            checkGPSService();
+        }
+
+    }
+
+
+    public boolean checkGPSService() {
+        LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+
+            Intent intent = new Intent(this, GPS_popup.class);
+            startActivityForResult(intent, 1);
+
+            return false;
+
+        } else {
+          //  initGoogleMapLocation();
+            return true;
+        }
+
+    }
+
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        //요청코드가 맞지 않는다면
+        if (requestCode != PermissionSettingUtils.REQUEST_CODE) {
+            return;
+        }
+        if (PermissionSettingUtils.isPermissionGranted(new String[]{
+                Manifest.permission.ACCESS_FINE_LOCATION}, grantResults)) {
+            //허락을 받았다면 위치값을 알아오는 코드를 진행
+          //  initGoogleMapLocation();
+        } else {
+            Toast.makeText(this, "위치정보사용 허락을 하지않아 앱을 중지합니다", Toast.LENGTH_SHORT).show();
+            //finish();
+        }
+    }
+
+
+
+
+    private void initGoogleMapLocation() {
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        /**
+         * Location Setting API를
+         */
+        SettingsClient mSettingsClient = LocationServices.getSettingsClient(this);
+        /*
+         * 위치정보 결과를 리턴하는 Callback
+         */
+        mLocationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult result) {
+                super.onLocationResult(result);
+                //mCurrentLocation = locationResult.getLastLocation();
+                mCurrentLocation = result.getLocations().get(0);
+
+                Log.d("qwe","qwe");
+                Log.d("loc", String.valueOf(mCurrentLocation.getAltitude()));
+
+                LatLng myplace = new LatLng(lat, lon);
+
+
+                  myMarker =mMap.addMarker(new MarkerOptions()
+                          .position(myplace)
+                          .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
+                          .title("예약할 봉사 위치"));
+                  myMarker.setTag(1000);
+                  myMarker.showInfoWindow();
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myplace, 14));
+
+                /**
+                 * 지속적으로 위치정보를 받으려면
+                 * mLocationRequest.setNumUpdates(1) 주석처리하고
+                 * 밑에 코드를 주석을 푼다
+                 */
+                //mFusedLocationClient.removeLocationUpdates(mLocationCallback);
+            }
+
+            //Location관련정보를 모두 사용할 수 있음을 의미
+            @Override
+            public void onLocationAvailability(LocationAvailability availability) {
+                //boolean isLocation = availability.isLocationAvailable();
+            }
+        };
+        mLocationRequest = new LocationRequest();
+        mLocationRequest.setInterval(10000);
+        mLocationRequest.setFastestInterval(5000);
+        //여기선 한번만 위치정보를 가져오기 위함
+        mLocationRequest.setNumUpdates(1);
+        if (provider.equalsIgnoreCase(LocationManager.GPS_PROVIDER)) {
+            //배터리소모에 상관없이 정확도를 최우선으로 고려
+            mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        }else{
+            //배터리와 정확도의 밸런스를 고려하여 위치정보를 획득(정확도 다소 높음)
+            mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
+        }
+
+        LocationSettingsRequest.Builder builder = new LocationSettingsRequest.Builder();
+        builder.addLocationRequest(mLocationRequest);
+        /**
+         * 클라이언트가 사용하고자하는 위치 서비스 유형을 저장합니다. 위치 설정에도 사용됩니다.
+         */
+        LocationSettingsRequest mLocationSettingsRequest = builder.build();
+
+        Task<LocationSettingsResponse> locationResponse = mSettingsClient.checkLocationSettings(mLocationSettingsRequest);
+        locationResponse.addOnSuccessListener(this, new OnSuccessListener<LocationSettingsResponse>() {
+            @Override
+            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+                Log.e("Response", "Successful acquisition of location information!!");
+                //
+                if (ActivityCompat.checkSelfPermission(Register_popup.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
+            }
+        });
+        //위치 정보를 설정 및 획득하지 못했을때 callback
+        locationResponse.addOnFailureListener(this, new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                int statusCode = ((ApiException) e).getStatusCode();
+                switch (statusCode) {
+                    case LocationSettingsStatusCodes.RESOLUTION_REQUIRED:
+                        Log.e("onFailure", "위치환경체크");
+                        break;
+                    case LocationSettingsStatusCodes.SETTINGS_CHANGE_UNAVAILABLE:
+                        String errorMessage = "위치설정체크";
+                        Log.e("onFailure", errorMessage);
+                }
+            }
+        });
+    }
+
+
+
+
+
 
 
 }

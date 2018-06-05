@@ -71,7 +71,7 @@ public class Helpee_detail_popup extends Activity {
         {
             type = "가사";
         }
-        else if(help.getType().equals("outdoor"))
+        else if(help.getType().equals("outside"))
         {
             type = "외출";
         }

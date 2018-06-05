@@ -16,47 +16,33 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import design.ws.com.Together_Helper.domain.Helpee;
+import design.ws.com.Together_Helper.domain.Help;
 
-public class GetHelpeeAPI {
+public class GETCheckPauseUserAPI {
 
+    final static String urlLocation = "http://210.89.191.125/helper/pause/check/";
+    String checkresult;
 
-    String userId;
-    ArrayList<Helpee> helpees = new ArrayList<>();
-
-
-    public ArrayList<Helpee> getJson(String id) {
-
-        String urlLocation = "http://210.89.191.125/helper/user/";
-        final String openURL = urlLocation + id;
+    public String getJson(String helperId) {
 
         try {
+            final String openURL = urlLocation + helperId;
 
             URL url = new URL(openURL);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
 
-//            JSONObject json = new JSONObject(getStringFromInputStream(in));
-//            parseJSON(json);
             String result ="";
             result =getStringFromInputStream(in);
             Log.d("resultTest",result);
-            parsing(result);
+            checkresult = result;
 
         } catch (MalformedURLException e) {
 
             System.err.println("Malformed URL");
 
             e.printStackTrace();
-            return null;
-
-        } catch (JSONException e) {
-
-            System.err.println("JSON parsing error");
-
-            e.printStackTrace();
-
             return null;
 
         } catch (IOException e) {
@@ -69,49 +55,8 @@ public class GetHelpeeAPI {
 
         }
 
-        return helpees;
+        return checkresult;
     }
-
-
-    private void parsing(String result) throws JSONException {
-
-        JSONArray Jarray = new JSONArray(result);
-
-            JSONObject JObject = null;
-            JObject = Jarray.getJSONObject(0);
-
-            String id = JObject.getString("userId");
-            String phone = JObject.getString("userPhone");
-            Integer feedback;
-            try {
-                feedback = JObject.getInt("userFeedbackScore");
-            }
-            catch(Exception e)
-        {
-            feedback =0;
-        }
-            String token = JObject.getString("deviceId");
-
-        double lat;
-        double lon;
-            try {
-                lat = JObject.getDouble("helpeeLatitude");
-                lon = JObject.getDouble("helpeeLongitude");
-            }
-            catch (Exception e)
-            {
-                lat = 0;
-                lon = 0;
-            }
-
-            String pauseStatus = JObject.getString("pauseStatus");
-
-            Helpee helpee = new Helpee(token, lat, lon, feedback, id, phone,pauseStatus);
-
-            helpees.add(helpee);
-
-    }
-
 
 
     private static String getStringFromInputStream(InputStream is) {
@@ -141,3 +86,4 @@ public class GetHelpeeAPI {
         return sb.toString();
     }
 }
+

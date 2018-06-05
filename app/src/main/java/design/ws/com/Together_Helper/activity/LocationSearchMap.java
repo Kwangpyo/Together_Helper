@@ -158,6 +158,8 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
         mMap = googleMap;
         mMap.getUiSettings().setZoomControlsEnabled(true);
 
+        LatLng startplace = new LatLng(37.2635730, 127.0286010);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startplace, 14));
         mMap.setOnMarkerClickListener(this);
 
     }
@@ -311,6 +313,7 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
               //          .title("내 위치"));
               //  myMarker.setTag(1000);
               //  myMarker.showInfoWindow();
+            //    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myplace, 14));
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myplace, 14));
 
                 /**

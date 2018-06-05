@@ -29,49 +29,43 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="1"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="1">
 
             <EditText
                 android:id="@+id/register_loc_edit"
                 android:textSize="15sp"
                 android:textColor="#000"
-                android:layout_weight="0.3"
                 android:alpha="0.87"
                 android:hint="위치를 입력해주세요"
                 android:gravity="center"
+                android:layout_weight="0.7"
                 android:layout_marginBottom="5dp"
-                android:layout_width="match_parent"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content" />
 
             <TextView
-                android:textSize="20sp"
-                android:textColor="#000"
-                android:layout_weight="0.7"
-                android:alpha="0.87"
-                android:textStyle="bold"
-                android:id="@+id/register_change"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_weight="0.3"
+                android:id="@+id/register_map"
+                android:text="위치 확인하기"
                 android:gravity="center"
-                android:layout_marginBottom="5dp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="변환하기"/>
+                android:textStyle="bold"/>
+
 
         </LinearLayout>
 
 
 
 
-        <TextView
-            android:id="@+id/register_latlon_txt"
-            android:textSize="15sp"
-            android:textColor="#000"
-            android:layout_weight="0.4"
-            android:alpha="0.87"
-            android:gravity="center"
-            android:layout_marginBottom="3dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+        <fragment
+            android:id="@+id/map"
+            android:layout_gravity="center"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            />
 
 
     </LinearLayout>
@@ -109,6 +103,8 @@
             android:layout_height="53dp"
             android:onClick="mOnClose"/>
     </LinearLayout>
+
+
 
 
 </LinearLayout>
