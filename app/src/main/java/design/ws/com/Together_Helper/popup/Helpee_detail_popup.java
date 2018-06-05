@@ -13,7 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-import design.ws.com.Together_Helper.API.GetHelpeeAPITask;
+import design.ws.com.Together_Helper.API.GET.GetHelpeeAPITask;
 import design.ws.com.Together_Helper.domain.Help;
 import design.ws.com.Together_Helper.domain.Helpee;
 import design.ws.com.Together_Helper.R;

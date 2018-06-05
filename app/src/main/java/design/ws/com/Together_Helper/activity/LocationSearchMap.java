@@ -52,7 +52,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import design.ws.com.Together_Helper.API.GetHelpAPITask;
+import design.ws.com.Together_Helper.API.GET.GetHelpAPITask;
 import design.ws.com.Together_Helper.util.PermissionSettingUtils;
 import design.ws.com.Together_Helper.R;
 import design.ws.com.Together_Helper.domain.Help;

@@ -20,8 +20,8 @@ import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-import design.ws.com.Together_Helper.API.GetHelperAPITask;
-import design.ws.com.Together_Helper.API.POSTLoginAPI;
+import design.ws.com.Together_Helper.API.GET.GetHelperAPITask;
+import design.ws.com.Together_Helper.API.POST.POSTLoginAPI;
 import design.ws.com.Together_Helper.R;
 import design.ws.com.Together_Helper.domain.Helper;
 

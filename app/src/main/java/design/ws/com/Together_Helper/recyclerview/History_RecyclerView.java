@@ -17,7 +17,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-import design.ws.com.Together_Helper.API.GETHistoryAPITask;
+import design.ws.com.Together_Helper.API.GET.GETHistoryAPITask;
 import design.ws.com.Together_Helper.adapter.HistoryAdapter;
 import design.ws.com.Together_Helper.R;
 import design.ws.com.Together_Helper.domain.Help;

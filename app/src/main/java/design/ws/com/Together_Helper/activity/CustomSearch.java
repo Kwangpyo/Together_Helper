@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
-import design.ws.com.Together_Helper.API.GETCustomHelpAPITask;
+import design.ws.com.Together_Helper.API.GET.GETCustomHelpAPITask;
 import design.ws.com.Together_Helper.recyclerview.Custom_RecyclerView;
 import design.ws.com.Together_Helper.R;
 import design.ws.com.Together_Helper.domain.Help;

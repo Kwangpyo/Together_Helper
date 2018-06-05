@@ -10,10 +10,9 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
-import design.ws.com.Together_Helper.API.GETDeviceKeyAPITask;
-import design.ws.com.Together_Helper.API.POSTSaveToken;
-import design.ws.com.Together_Helper.API.PUTUpdateToken;
-import design.ws.com.Together_Helper.activity.Login;
+import design.ws.com.Together_Helper.API.GET.GETDeviceKeyAPITask;
+import design.ws.com.Together_Helper.API.POST.POSTSaveToken;
+import design.ws.com.Together_Helper.API.PUT.PUTUpdateToken;
 
 public class SplashActivity extends AppCompatActivity {
 

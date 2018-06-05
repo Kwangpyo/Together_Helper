@@ -20,6 +20,7 @@
             android:layout_width="180dp"
             android:layout_height="180dp"
             android:textStyle="bold"
+            android:textColor="#ff0000"
             android:layout_gravity="center"
             android:text="사용 중지 된 사용자입니다."
             android:layout_centerInParent="true"/>
@@ -40,7 +41,7 @@
         <Button
             android:text="문의하기"
             android:textSize="15sp"
-            android:textColor="#000000"
+            android:textColor="#ff0000"
             android:padding="16dp"
             android:gravity="center"
             android:background="#00000000"

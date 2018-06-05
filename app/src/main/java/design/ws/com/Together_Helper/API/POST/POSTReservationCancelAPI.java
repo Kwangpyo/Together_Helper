@@ -1,4 +1,4 @@
-package design.ws.com.Together_Helper.API;
+package design.ws.com.Together_Helper.API.POST;
 
 import android.os.AsyncTask;
 
@@ -18,10 +18,10 @@ import cz.msebera.android.httpclient.params.HttpConnectionParams;
 import cz.msebera.android.httpclient.params.HttpParams;
 import cz.msebera.android.httpclient.util.EntityUtils;
 
-public class POSTReserveAPI extends AsyncTask<String,Void,String> {
+public class POSTReservationCancelAPI extends AsyncTask<String,Void,String> {
 
     protected String doInBackground(String... unused) {
-        String content = executeClient(unused[0],unused[1],unused[2]);
+        String content = executeClient(unused[0]);
         return content;
     }
 
@@ -30,11 +30,9 @@ public class POSTReserveAPI extends AsyncTask<String,Void,String> {
     }
 
     // 실제 전송하는 부분
-    public String executeClient(String helperId,String lat,String lon) {
+    public String executeClient(String helperId) {
         ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
-        post.add(new BasicNameValuePair("helperId", helperId));
-        post.add(new BasicNameValuePair("longitude", lon));
-        post.add(new BasicNameValuePair("latitude", lat));
+        post.add(new BasicNameValuePair("userId", helperId));
 
         // 연결 HttpClient 객체 생성
         HttpClient client = new DefaultHttpClient();
@@ -45,7 +43,7 @@ public class POSTReserveAPI extends AsyncTask<String,Void,String> {
         HttpConnectionParams.setSoTimeout(params, 5000);
 
         // Post객체 생
-        HttpPost httpPost = new HttpPost("http://210.89.191.125/helper/reserve");
+        HttpPost httpPost = new HttpPost("http://210.89.191.125/helper/reservation/cancel");
 
         try {
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(post, "UTF-8");

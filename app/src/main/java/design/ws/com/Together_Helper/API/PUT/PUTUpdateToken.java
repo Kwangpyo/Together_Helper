@@ -1,4 +1,4 @@
-package design.ws.com.Together_Helper.API;
+package design.ws.com.Together_Helper.API.PUT;
 
 import android.os.AsyncTask;
 
@@ -11,6 +11,7 @@ import cz.msebera.android.httpclient.NameValuePair;
 import cz.msebera.android.httpclient.client.ClientProtocolException;
 import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
+import cz.msebera.android.httpclient.client.methods.HttpPost;
 import cz.msebera.android.httpclient.client.methods.HttpPut;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import cz.msebera.android.httpclient.message.BasicNameValuePair;
@@ -18,10 +19,10 @@ import cz.msebera.android.httpclient.params.HttpConnectionParams;
 import cz.msebera.android.httpclient.params.HttpParams;
 import cz.msebera.android.httpclient.util.EntityUtils;
 
-public class PUTUpdateLocation extends AsyncTask<String,Void,String> {
+public class PUTUpdateToken  extends AsyncTask<String,Void,String> {
 
     protected String doInBackground(String... unused) {
-        String content = executeClient(unused[0],unused[1],unused[2]);
+        String content = executeClient(unused[0],unused[1]);
         return content;
     }
 
@@ -30,11 +31,10 @@ public class PUTUpdateLocation extends AsyncTask<String,Void,String> {
     }
 
     // 실제 전송하는 부분
-    public String executeClient(String latitude,String longitude,String userId) {
+    public String executeClient(String token,String devicekey) {
         ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
-        post.add(new BasicNameValuePair("latitude", latitude));
-        post.add(new BasicNameValuePair("longitude", longitude));
-        post.add(new BasicNameValuePair("userId", userId));
+        post.add(new BasicNameValuePair("token", token));
+        post.add(new BasicNameValuePair("deviceKey", devicekey));
 
         // 연결 HttpClient 객체 생성
         HttpClient client = new DefaultHttpClient();
@@ -45,7 +45,7 @@ public class PUTUpdateLocation extends AsyncTask<String,Void,String> {
         HttpConnectionParams.setSoTimeout(params, 5000);
 
         // Post객체 생
-        HttpPut httpPost = new HttpPut("http://210.89.191.125/helper/location/load");
+        HttpPut httpPost = new HttpPut("http://210.89.191.125/helper/device/token/update");
 
         try {
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(post, "UTF-8");
@@ -65,4 +65,3 @@ public class PUTUpdateLocation extends AsyncTask<String,Void,String> {
 
 
 }
-

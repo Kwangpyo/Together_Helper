@@ -20,7 +20,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.ExecutionException;
 
-import design.ws.com.Together_Helper.API.GETPhotoURLAPITask;
+import design.ws.com.Together_Helper.API.GET.GETPhotoURLAPITask;
 import design.ws.com.Together_Helper.R;
 import design.ws.com.Together_Helper.domain.Help;
 import design.ws.com.Together_Helper.domain.Helper;

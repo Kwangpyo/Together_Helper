@@ -1,4 +1,4 @@
-package design.ws.com.Together_Helper.API;
+package design.ws.com.Together_Helper.API.POST;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -6,30 +6,23 @@ import android.util.Log;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.HttpResponse;
 import cz.msebera.android.httpclient.NameValuePair;
 import cz.msebera.android.httpclient.client.ClientProtocolException;
 import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
-import cz.msebera.android.httpclient.client.methods.HttpPut;
+import cz.msebera.android.httpclient.client.methods.HttpPost;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import cz.msebera.android.httpclient.message.BasicNameValuePair;
 import cz.msebera.android.httpclient.params.HttpConnectionParams;
 import cz.msebera.android.httpclient.params.HttpParams;
 import cz.msebera.android.httpclient.util.EntityUtils;
-import design.ws.com.Together_Helper.params.ParamsForHistory;
 
-public class PUTHelpFinish extends AsyncTask<ParamsForHistory,Void,String> {
+public class POSTSaveToken extends AsyncTask<String,Void,String> {
 
-    protected String doInBackground(ParamsForHistory... unused) {
-
-        int volunteerid = unused[0].getVolunteerid();
-        int helperScore = unused[0].getHelperScore();
-        String helperFeedbackContent = unused[0].getHelperFeedbackContent();
-
-        Log.d("CANCEL_vol", String.valueOf(volunteerid));
-
-
-        String content = executeClient(volunteerid,helperScore,helperFeedbackContent);
+    protected String doInBackground(String... unused) {
+        String content = executeClient(unused[0],unused[1]);
         return content;
     }
 
@@ -38,11 +31,11 @@ public class PUTHelpFinish extends AsyncTask<ParamsForHistory,Void,String> {
     }
 
     // 실제 전송하는 부분
-    public String executeClient(int volunteerid, int helperScore, String helperFeedbackContent) {
+    public String executeClient(String token,String devicekey) {
         ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
-        post.add(new BasicNameValuePair("volunteerId", Integer.toString(volunteerid)));
-        post.add(new BasicNameValuePair("helperScore", Integer.toString(helperScore)));
-        post.add(new BasicNameValuePair("helperFeedbackContent", helperFeedbackContent));
+        post.add(new BasicNameValuePair("token", token));
+        post.add(new BasicNameValuePair("deviceKey", devicekey));
+
         // 연결 HttpClient 객체 생성
         HttpClient client = new DefaultHttpClient();
 
@@ -51,14 +44,16 @@ public class PUTHelpFinish extends AsyncTask<ParamsForHistory,Void,String> {
         HttpConnectionParams.setConnectionTimeout(params, 5000);
         HttpConnectionParams.setSoTimeout(params, 5000);
 
-        // Post객체 생성
-        HttpPut httpPost = new HttpPut("http://210.89.191.125/helper/volunteer/end");
+        // Post객체 생
+        HttpPost httpPost = new HttpPost("http://210.89.191.125/helper/device/save");
 
         try {
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(post, "UTF-8");
             httpPost.setEntity(entity);
-            client.execute(httpPost);
-            return EntityUtils.getContentCharSet(entity);
+            HttpResponse response = client.execute(httpPost);
+            HttpEntity hentity = response.getEntity();
+            String result = EntityUtils.toString(hentity);
+            return result;
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -70,4 +65,3 @@ public class PUTHelpFinish extends AsyncTask<ParamsForHistory,Void,String> {
 
 
 }
-
