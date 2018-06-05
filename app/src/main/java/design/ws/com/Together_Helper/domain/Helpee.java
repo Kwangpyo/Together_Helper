@@ -14,6 +14,7 @@ public class Helpee implements Serializable {
     String name;
     String id;
     String phonenumber;
+    String pauseStatus;
 
 
     public Helpee(String token, double lat, double lon, int feedback, String id, String phonenumber) {
@@ -24,6 +25,17 @@ public class Helpee implements Serializable {
         this.id = id;
         this.phonenumber = phonenumber;
     }
+
+    public Helpee(String token, double lat, double lon, int feedback, String id, String phonenumber,String pauseStatus) {
+        this.token = token;
+        this.lat = lat;
+        this.lon = lon;
+        this.feedback = feedback;
+        this.id = id;
+        this.phonenumber = phonenumber;
+        this.pauseStatus = pauseStatus;
+    }
+
 
     public Helpee(Bitmap image, String token, double lat, double lon, int feedback, String name, String id) {
         this.image = image;
@@ -63,6 +75,14 @@ public class Helpee implements Serializable {
 
     public void setToken(String token) {
         this.token = token;
+    }
+
+    public String getPauseStatus() {
+        return pauseStatus;
+    }
+
+    public void setPauseStatus(String pauseStatus) {
+        this.pauseStatus = pauseStatus;
     }
 
     public double getLat() {

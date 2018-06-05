@@ -2,6 +2,8 @@ package design.ws.com.Together_Helper.API;
 
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,47 +18,34 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import design.ws.com.Together_Helper.domain.Helpee;
+import design.ws.com.Together_Helper.domain.Help;
+import design.ws.com.Together_Helper.params.ReserveParam;
 
-public class GetHelpeeAPI {
+public class GETReservationCheckAPI {
 
+    final static String openURL = "http://210.89.191.125/helper/reservation/check/";
 
-    String userId;
-    ArrayList<Helpee> helpees = new ArrayList<>();
+    ReserveParam resultStr;
 
-
-    public ArrayList<Helpee> getJson(String id) {
-
-        String urlLocation = "http://210.89.191.125/helper/user/";
-        final String openURL = urlLocation + id;
+    public ReserveParam getJson(String id) {
 
         try {
-
-            URL url = new URL(openURL);
+            String url1 = openURL + id;
+            URL url = new URL(url1);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-
-//            JSONObject json = new JSONObject(getStringFromInputStream(in));
-//            parseJSON(json);
             String result ="";
             result =getStringFromInputStream(in);
-            Log.d("resultTest",result);
+            Log.d("reserveresultTest",result);
             parsing(result);
+
 
         } catch (MalformedURLException e) {
 
             System.err.println("Malformed URL");
 
             e.printStackTrace();
-            return null;
-
-        } catch (JSONException e) {
-
-            System.err.println("JSON parsing error");
-
-            e.printStackTrace();
-
             return null;
 
         } catch (IOException e) {
@@ -67,51 +56,50 @@ public class GetHelpeeAPI {
 
             return null;
 
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        return helpees;
+        return resultStr;
     }
-
 
     private void parsing(String result) throws JSONException {
 
-        JSONArray Jarray = new JSONArray(result);
+            JSONArray Jarray = new JSONArray(result);
+
+            String count="0";
+            double lon = 0;
+            double lat = 0;
 
             JSONObject JObject = null;
-            JObject = Jarray.getJSONObject(0);
-
-            String id = JObject.getString("userId");
-            String phone = JObject.getString("userPhone");
-            Integer feedback;
             try {
-                feedback = JObject.getInt("userFeedbackScore");
-            }
-            catch(Exception e)
-        {
-            feedback =0;
-        }
-            String token = JObject.getString("deviceId");
+                JObject = Jarray.getJSONObject(0);
 
-        double lat;
-        double lon;
-            try {
-                lat = JObject.getDouble("helpeeLatitude");
-                lon = JObject.getDouble("helpeeLongitude");
+                if(JObject !=null) {
+                    count = JObject.getString("count");
+
+                    if (count.equals("1")) {
+                        lon = JObject.getDouble("longitude");
+                        lat = JObject.getDouble("latitude");
+                    }
+
+                }
+
             }
+
             catch (Exception e)
             {
-                lat = 0;
-                lon = 0;
+
             }
 
-            String pauseStatus = JObject.getString("pauseStatus");
 
-            Helpee helpee = new Helpee(token, lat, lon, feedback, id, phone,pauseStatus);
 
-            helpees.add(helpee);
+
+        ReserveParam returnlatlon = new ReserveParam(lat,lon,count);
+
+        resultStr = returnlatlon;
 
     }
-
 
 
     private static String getStringFromInputStream(InputStream is) {
@@ -141,3 +129,4 @@ public class GetHelpeeAPI {
         return sb.toString();
     }
 }
+
