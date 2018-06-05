@@ -1,35 +1,35 @@
-package design.ws.com.Together_Helper.API;
+package design.ws.com.Together_Helper.API.POST;
 
 import android.os.AsyncTask;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 
+import cz.msebera.android.httpclient.HttpEntity;
+import cz.msebera.android.httpclient.HttpResponse;
 import cz.msebera.android.httpclient.NameValuePair;
 import cz.msebera.android.httpclient.client.ClientProtocolException;
 import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
-import cz.msebera.android.httpclient.client.methods.HttpPut;
+import cz.msebera.android.httpclient.client.methods.HttpPost;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import cz.msebera.android.httpclient.message.BasicNameValuePair;
 import cz.msebera.android.httpclient.params.HttpConnectionParams;
 import cz.msebera.android.httpclient.params.HttpParams;
 import cz.msebera.android.httpclient.util.EntityUtils;
-import design.ws.com.Together_Helper.params.MyTaskParam;
 
-public class PUTCancelHelpAPI extends AsyncTask<MyTaskParam,Void,String> {
+public class POSTSignupAPI extends AsyncTask<String,Void,String> {
 
-    protected String doInBackground(MyTaskParam... unused) {
-
-        int volunteerid = unused[0].getFoo();
-        String helperid = unused[0].getStr();
-
-        Log.d("CANCEL_vol", String.valueOf(volunteerid));
-        Log.d("CANCEL_helperid", helperid);
-
-
-        String content = executeClient(volunteerid,helperid);
+    protected String doInBackground(String... unused) {
+        String content = executeClient(unused[0],unused[1],unused[2],unused[3]);
         return content;
     }
 
@@ -38,10 +38,13 @@ public class PUTCancelHelpAPI extends AsyncTask<MyTaskParam,Void,String> {
     }
 
     // 실제 전송하는 부분
-    public String executeClient(int volunteerid,String helperID) {
+    public String executeClient(String id, String password, String name,String deviceid) {
         ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
-        post.add(new BasicNameValuePair("volunteerId", Integer.toString(volunteerid)));
-        post.add(new BasicNameValuePair("helperId", helperID));
+        post.add(new BasicNameValuePair("userId", id));
+        post.add(new BasicNameValuePair("helperPwd", password));
+        post.add(new BasicNameValuePair("helperName", name));
+        post.add(new BasicNameValuePair("deviceKey", deviceid));
+
 
         // 연결 HttpClient 객체 생성
         HttpClient client = new DefaultHttpClient();
@@ -52,13 +55,16 @@ public class PUTCancelHelpAPI extends AsyncTask<MyTaskParam,Void,String> {
         HttpConnectionParams.setSoTimeout(params, 5000);
 
         // Post객체 생성
-        HttpPut httpPost = new HttpPut("http://210.89.191.125/helper/volunteer/assign/cancel");
+        HttpPost httpPost = new HttpPost("http://210.89.191.125/helper/signup");
 
         try {
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(post, "UTF-8");
             httpPost.setEntity(entity);
-            client.execute(httpPost);
-            return EntityUtils.getContentCharSet(entity);
+            HttpResponse response = client.execute(httpPost);
+            HttpEntity hentity = response.getEntity();
+            String result = EntityUtils.toString(hentity);
+            Log.d("postsignup",result);
+            return result;
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -66,7 +72,6 @@ public class PUTCancelHelpAPI extends AsyncTask<MyTaskParam,Void,String> {
         }
         return null;
     }
-
 
 
 }

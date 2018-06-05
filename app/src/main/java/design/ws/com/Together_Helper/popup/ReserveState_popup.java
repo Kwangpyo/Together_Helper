@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -17,7 +16,7 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.util.List;
 
-import design.ws.com.Together_Helper.API.POSTReservationCancelAPI;
+import design.ws.com.Together_Helper.API.POST.POSTReservationCancelAPI;
 import design.ws.com.Together_Helper.R;
 import design.ws.com.Together_Helper.domain.Helper;
 import design.ws.com.Together_Helper.params.ReserveParam;

@@ -1,7 +1,6 @@
 package design.ws.com.Together_Helper.popup;
 
 import android.Manifest;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -48,12 +47,8 @@ import com.google.android.gms.tasks.Task;
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.ExecutionException;
 
-import design.ws.com.Together_Helper.API.GetHelpAPITask;
-import design.ws.com.Together_Helper.API.POSTReserveAPI;
-import design.ws.com.Together_Helper.activity.LocationSearchMap;
-import design.ws.com.Together_Helper.domain.HelpMarker;
+import design.ws.com.Together_Helper.API.POST.POSTReserveAPI;
 import design.ws.com.Together_Helper.domain.Helper;
 import design.ws.com.Together_Helper.R;
 import design.ws.com.Together_Helper.util.PermissionSettingUtils;

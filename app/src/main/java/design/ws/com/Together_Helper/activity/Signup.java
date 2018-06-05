@@ -26,7 +26,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.concurrent.ExecutionException;
 
-import design.ws.com.Together_Helper.API.POSTSignupAPI;
+import design.ws.com.Together_Helper.API.POST.POSTSignupAPI;
 import design.ws.com.Together_Helper.R;
 import design.ws.com.Together_Helper.service.FileUploadService;
 import okhttp3.MediaType;

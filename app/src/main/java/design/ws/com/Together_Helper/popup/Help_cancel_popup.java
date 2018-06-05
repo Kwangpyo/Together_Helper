@@ -8,7 +8,7 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
-import design.ws.com.Together_Helper.API.PUTCancelHelpAPI;
+import design.ws.com.Together_Helper.API.PUT.PUTCancelHelpAPI;
 import design.ws.com.Together_Helper.domain.Helper;
 import design.ws.com.Together_Helper.activity.MainActivity;
 import design.ws.com.Together_Helper.R;

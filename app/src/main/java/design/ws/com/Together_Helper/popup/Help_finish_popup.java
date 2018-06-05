@@ -13,7 +13,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
-import design.ws.com.Together_Helper.API.PUTHelpFinish;
+import design.ws.com.Together_Helper.API.PUT.PUTHelpFinish;
 import design.ws.com.Together_Helper.domain.Help;
 import design.ws.com.Together_Helper.domain.Helper;
 import design.ws.com.Together_Helper.activity.MainActivity;

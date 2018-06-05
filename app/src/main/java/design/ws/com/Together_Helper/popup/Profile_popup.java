@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.util.concurrent.ExecutionException;
 
-import design.ws.com.Together_Helper.API.GETHelperPhotoURLAPITask;
+import design.ws.com.Together_Helper.API.GET.GETHelperPhotoURLAPITask;
 import design.ws.com.Together_Helper.service.FileUploadService;
 import design.ws.com.Together_Helper.domain.Helper;
 import design.ws.com.Together_Helper.recyclerview.History_RecyclerView;

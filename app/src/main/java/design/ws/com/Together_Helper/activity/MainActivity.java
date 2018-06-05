@@ -23,7 +23,6 @@ import android.widget.TextView;
 import android.os.Handler;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.model.LatLng;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -33,11 +32,11 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
-import design.ws.com.Together_Helper.API.GETCheckPauseUserAPITask;
-import design.ws.com.Together_Helper.API.GETHelperPhotoURLAPITask;
-import design.ws.com.Together_Helper.API.GETMyHelpAPITask;
-import design.ws.com.Together_Helper.API.GETReservationCheckAPITask;
-import design.ws.com.Together_Helper.API.PUTUpdateLocation;
+import design.ws.com.Together_Helper.API.GET.GETCheckPauseUserAPITask;
+import design.ws.com.Together_Helper.API.GET.GETHelperPhotoURLAPITask;
+import design.ws.com.Together_Helper.API.GET.GETMyHelpAPITask;
+import design.ws.com.Together_Helper.API.GET.GETReservationCheckAPITask;
+import design.ws.com.Together_Helper.API.PUT.PUTUpdateLocation;
 import design.ws.com.Together_Helper.params.ReserveParam;
 import design.ws.com.Together_Helper.popup.RejectUser_popup;
 import design.ws.com.Together_Helper.popup.ReserveState_popup;

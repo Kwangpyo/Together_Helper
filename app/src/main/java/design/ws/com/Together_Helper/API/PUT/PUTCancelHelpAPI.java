@@ -1,7 +1,7 @@
-package design.ws.com.Together_Helper.API;
-
+package design.ws.com.Together_Helper.API.PUT;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -18,12 +18,16 @@ import cz.msebera.android.httpclient.params.HttpParams;
 import cz.msebera.android.httpclient.util.EntityUtils;
 import design.ws.com.Together_Helper.params.MyTaskParam;
 
-public class PUTRegisterHelpAPI extends AsyncTask<MyTaskParam,Void,String> {
+public class PUTCancelHelpAPI extends AsyncTask<MyTaskParam,Void,String> {
 
     protected String doInBackground(MyTaskParam... unused) {
 
         int volunteerid = unused[0].getFoo();
-            String helperid = unused[0].getStr();
+        String helperid = unused[0].getStr();
+
+        Log.d("CANCEL_vol", String.valueOf(volunteerid));
+        Log.d("CANCEL_helperid", helperid);
+
 
         String content = executeClient(volunteerid,helperid);
         return content;
@@ -48,7 +52,7 @@ public class PUTRegisterHelpAPI extends AsyncTask<MyTaskParam,Void,String> {
         HttpConnectionParams.setSoTimeout(params, 5000);
 
         // Post객체 생성
-        HttpPut httpPost = new HttpPut("http://210.89.191.125/helper/volunteer/assign");
+        HttpPut httpPost = new HttpPut("http://210.89.191.125/helper/volunteer/assign/cancel");
 
         try {
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(post, "UTF-8");
