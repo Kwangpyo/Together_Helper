@@ -45,7 +45,7 @@ public class PUTUpdateToken  extends AsyncTask<String,Void,String> {
         HttpConnectionParams.setSoTimeout(params, 5000);
 
         // Post객체 생
-        HttpPut httpPost = new HttpPut("http://210.89.191.125/helper/device/token/update");
+        HttpPut httpPost = new HttpPut("http://210.89.191.125/helper/token/update");
 
         try {
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(post, "UTF-8");

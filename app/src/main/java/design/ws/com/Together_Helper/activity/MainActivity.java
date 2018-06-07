@@ -3,8 +3,10 @@ package design.ws.com.Together_Helper.activity;
 import android.app.Activity;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
@@ -40,6 +42,7 @@ import design.ws.com.Together_Helper.API.PUT.PUTUpdateLocation;
 import design.ws.com.Together_Helper.params.ReserveParam;
 import design.ws.com.Together_Helper.popup.RejectUser_popup;
 import design.ws.com.Together_Helper.popup.ReserveState_popup;
+import design.ws.com.Together_Helper.receiver.appNetwork;
 import design.ws.com.Together_Helper.util.GPSInfo;
 import design.ws.com.Together_Helper.adapter.HelpAdapter;
 import design.ws.com.Together_Helper.recyclerview.History_RecyclerView;
@@ -125,6 +128,19 @@ public class MainActivity extends AppCompatActivity {
         Helper helper = (Helper) intent.getSerializableExtra("helper");
         HELPER_ME = helper;
         Log.d("mainhelper", helper.getId());
+        Integer intentFlag = intent.getIntExtra("intentflag",-1);
+
+
+        if(intentFlag==1)
+        {
+            Intent intent2 = new Intent(getApplicationContext(),LocationSearchMap.class);
+            intent2.putExtra("helper",HELPER_ME);
+            startActivity(intent2);
+        }
+
+        IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        appNetwork receiver = new appNetwork(this);
+        registerReceiver(receiver, filter);
 
 
         String checkUserFlag="";
@@ -176,10 +192,6 @@ public class MainActivity extends AppCompatActivity {
         Picasso.with(getApplicationContext())
                 .load(photoURL)
                 .into(image);
-
-
-
-
 
         gps = new GPSInfo(getApplicationContext());
 
@@ -296,19 +308,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-/*
-        profile.setOnClickListener(new View.OnClickListener()
-        {
-
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(),Profile_popup.class);
-                intent.putExtra("helper",HELPER_ME);
-                startActivity(intent);
-
-            }
-        });
-*/
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -529,6 +528,7 @@ public class MainActivity extends AppCompatActivity {
 
         });
     }
+
 
 
 

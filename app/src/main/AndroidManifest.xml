@@ -128,8 +128,13 @@
         <activity
             android:name=".popup.ReserveState_popup"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name=".popup.RejectUser_popup"
-            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"></activity>
+        <activity
+            android:name=".popup.RejectUser_popup"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity
+            android:name=".popup.Network_popup"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity android:name=".activity.GesterActivity1"></activity>
     </application>
 
 </manifest>

@@ -32,6 +32,8 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
 
+        Log.d("fcm12", String.valueOf(remoteMessage.getData()));
+
         if (remoteMessage.getData().size() > 0) {
             try {
                 sendNotification(remoteMessage.getData().get("message"));

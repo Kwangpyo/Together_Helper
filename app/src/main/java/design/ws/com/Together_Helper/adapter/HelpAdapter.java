@@ -32,6 +32,7 @@ import design.ws.com.Together_Helper.domain.Helper;
 import design.ws.com.Together_Helper.popup.Help_cancel_popup;
 import design.ws.com.Together_Helper.popup.Help_finish_popup;
 import design.ws.com.Together_Helper.popup.Helpee_detail_popup;
+import design.ws.com.Together_Helper.popup.Photo_popup;
 
 /**
  * Created by Rp on 6/14/2016.
@@ -77,6 +78,7 @@ Context context;
             Helpee_detail.setOnClickListener(this);
             help_cancel.setOnClickListener(this);
             Help_finish.setOnClickListener(this);
+            image.setOnClickListener(this);
 
 
         }
@@ -92,8 +94,6 @@ Context context;
 
             } else if(v.getId() == help_cancel.getId()){
                 help = helpList.get(getAdapterPosition());
-
-
 
                 Intent intent = new Intent(context,Help_cancel_popup.class);
                 intent.putExtra("helperid",HELPER_ME.getId());
@@ -155,6 +155,7 @@ Context context;
 
             }
 
+
             else
                 {
                  //   Toast.makeText(context,"아직 Helpee가 봉사 승인을 하지 않았습니다.",Toast.LENGTH_SHORT).show();
@@ -170,6 +171,13 @@ Context context;
 
 
 
+            }
+
+            else if(v.getId() == image.getId())
+            {
+                Intent intent = new Intent(context,Photo_popup.class);
+                intent.putExtra("url",photoURL);
+                context.startActivity(intent);
             }
 
         }
@@ -205,6 +213,8 @@ Context context;
         else if(help.getMatch_status() == 2)
         {
             holder.matching_status.setText("매칭 완료");
+
+
 
             if(help.getStart_status()==1)
             {
@@ -265,40 +275,6 @@ Context context;
         }
         Log.d("photoURL",photoURL);
 
-
-/*
-        Thread mThread = new Thread(){
-            @Override
-            public void run() {
-                try
-                {
-                    URL url =new URL(photoURL);
-                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-                    conn.setDoInput(true);
-                    conn.connect();
-
-                    InputStream is = conn.getInputStream();
-                    bitmap = BitmapFactory.decodeStream(is);
-                }catch (MalformedURLException e)
-                {
-                    e.printStackTrace();
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-
-            }
-        };
-        mThread.start();
-
-        try {
-            mThread.join();
-            holder.image.setImageBitmap(bitmap);
-        }catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        } */
 
         Picasso.with(context)
                 .load(photoURL)

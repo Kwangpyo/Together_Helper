@@ -1,12 +1,21 @@
 package design.ws.com.Together_Helper.firebase;
 
+import android.provider.Settings;
 import android.util.Log;
 
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.FirebaseInstanceIdService;
 
+import java.util.UUID;
+import java.util.concurrent.ExecutionException;
+
+import design.ws.com.Together_Helper.API.GET.GETDeviceKeyAPITask;
+import design.ws.com.Together_Helper.API.POST.POSTSaveToken;
+import design.ws.com.Together_Helper.API.PUT.PUTUpdateToken;
+
 
 public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
+
 
     private static final String TAG = "MyFirebaseIIDService";
 
@@ -39,5 +48,8 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
      */
     private void sendRegistrationToServer(String token) {
         // TODO: Implement this method to send token to your app server.
+
+
+
     }
 }
