@@ -154,17 +154,17 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
         if(help.getAccept_status().equals("wait"))
         {
-            holder.help_accept.setText("봉사 시간 승인 대기 중 입니다");
+            holder.help_accept.setText("봉사 시간 승인 대기 중");
         }
 
         else if(help.getAccept_status().equals("accept"))
         {
-            holder.help_accept.setText("봉사 시간 승인 되었습니다");
+            holder.help_accept.setText("봉사 시간 승인 완료");
         }
 
         else if(help.getAccept_status().equals("reject"))
         {
-            holder.help_accept.setText("봉사 시간 승인 거부 되었습니다");
+            holder.help_accept.setText("봉사 시간 승인 거부");
         }
 
 
@@ -184,42 +184,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         }
         Log.d("photoURL",photoURL);
 
-
-/*
-        Thread mThread = new Thread(){
-            @Override
-            public void run() {
-                try
-                {
-                    URL url =new URL(photoURL);
-                    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-                    conn.setDoInput(true);
-                    conn.connect();
-
-                    InputStream is = conn.getInputStream();
-                    bitmap = BitmapFactory.decodeStream(is);
-                }catch (MalformedURLException e)
-                {
-                    e.printStackTrace();
-                }
-                catch (IOException e)
-                {
-                    e.printStackTrace();
-                }
-
-            }
-        };
-        mThread.start();
-
-        try {
-            mThread.join();
-            holder.image.setImageBitmap(bitmap);
-        }catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
-
-*/
 
         Picasso.with(context)
                 .load(photoURL)

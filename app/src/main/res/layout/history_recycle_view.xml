@@ -119,6 +119,14 @@
                 android:layout_gravity="center"
                 android:text="봉사 시간 승인 상태"/>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
+                android:background="#E3E3E3"></LinearLayout>
+
+
             <customfonts.MyTextView_Bold
                 android:id="@+id/history_question"
                 android:layout_width="match_parent"

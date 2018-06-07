@@ -401,7 +401,9 @@ public class CustomSearch extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         //안드로이드 백버튼 막기
-        return;
+        Intent intent = new Intent(getApplicationContext(),MainActivity.class);
+        intent.putExtra("helper",HELPER_ME);
+        startActivity(intent);
     }
 
     private TimePickerDialog.OnTimeSetListener listener_min = new TimePickerDialog.OnTimeSetListener() {

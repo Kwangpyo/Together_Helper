@@ -119,10 +119,11 @@ public class Register_popup extends FragmentActivity implements OnMapReadyCallba
                         lat = list.get(0).getLatitude();
                         lon = list.get(0).getLongitude();
                         flag=1;
+                        initGoogleMapLocation();
                     }
                 }
 
-                initGoogleMapLocation();
+
             }
         });
 

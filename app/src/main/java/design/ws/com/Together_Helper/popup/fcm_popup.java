@@ -64,8 +64,20 @@ public class fcm_popup extends Activity {
 
         }
 
-        Intent intent = new Intent(getApplicationContext(),Login.class);
-        startActivity(intent);
+        else if(message.equals("당신 주변에 도움이 필요합니다!"))
+        {
+            Intent intent = new Intent(getApplicationContext(),Login.class);
+            intent.putExtra("intentflag",1);
+            startActivity(intent);
+        }
+
+        else
+        {
+            Intent intent = new Intent(getApplicationContext(),Login.class);
+            startActivity(intent);
+        }
+
+
 
     }
 

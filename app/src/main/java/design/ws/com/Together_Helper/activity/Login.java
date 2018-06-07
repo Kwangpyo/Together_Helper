@@ -108,10 +108,14 @@ public class Login extends AppCompatActivity {
 
                     Helper helper = ps.get(0);
 
+                    Intent getIntent = getIntent();
+                    Integer integer = getIntent.getIntExtra("intentflag",-1);
+
                     Snackbar.make(login,loginId + "님 자동로그인 입니다.", Snackbar.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     intent.putExtra("helper", helper);
                     intent.putExtra("pushdata",datas);
+                    intent.putExtra("intentflag",integer);
                     startActivity(intent);
                 }
 

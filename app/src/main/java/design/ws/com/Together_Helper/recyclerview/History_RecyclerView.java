@@ -136,7 +136,8 @@ public class History_RecyclerView extends Activity {
     }
 
     @Override
-    public void onBackPressed() {
-        return;
+    public void onBackPressed()
+    {
+        finish();
     }
 }

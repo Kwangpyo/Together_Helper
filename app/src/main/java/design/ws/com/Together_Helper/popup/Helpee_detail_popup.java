@@ -22,7 +22,6 @@ public class Helpee_detail_popup extends Activity {
 
     private TextView helpee_name;
     private TextView helpee_feedback;
-    private ImageView helpee_image;
     private TextView help_duration;
     private TextView help_type;
     Bitmap bitmap;
@@ -38,7 +37,6 @@ public class Helpee_detail_popup extends Activity {
 
         helpee_name = (TextView)findViewById(R.id.helpee_detail_name);
         helpee_feedback =(TextView)findViewById(R.id.helpee_detail_feedback);
-        helpee_image = (ImageView)findViewById(R.id.helpee_detail_image);
         help_duration = (TextView)findViewById(R.id.helpee_detail_duration);
         help_type = (TextView)findViewById(R.id.helpee_detail_type);
 
