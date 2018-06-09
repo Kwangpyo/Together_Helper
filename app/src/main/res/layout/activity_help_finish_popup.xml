@@ -15,7 +15,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-        <TextView
+        <customfonts.MyTextView_Bold
             android:textSize="15sp"
             android:textColor="#000"
             android:text="봉사를 종료하기 전에 피드백을 작성해주세요"
@@ -68,6 +68,13 @@
 
 
             </RadioGroup>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="자세한 피드백을 작성해 주세요"
+            android:id="@+id/feedback_txt"/>
+
 
     </LinearLayout>
 

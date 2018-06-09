@@ -108,12 +108,12 @@ public class RegisterHelp_popup extends Activity {
         }
 
 
-        helpeeid_txt.setText("Helpee : " + helpee.getId());
-        helpeephone_txt.setText("Helpee 전화번호 : " + helpee.getPhonenumber());
-        helpeefeedback_txt.setText("Helpee 피드백 : " + helpee.getFeedback());
+        helpeeid_txt.setText("어르신 성함 : " + helpee.getName());
+        helpeephone_txt.setText("어르신 전화번호 : " + helpee.getPhonenumber());
+        helpeefeedback_txt.setText("어르신 피드백 : " + helpee.getFeedback());
         String date = help.getYear() +"년 " + help.getMonth()+"월 " + help.getDay() +"일  " + help.getHour()+"시 " + help.getMinute()+"분";
         helpdate_txt.setText("봉사 시간 : "+date);
-        helplocation_txt.setText("봉사 주소 :"+address);
+        helplocation_txt.setText("봉사 주소 : "+address);
 
         String type="";
         if(help.getType().equals("housework"))
@@ -133,7 +133,7 @@ public class RegisterHelp_popup extends Activity {
             type = "말동무";
         }
 
-        helptype_txt.setText("타입: " +type);
+        helptype_txt.setText("봉사 종류 : " +type);
 
         if(help.getMatch_status()==0)
         {

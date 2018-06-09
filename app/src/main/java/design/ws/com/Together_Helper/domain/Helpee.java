@@ -26,7 +26,7 @@ public class Helpee implements Serializable {
         this.phonenumber = phonenumber;
     }
 
-    public Helpee(String token, double lat, double lon, int feedback, String id, String phonenumber,String pauseStatus) {
+    public Helpee(String token, double lat, double lon, int feedback, String id, String phonenumber,String pauseStatus,String name) {
         this.token = token;
         this.lat = lat;
         this.lon = lon;
@@ -34,6 +34,7 @@ public class Helpee implements Serializable {
         this.id = id;
         this.phonenumber = phonenumber;
         this.pauseStatus = pauseStatus;
+        this.name = name;
     }
 
 

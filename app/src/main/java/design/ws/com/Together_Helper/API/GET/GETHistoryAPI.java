@@ -113,7 +113,7 @@ public class GETHistoryAPI {
             String content = JObject.getString("content");
             //   Integer hour = JObject.getInt("hour");
             //   Integer minute = JObject.getInt("minute");
-            Integer duration = JObject.getInt("duration");
+            Integer duration = JObject.getInt("realDuration");
             //    Integer year = JObject.getInt("year");
             //    Integer month = JObject.getInt("month");
             //   Integer day = JObject.getInt("day");

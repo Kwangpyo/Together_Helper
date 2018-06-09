@@ -1,27 +1,33 @@
-package design.ws.com.Together_Helper.API.POST;
+package design.ws.com.Together_Helper.API.PUT;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
-import cz.msebera.android.httpclient.HttpEntity;
-import cz.msebera.android.httpclient.HttpResponse;
 import cz.msebera.android.httpclient.NameValuePair;
 import cz.msebera.android.httpclient.client.ClientProtocolException;
 import cz.msebera.android.httpclient.client.HttpClient;
 import cz.msebera.android.httpclient.client.entity.UrlEncodedFormEntity;
-import cz.msebera.android.httpclient.client.methods.HttpPost;
+import cz.msebera.android.httpclient.client.methods.HttpPut;
 import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import cz.msebera.android.httpclient.message.BasicNameValuePair;
 import cz.msebera.android.httpclient.params.HttpConnectionParams;
 import cz.msebera.android.httpclient.params.HttpParams;
 import cz.msebera.android.httpclient.util.EntityUtils;
+import design.ws.com.Together_Helper.params.MyTaskParam;
 
-public class POSTReserveAPI extends AsyncTask<String,Void,String> {
+public class PUTArriveAPI extends AsyncTask<Integer,Void,String> {
 
-    protected String doInBackground(String... unused) {
-        String content = executeClient(unused[0],unused[1],unused[2],unused[3],unused[4]);
+    protected String doInBackground(Integer... unused) {
+
+        int volunteerid = unused[0];
+
+        Log.d("CANCEL_vol", String.valueOf(volunteerid));
+
+
+        String content = executeClient(volunteerid);
         return content;
     }
 
@@ -30,13 +36,9 @@ public class POSTReserveAPI extends AsyncTask<String,Void,String> {
     }
 
     // 실제 전송하는 부분
-    public String executeClient(String helperId,String lat,String lon,String fromDate,String ToDate) {
+    public String executeClient(int volunteerid) {
         ArrayList<NameValuePair> post = new ArrayList<NameValuePair>();
-        post.add(new BasicNameValuePair("helperId", helperId));
-        post.add(new BasicNameValuePair("longitude", lon));
-        post.add(new BasicNameValuePair("latitude", lat));
-        post.add(new BasicNameValuePair("fromDate", fromDate));
-        post.add(new BasicNameValuePair("toDate", ToDate));
+        post.add(new BasicNameValuePair("volunteerId", Integer.toString(volunteerid)));
 
         // 연결 HttpClient 객체 생성
         HttpClient client = new DefaultHttpClient();
@@ -46,16 +48,14 @@ public class POSTReserveAPI extends AsyncTask<String,Void,String> {
         HttpConnectionParams.setConnectionTimeout(params, 5000);
         HttpConnectionParams.setSoTimeout(params, 5000);
 
-        // Post객체 생
-        HttpPost httpPost = new HttpPost("http://210.89.191.125/helper/reserve");
+        // Post객체 생성
+        HttpPut httpPost = new HttpPut("http://210.89.191.125/api/volunteer/arrive");
 
         try {
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(post, "UTF-8");
             httpPost.setEntity(entity);
-            HttpResponse response = client.execute(httpPost);
-            HttpEntity hentity = response.getEntity();
-            String result = EntityUtils.toString(hentity);
-            return result;
+            client.execute(httpPost);
+            return EntityUtils.getContentCharSet(entity);
         } catch (ClientProtocolException e) {
             e.printStackTrace();
         } catch (IOException e) {

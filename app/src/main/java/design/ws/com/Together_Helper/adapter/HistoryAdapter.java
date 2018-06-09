@@ -3,6 +3,7 @@ package design.ws.com.Together_Helper.adapter;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.support.v7.widget.RecyclerView;
@@ -42,7 +43,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
     String photoURL="";
     Bitmap bitmap;
 
-    public class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class MyViewHolder extends RecyclerView.ViewHolder{
 
 
         ImageView image;
@@ -51,7 +52,6 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         TextView help_accept;
         TextView help_duration;
         TextView help_type;
-        TextView help_question;
 
         public MyViewHolder(View view) {
             super(view);
@@ -62,26 +62,10 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
             help_accept = (TextView)view.findViewById(R.id.history_Help_accept);
             help_duration = (TextView)view.findViewById(R.id.history_help_duration);
             help_type = (TextView)view.findViewById(R.id.history_help_type);
-            help_question = (TextView)view.findViewById(R.id.history_question);
-
-            help_question.setOnClickListener(this);
-        }
-
-
-        @Override
-        public void onClick(View view) {
-
-            if (view.getId() == help_question.getId())
-            {
-                help = helpList.get(getAdapterPosition());
-                Intent intent = new Intent(context,Question_popup.class);
-                intent.putExtra("helper",HELPER_ME);
-                intent.putExtra("help",help);
-                context.startActivity(intent);
-            }
 
 
         }
+
     }
 
 
@@ -154,17 +138,19 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
 
         if(help.getAccept_status().equals("wait"))
         {
-            holder.help_accept.setText("봉사 시간 승인 대기 중");
+            holder.help_accept.setText("승인 대기 중");
+            holder.help_accept.setTextColor(Color.parseColor("#228b22"));
         }
 
         else if(help.getAccept_status().equals("accept"))
         {
-            holder.help_accept.setText("봉사 시간 승인 완료");
+            holder.help_accept.setText("승인 완료");
+            holder.help_accept.setTextColor(Color.parseColor("#0000ff"));
         }
 
         else if(help.getAccept_status().equals("reject"))
         {
-            holder.help_accept.setText("봉사 시간 승인 거부");
+            holder.help_accept.setText("승인 거부");
         }
 
 

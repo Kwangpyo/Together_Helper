@@ -46,7 +46,7 @@ public class History_RecyclerView extends Activity {
         home = (ImageView)findViewById(R.id.back_home);
         back = (ImageView)findViewById(R.id.back_back);
         title = (TextView)findViewById(R.id.refreshtoolbar_text);
-        title.setText("봉사 내역 보기");
+        title.setText("봉사 시간 승인 내역");
 
         home.setVisibility(View.GONE);
 

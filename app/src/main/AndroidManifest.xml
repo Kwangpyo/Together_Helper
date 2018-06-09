@@ -123,7 +123,7 @@
             android:name=".popup.fcm_popup"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
-            android:name=".popup.Register_popup"
+            android:name=".popup.Reserve_popup"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
         <activity
             android:name=".popup.ReserveState_popup"
@@ -134,7 +134,13 @@
         <activity
             android:name=".popup.Network_popup"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name=".activity.GesterActivity1"></activity>
+        <activity android:name=".activity.GesterActivity1" />
+        <activity android:name=".activity.MonitorActivity" />
+        <activity
+            android:name=".popup.Explain_popup2"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+        <activity android:name=".popup.Explain_popup3"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"></activity>
     </application>
 
 </manifest>
