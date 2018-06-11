@@ -1,9 +1,12 @@
 package design.ws.com.Together_Helper.adapter;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.location.Address;
+import android.app.AlarmManager;
 import android.location.Geocoder;
 import android.media.Image;
 import android.os.Build;
@@ -39,7 +42,11 @@ import design.ws.com.Together_Helper.popup.Help_cancel_popup;
 import design.ws.com.Together_Helper.popup.Help_finish_popup;
 import design.ws.com.Together_Helper.popup.Helpee_detail_popup;
 import design.ws.com.Together_Helper.popup.Photo_popup;
+import design.ws.com.Together_Helper.receiver.LocationReceiver;
+import design.ws.com.Together_Helper.receiver.processTimerReceiver;
 import design.ws.com.Together_Helper.util.Sub;
+
+import static android.content.Context.ALARM_SERVICE;
 
 /**
  * Created by Rp on 6/14/2016.
@@ -211,24 +218,43 @@ Context context;
 
             else if(v.getId()==help_arrive.getId())
             {
+/*
 
 
+*/
                 help = helpList.get(getAdapterPosition());
 
-                Toast.makeText(context.getApplicationContext(),"as",Toast.LENGTH_SHORT).show();
                 Log.d("arrivedepart", String.valueOf(help_arrive.getText()));
 
-                if(help.getHelperDepartStatus().equals("standBy"))
+                if(help_arrive.getText().equals("출발"))
                 {
                     PUTDepartAPI putDepartAPI = new PUTDepartAPI();
                     putDepartAPI.execute(help.getHelpId());
                     help_arrive.setText("도착");
+       /*             int repeatTime = 1;  //Repeat alarm time in seconds
+                    AlarmManager processTimer = (AlarmManager)context.getSystemService(ALARM_SERVICE);
+                    Intent intent1 = new Intent(context, LocationReceiver.class);
+                    Log.d("pqpqpqp",HELPER_ME.getId());
+                    intent1.putExtra("helper",HELPER_ME.getId());
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0,  intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+//Repeat alarm every second
+                    processTimer.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),repeatTime*5000, pendingIntent);
+*/
+                    Intent intent2 = new Intent(context,MonitorActivity.class);
+                    intent2.putExtra("help",help);
+                    intent2.putExtra("helper",HELPER_ME);
+                    context.startActivity(intent2);
                 }
 
-                else if(help.getHelperDepartStatus().equals("depart"))
+                else if(help_arrive.getText().equals("도착"))
                 {
                     PUTArriveAPI putArriveAPI = new PUTArriveAPI();
                     putArriveAPI.execute(help.getHelpId());
+
+  /*                  Intent intent2 = new Intent(context, LocationReceiver.class);
+                    PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent2, 0);
+                    AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                    alarmManager.cancel(pendingIntent);*/
 
                     help_arrive.setText("");
                 }
@@ -297,6 +323,12 @@ Context context;
 
             if(help.getStart_status()==1)
             {
+                holder.help_arrive.setText("도착");
+/*                Intent intent2 = new Intent(context, LocationReceiver.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent2, 0);
+                AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+                alarmManager.cancel(pendingIntent);*/
+
                 holder.linearLayout.setVisibility(View.GONE);
                 holder.matching_status.setText("봉사 중");
                 holder.help_cancel.setVisibility(View.GONE);
@@ -312,6 +344,10 @@ Context context;
         else if(help.getHelperDepartStatus().equals("depart"))
         {
             holder.help_arrive.setText("도착");
+          /*  Intent intent2 = new Intent(context, LocationReceiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent2, 0);
+            AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
+            alarmManager.cancel(pendingIntent);*/
         }
         else
         {

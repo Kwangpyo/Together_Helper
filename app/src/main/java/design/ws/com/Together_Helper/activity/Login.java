@@ -98,7 +98,7 @@ public class Login extends AppCompatActivity {
 
             return;
         }
-        PhoneNum = telManager.getLine1Number();
+      /*  PhoneNum = telManager.getLine1Number();
         if(PhoneNum.startsWith("+82")){
             PhoneNum = PhoneNum.replace("+82", "0");
         }
@@ -106,7 +106,7 @@ public class Login extends AppCompatActivity {
         Log.d("phonenumber11",PhoneNum);
 
         idInput.setText(PhoneNum);
-
+*/
         if (loginId != null && loginPwd != null) {
 
             Log.d("login1", "1");
@@ -187,6 +187,7 @@ public class Login extends AppCompatActivity {
 
                 @Override
                 public void onClick(View view) {
+
 
                     id = idInput.getText().toString();
                     psw = passwordInput.getText().toString();

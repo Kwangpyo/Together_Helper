@@ -62,7 +62,7 @@ public class processTimerReceiver extends BroadcastReceiver {
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-            Log.d("postlocation",result);
+      //      Log.d("postlocation",result);
 
         } else {
             // GPS 를 사용할수 없으므로

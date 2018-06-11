@@ -76,7 +76,7 @@ public class Explain_popup3 extends Activity implements OnGestureListener{
     public boolean onTouchEvent(MotionEvent me) {
 
         if(me.getAction()==MotionEvent.ACTION_OUTSIDE){
-            return false;
+            finish();
         }
 
         return gestureScanner.onTouchEvent(me);

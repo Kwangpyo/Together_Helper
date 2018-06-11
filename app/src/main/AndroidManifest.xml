@@ -139,8 +139,14 @@
         <activity
             android:name=".popup.Explain_popup2"
             android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
-        <activity android:name=".popup.Explain_popup3"
-            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog"></activity>
+        <activity
+            android:name=".popup.Explain_popup3"
+            android:theme="@android:style/Theme.DeviceDefault.Light.Dialog" />
+
+        <receiver
+            android:name=".receiver.LocationReceiver"
+            android:enabled="true"
+            android:exported="true"></receiver>
     </application>
 
 </manifest>

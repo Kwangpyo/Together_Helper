@@ -1,6 +1,8 @@
 package design.ws.com.Together_Helper.activity;
 
 import android.Manifest;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,6 +19,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +58,7 @@ import design.ws.com.Together_Helper.domain.Help;
 import design.ws.com.Together_Helper.domain.Helper;
 import design.ws.com.Together_Helper.popup.GPS_popup;
 import design.ws.com.Together_Helper.popup.Reserve_popup;
+import design.ws.com.Together_Helper.receiver.LocationReceiver;
 import design.ws.com.Together_Helper.util.GPSInfo;
 import design.ws.com.Together_Helper.util.PermissionSettingUtils;
 
@@ -87,6 +91,8 @@ public class MonitorActivity extends FragmentActivity implements OnMapReadyCallb
     private ImageView home;
     private ImageView back;
 
+    private LinearLayout arrive_btn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -97,6 +103,22 @@ public class MonitorActivity extends FragmentActivity implements OnMapReadyCallb
         back = (ImageView)findViewById(R.id.back_back);
         title = (TextView)findViewById(R.id.refreshtoolbar_text);
         title.setText("어르신 위치");
+
+        arrive_btn = (LinearLayout) findViewById(R.id.monitor_arrive_btn);
+
+        arrive_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent2 = new Intent(getApplicationContext(), LocationReceiver.class);
+                PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent2, 0);
+                AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
+                alarmManager.cancel(pendingIntent);
+
+                finish();
+
+            }
+        });
 
         home.setVisibility(View.GONE);
 
@@ -210,7 +232,6 @@ public class MonitorActivity extends FragmentActivity implements OnMapReadyCallb
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
                 .title("내 위치"));
         myMarker.setTag(1000);
-        myMarker.showInfoWindow();
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myplace2, 30));
 
     }
@@ -333,7 +354,6 @@ public class MonitorActivity extends FragmentActivity implements OnMapReadyCallb
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN))
                         .title("내 위치"));
                 myMarker.setTag(1000);
-                myMarker.showInfoWindow();
                 mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myplace2, 30));
 
                 /**

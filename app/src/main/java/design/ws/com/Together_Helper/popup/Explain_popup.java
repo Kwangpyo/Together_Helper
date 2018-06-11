@@ -22,7 +22,6 @@ import design.ws.com.Together_Helper.R;
 
 public class Explain_popup extends Activity implements OnGestureListener{
 
-
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
@@ -40,7 +39,6 @@ public class Explain_popup extends Activity implements OnGestureListener{
         parent = (LinearLayout)findViewById(R.id.parent);
 
         gestureScanner = new GestureDetector(this);
-
 
     }
 
@@ -72,7 +70,7 @@ public class Explain_popup extends Activity implements OnGestureListener{
     public boolean onTouchEvent(MotionEvent me) {
 
         if(me.getAction()==MotionEvent.ACTION_OUTSIDE){
-            return false;
+            finish();
         }
 
         return gestureScanner.onTouchEvent(me);

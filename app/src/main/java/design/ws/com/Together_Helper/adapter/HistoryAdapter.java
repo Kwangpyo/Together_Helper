@@ -116,7 +116,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         Log.d("custom_helpeeid1",help.getHelpeeId());
         holder.Helpee_name.setText(help.getHelpeeId());
         holder.Help_location.setText(address);
-        String type="";
+        /*String type="";
         if(help.getType().equals("housework"))
         {
             type = "가사";
@@ -133,8 +133,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.MyViewHo
         {
             type = "말동무";
         }
-        holder.help_type.setText("종류: " +type);
-        holder.help_duration.setText("시간: "+help.getDuration()+"시간");
+        holder.help_type.setText("종류: " +type);*/
+        holder.help_type.setText("봉사 시간: " +help.getYear()+"년 "+help.getMonth()+"월 "+help.getDay()+"일");
+        holder.help_duration.setText("승인 시간: "+help.getDuration()+"시간");
 
         if(help.getAccept_status().equals("wait"))
         {
