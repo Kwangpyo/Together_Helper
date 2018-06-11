@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".popup.fcm_popup">
 
+    <include layout="@layout/popup_toolbar"/>
 
     <LinearLayout
         android:padding="24dp"

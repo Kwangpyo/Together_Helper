@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
@@ -53,6 +54,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import design.ws.com.Together_Helper.API.GET.GetHelpAPITask;
+import design.ws.com.Together_Helper.util.GPSInfo;
 import design.ws.com.Together_Helper.util.PermissionSettingUtils;
 import design.ws.com.Together_Helper.R;
 import design.ws.com.Together_Helper.domain.Help;
@@ -78,6 +80,8 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
     private Location mCurrentLocation;
     private FusedLocationProviderClient mFusedLocationClient;
     private String provider;
+
+    private GPSInfo gps;
 
     Helper HELPER_ME;
 
@@ -155,11 +159,12 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        mMap.getUiSettings().setZoomControlsEnabled(true);
 
+        mMap = googleMap;
         LatLng startplace = new LatLng(37.2635730, 127.0286010);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startplace, 14));
+        mMap.getUiSettings().setZoomControlsEnabled(false);
+
         mMap.setOnMarkerClickListener(this);
 
     }
@@ -314,7 +319,7 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
               //  myMarker.setTag(1000);
               //  myMarker.showInfoWindow();
             //    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(myplace, 14));
-                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myplace, 14));
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myplace, 18));
 
                 /**
                  * 지속적으로 위치정보를 받으려면
@@ -413,8 +418,8 @@ public class LocationSearchMap extends FragmentActivity implements OnMapReadyCal
         LocationManager manager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         if (!manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 
-            Intent intent = new Intent(this, GPS_popup.class);
-            startActivityForResult(intent, 1);
+        //    Intent intent = new Intent(this, GPS_popup.class);
+        //    startActivityForResult(intent, 1);
 
             return false;
 

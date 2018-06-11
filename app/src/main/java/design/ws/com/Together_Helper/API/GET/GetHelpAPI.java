@@ -113,7 +113,18 @@ public class GetHelpAPI {
             String content = JObject.getString("content");
             //Integer hour = JObject.getInt("hour");
             //Integer minute = JObject.getInt("minute");
-            Integer duration = JObject.getInt("duration");
+
+
+            Integer duration=0;
+
+            try{
+                duration = JObject.getInt("duration");
+            }
+            catch (Exception e)
+            {
+                duration = 0;
+            }
+
             //Integer year = JObject.getInt("year");
             //Integer month = JObject.getInt("month");
             //Integer day = JObject.getInt("day");
@@ -122,29 +133,42 @@ public class GetHelpAPI {
             Integer year;
             Integer month;
             Integer day ;
+            Integer hour;
+            Integer minute;
 
-            String date = JObject.getString("date");
-            if(date.contains("T"))
+            try
             {
-                String[] date_word = date.split("T");
-                String[] dates = date_word[0].split("-");
-                year = Integer.parseInt(dates[0]);
-                month = Integer.parseInt(dates[1]);
-                day = Integer.parseInt(dates[2]);
+                String date = JObject.getString("date");
+                if(date.contains("T"))
+                {
+                    String[] date_word = date.split("T");
+                    String[] dates = date_word[0].split("-");
+                    year = Integer.parseInt(dates[0]);
+                    month = Integer.parseInt(dates[1]);
+                    day = Integer.parseInt(dates[2]);
+                }
+                else
+                {
+                    String[] dates = date.split("-");
+                    year = Integer.parseInt(dates[0]);
+                    month = Integer.parseInt(dates[1]);
+                    day = Integer.parseInt(dates[2]);
+                }
+
+
+                String time = JObject.getString("time");
+                String[] times = time.split(":");
+                hour = Integer.parseInt(times[0]);
+                minute = Integer.parseInt(times[1]);
             }
-            else
+            catch(Exception e)
             {
-                String[] dates = date.split("-");
-                year = Integer.parseInt(dates[0]);
-                month = Integer.parseInt(dates[1]);
-                day = Integer.parseInt(dates[2]);
+                year = Integer.parseInt("2018");
+                month = Integer.parseInt("7");
+                day = Integer.parseInt("1");
+                hour = Integer.parseInt("12");
+                minute = Integer.parseInt("30");
             }
-
-
-            String time = JObject.getString("time");
-            String[] times = time.split(":");
-            Integer hour = Integer.parseInt(times[0]);
-            Integer minute = Integer.parseInt(times[1]);
 
             Help st = new Help(HelpeeID,lon,lat,hour,minute,duration,year,month,day,type,matching_status,start_status,content,volunteerId,helperid);
 

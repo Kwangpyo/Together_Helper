@@ -4,8 +4,8 @@
     <item android:drawable="@android:color/white" />
 
     <item>
-        <bitmap android:src="@drawable/together_icon"
-            android:gravity="center" />
+        <bitmap android:src="@drawable/togethersplash"
+            android:scaleType="fitXY" />
     </item>
 
 </layer-list>

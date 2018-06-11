@@ -20,7 +20,7 @@ import android.widget.Toast;
 
 import design.ws.com.Together_Helper.R;
 
-public class Explain_popup extends Activity implements OnGestureListener{
+public class Explain_popup2 extends Activity implements OnGestureListener{
 
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
@@ -30,17 +30,20 @@ public class Explain_popup extends Activity implements OnGestureListener{
 
     private LinearLayout parent;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.activity_explain_popup);
+        setContentView(R.layout.activity_explain_popup2);
 
         parent = (LinearLayout)findViewById(R.id.parent);
 
         gestureScanner = new GestureDetector(this);
 
+
     }
+
 
     //확인 버튼 클릭
     public void mOnClose(View v){
@@ -89,25 +92,29 @@ public class Explain_popup extends Activity implements OnGestureListener{
 
             // right to left swipe
             if (e1.getX() - e2.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-               // Toast.makeText(getApplicationContext(), "Left Swipe", Toast.LENGTH_SHORT).show();
+                // Toast.makeText(getApplicationContext(), "Left Swipe", Toast.LENGTH_SHORT).show();
 
                 finish();
-                Intent intent = new Intent(getApplicationContext(),Explain_popup2.class);
+                Intent intent = new Intent(getApplicationContext(),Explain_popup3.class);
                 startActivity(intent);
-
 
             }
             // left to right swipe
             else if (e2.getX() - e1.getX() > SWIPE_MIN_DISTANCE && Math.abs(velocityX) > SWIPE_THRESHOLD_VELOCITY) {
-        //        Toast.makeText(getApplicationContext(), "Right Swipe", Toast.LENGTH_SHORT).show();
+                //        Toast.makeText(getApplicationContext(), "Right Swipe", Toast.LENGTH_SHORT).show();
+
+                finish();
+                Intent intent = new Intent(getApplicationContext(),Explain_popup.class);
+                startActivity(intent);
+
             }
             // down to up swipe
             else if (e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-      //          Toast.makeText(getApplicationContext(), "Swipe up", Toast.LENGTH_SHORT).show();
+                //          Toast.makeText(getApplicationContext(), "Swipe up", Toast.LENGTH_SHORT).show();
             }
             // up to down swipe
             else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-    //            Toast.makeText(getApplicationContext(), "Swipe down", Toast.LENGTH_SHORT).show();
+                //            Toast.makeText(getApplicationContext(), "Swipe down", Toast.LENGTH_SHORT).show();
             }
         } catch (Exception e) {
 
@@ -116,8 +123,8 @@ public class Explain_popup extends Activity implements OnGestureListener{
     }
 
     public void onLongPress(MotionEvent e) {
-      //  Toast mToast = Toast.makeText(getApplicationContext(), "Long Press", Toast.LENGTH_SHORT);
-      //  mToast.show();
+        //  Toast mToast = Toast.makeText(getApplicationContext(), "Long Press", Toast.LENGTH_SHORT);
+        //  mToast.show();
     }
 
     public boolean onScroll(MotionEvent e1, MotionEvent e2, float distanceX, float distanceY) {
@@ -130,11 +137,14 @@ public class Explain_popup extends Activity implements OnGestureListener{
     }
 
     public boolean onSingleTapUp(MotionEvent e) {
-    //    Toast mToast = Toast.makeText(getApplicationContext(), "Single Tap", Toast.LENGTH_SHORT);
-    //    mToast.show();
+        //    Toast mToast = Toast.makeText(getApplicationContext(), "Single Tap", Toast.LENGTH_SHORT);
+        //    mToast.show();
         return true;
     }
 
 
 
 }
+
+
+

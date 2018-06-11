@@ -1,7 +1,11 @@
 package design.ws.com.Together_Helper.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.provider.Settings;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -23,6 +27,9 @@ public class SplashActivity extends AppCompatActivity {
     protected static final String PREFS_DEVICE_ID = "device_id";
     protected volatile static UUID uuid;
 
+    private String uniqueID = "";
+    private String deviceresult = "";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,11 +38,12 @@ public class SplashActivity extends AppCompatActivity {
 
         Log.d("splashid",uniqueID);
 
-        String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
-        Log.d("splashtoken",refreshedToken);
+/*        LocalBroadcastManager.getInstance(this).registerReceiver(tokenReceiver,
+                new IntentFilter("tokenReceiver"));*/
 
-        String deviceresult = "";
+
+
         GETDeviceKeyAPITask getDeviceKeyAPITask = new GETDeviceKeyAPITask();
         try {
             deviceresult = getDeviceKeyAPITask.execute(uniqueID).get();
@@ -47,12 +55,14 @@ public class SplashActivity extends AppCompatActivity {
         }
 
 
+        String token = FirebaseInstanceId.getInstance().getToken();
+
         if (deviceresult.equals("true"))
         {
             String result = null;
             PUTUpdateToken putUpdateToken = new PUTUpdateToken();
             try {
-                result = putUpdateToken.execute(refreshedToken, uniqueID).get();
+                result = putUpdateToken.execute(token, uniqueID).get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
@@ -61,27 +71,70 @@ public class SplashActivity extends AppCompatActivity {
         }
         else if(deviceresult.equals("false"))
         {
+
+            Log.d("splashtest12",deviceresult);
             String result = null;
             POSTSaveToken postSaveTokenAPI = new POSTSaveToken();
             try {
-                result = postSaveTokenAPI.execute(refreshedToken, uniqueID).get();
+                result = postSaveTokenAPI.execute(token, uniqueID).get();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
+
+            Log.d("splashreslt",result);
         }
 
 
 
-
-
-            MyFirebaseInstanceIDService myFirebaseInstanceIDService = new MyFirebaseInstanceIDService();
-            myFirebaseInstanceIDService.onTokenRefresh();
+        Log.d("deviceresult",deviceresult);
 
         Intent intent2 = new Intent(this, Login.class);
         startActivity(intent2);
 
         finish();
     }
+
+
+    BroadcastReceiver tokenReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String token = intent.getStringExtra("token");
+            if(token != null)
+            {
+
+                if (deviceresult.equals("true"))
+                {
+                    String result = null;
+                    PUTUpdateToken putUpdateToken = new PUTUpdateToken();
+                    try {
+                        result = putUpdateToken.execute(token, uniqueID).get();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else if(deviceresult.equals("false"))
+                {
+
+                    Log.d("splashtest12",deviceresult);
+                    String result = null;
+                    POSTSaveToken postSaveTokenAPI = new POSTSaveToken();
+                    try {
+                        result = postSaveTokenAPI.execute(token, uniqueID).get();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } catch (ExecutionException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+
+        }
+    };
+
+
+
 }

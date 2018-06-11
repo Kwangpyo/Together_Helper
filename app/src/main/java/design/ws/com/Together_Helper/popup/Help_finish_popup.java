@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
@@ -24,10 +25,11 @@ import design.ws.com.Together_Helper.receiver.processTimerReceiver;
 public class Help_finish_popup extends Activity {
 
     private Help help;
-    private Integer volunteeerid;
+    private int volunteerId;
     Helper HELPER_ME;
     private RadioGroup rg;
 
+    private EditText feedback_txt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +39,14 @@ public class Help_finish_popup extends Activity {
 
         Intent intent = getIntent();
         help = (Help)intent.getSerializableExtra("help");
-        volunteeerid = help.getHelpId();
+        volunteerId = help.getHelpId();
         HELPER_ME = (Helper)intent.getSerializableExtra("helper");
 
         rg = (RadioGroup)findViewById(R.id.feedback_radiogroup);
+        feedback_txt = (EditText)findViewById(R.id.feedback_txt);
+
+
+
 
     }
 
@@ -51,7 +57,6 @@ public class Help_finish_popup extends Activity {
         //getCheckedRadioButtonId() 의 리턴값은 선택된 RadioButton 의 id 값.
         RadioButton rb = (RadioButton) findViewById(id);
 
-
         if(rb == null)
         {
             Toast.makeText(getApplicationContext(),"피드백을 작성해 주세요",Toast.LENGTH_SHORT).show();
@@ -59,20 +64,39 @@ public class Help_finish_popup extends Activity {
 
         else
         {
-            String feedback = rb.getText().toString();
-            String[] data = feedback.split("점 ");
-            String feedback_score_str = data[0];
-            Log.d("feedback_score",feedback_score_str);
-            int feedback_score = Integer.parseInt(feedback_score_str);
-            String feedback_content = data[1];
+
+            if(feedback_txt.getText()!=null)
+            {
+                String feedback = rb.getText().toString();
+                String[] data = feedback.split("점 ");
+                String feedback_score_str = data[0];
+                Log.d("feedback_score",feedback_score_str);
+                int feedback_score = Integer.parseInt(feedback_score_str);
+                String feedback_content = feedback_txt.getText().toString();
+
+                Log.d("feedback_content",feedback_content);
+
+                ParamsForHistory params = new ParamsForHistory(volunteerId,feedback_score,feedback_content);
+
+                new PUTHelpFinish().execute(params);
+            }
+            else
+            {
+                String feedback = rb.getText().toString();
+                String[] data = feedback.split("점 ");
+                String feedback_score_str = data[0];
+                Log.d("feedback_score",feedback_score_str);
+                int feedback_score = Integer.parseInt(feedback_score_str);
+                String feedback_content = data[1];
+
+                Log.d("feedback_content",feedback_content);
+
+                ParamsForHistory params = new ParamsForHistory(volunteerId,feedback_score,feedback_content);
+
+                new PUTHelpFinish().execute(params);
+            }
 
 
-
-            Log.d("feedback_content",feedback_content);
-
-            ParamsForHistory params = new ParamsForHistory(volunteeerid,feedback_score,feedback_content);
-
-            new PUTHelpFinish().execute(params);
 
             Intent intent2 = new Intent(getApplicationContext(), processTimerReceiver.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent2, 0);

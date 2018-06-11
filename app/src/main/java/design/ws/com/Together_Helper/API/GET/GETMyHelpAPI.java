@@ -118,22 +118,41 @@ public class GETMyHelpAPI {
         //    Integer month = JObject.getInt("month");
          //   Integer day = JObject.getInt("day");
             String helperid = JObject.getString("helperId");
+            String helperDepartStatus = JObject.getString("helperDepartStatus");
+
+            Log.d("helperDepartStatus",helperDepartStatus);
 
             String date = JObject.getString("date");
             String[] date_word = date.split("T");
             String[] dates = date_word[0].split("-");
-            Integer year = Integer.parseInt(dates[0]);
-            Integer month = Integer.parseInt(dates[1]);
-            Integer day = Integer.parseInt(dates[2]);
+
+            Integer year=2018;
+            Integer month=7;
+            Integer day =1;
+            Integer hour = 12;
+            Integer minute = 30;
+
+            try {
+
+                year = Integer.parseInt(dates[0]);
+                month = Integer.parseInt(dates[1]);
+                day = Integer.parseInt(dates[2]);
 
 
-            String time = JObject.getString("time");
-            String[] times = time.split(":");
-            Integer hour = Integer.parseInt(times[0]);
-            Integer minute = Integer.parseInt(times[1]);
+                String time = JObject.getString("time");
+                String[] times = time.split(":");
+                hour = Integer.parseInt(times[0]);
+                minute = Integer.parseInt(times[1]);
 
-            Log.d("testparsing",JObject.getString("type"));
-            Help st = new Help(HelpeeID,lon,lat,hour,minute,duration,year,month,day,type,matching_status,start_status,content,volunteerId,helperid);
+            }
+            catch (Exception e)
+            {
+
+            }
+
+
+            Log.d("testparsing",JObject.getString("startStatus"));
+            Help st = new Help(HelpeeID,lon,lat,hour,minute,duration,year,month,day,type,matching_status,start_status,content,helperDepartStatus,volunteerId,helperid);
 
 
             //       public Help( Helpee helpee, double lon, double lat, int hour, int minute, int duration, int year, int month, int day, String type, int match_status, int start_status, String content)

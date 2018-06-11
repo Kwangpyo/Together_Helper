@@ -62,6 +62,8 @@ public class fcm_popup extends Activity {
 //Repeat alarm every second
             processTimer.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),repeatTime*1000, pendingIntent);
 
+            Intent intent = new Intent(getApplicationContext(),Login.class);
+            startActivity(intent);
         }
 
         else if(message.equals("당신 주변에 도움이 필요합니다!"))

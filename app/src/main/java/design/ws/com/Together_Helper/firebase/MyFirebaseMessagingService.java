@@ -96,7 +96,7 @@ public class MyFirebaseMessagingService extends com.google.firebase.messaging.Fi
 
 
 
-        Snackbar.make(MainActivity.fab,message, Snackbar.LENGTH_LONG).show();
+//        Snackbar.make(MainActivity.fab,message, Snackbar.LENGTH_LONG).show();
         NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 
         PowerManager pm = (PowerManager) this.getSystemService(Context.POWER_SERVICE);

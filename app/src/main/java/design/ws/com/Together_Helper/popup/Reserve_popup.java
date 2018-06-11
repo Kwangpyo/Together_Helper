@@ -1,6 +1,7 @@
 package design.ws.com.Together_Helper.popup;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -17,6 +18,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -45,15 +47,20 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
 import design.ws.com.Together_Helper.API.POST.POSTReserveAPI;
+import design.ws.com.Together_Helper.activity.CustomSearch;
 import design.ws.com.Together_Helper.domain.Helper;
 import design.ws.com.Together_Helper.R;
+import design.ws.com.Together_Helper.params.ReserveParam;
 import design.ws.com.Together_Helper.util.PermissionSettingUtils;
 
-public class Register_popup extends FragmentActivity implements OnMapReadyCallback,GoogleMap.OnMarkerClickListener{
+public class Reserve_popup extends FragmentActivity implements OnMapReadyCallback,GoogleMap.OnMarkerClickListener{
 
     private EditText loc_txt;
     private Geocoder geocoder;
@@ -71,6 +78,25 @@ public class Register_popup extends FragmentActivity implements OnMapReadyCallba
     private String provider;
 
     private TextView map_txt;
+    private TextView time_txt;
+    private String getTime;
+
+    private TextView registered_date_txt;
+
+    Integer today_year;
+    Integer today_month;
+    Integer today_day;
+    Integer min_year;
+    Integer min_month;
+    Integer min_day;
+    Integer max_year;
+    Integer max_month;
+    Integer max_day;
+    Integer min_hour;
+    Integer min_minute;
+    Integer max_hour;
+    Integer max_minute;
+    Integer date_flag;
 
     Marker myMarker;
 
@@ -82,13 +108,71 @@ public class Register_popup extends FragmentActivity implements OnMapReadyCallba
 
         loc_txt = (EditText)findViewById(R.id.register_loc_edit);
         map_txt = (TextView)findViewById(R.id.register_map);
+        time_txt = (TextView)findViewById(R.id.register_time);
+        registered_date_txt = (TextView)findViewById(R.id.registered_time_txt);
 
         HELPER_ME = (Helper) getIntent().getSerializableExtra("helper");
         geocoder = new Geocoder(this, Locale.getDefault());
 
         provider = LocationManager.GPS_PROVIDER;
-
         flag =0;
+
+        long now = System.currentTimeMillis();
+
+        Date date = new Date(now);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        getTime = sdf.format(date);
+
+        Calendar cal = Calendar.getInstance();
+
+        today_year = cal.get(Calendar.YEAR);
+        today_month = cal.get(Calendar.MONTH);
+        today_day = cal.get(Calendar.DATE);
+
+        date_flag=0;
+
+        time_txt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Calendar pickedDate = Calendar.getInstance();
+                Calendar minDate = Calendar.getInstance();
+
+                pickedDate.set(today_year,today_month,today_day);
+
+                DatePickerDialog datePickerDialog = new DatePickerDialog(
+                        Reserve_popup.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                                min_year = year;
+                                min_month = month+1;
+                                min_day = dayOfMonth;
+                                registered_date_txt.setText(min_year+"년 "+min_month+"월 "+min_day+"일");
+                                time_txt.setText("예약 시간 재설정");
+                                date_flag=1;
+                            }
+                        },
+                        pickedDate.get(Calendar.YEAR),
+                        pickedDate.get(Calendar.MONTH),
+                        pickedDate.get(Calendar.DATE)
+
+                );
+
+
+                minDate.set(today_year,today_month,today_day);
+                datePickerDialog.getDatePicker().setMinDate(minDate.getTime().getTime());
+
+                datePickerDialog.show();
+
+
+
+
+            }
+        });
+
+
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
@@ -100,6 +184,7 @@ public class Register_popup extends FragmentActivity implements OnMapReadyCallba
             public void onClick(View view) {
 
                 String location_name =loc_txt.getText().toString();
+
                 Log.d("reserve",location_name);
                 List<Address> list = null;
                 try {
@@ -135,6 +220,9 @@ public class Register_popup extends FragmentActivity implements OnMapReadyCallba
     public void mOnRegister(View v){
 
         String location_name =loc_txt.getText().toString();
+        String FromDate = min_year+"-"+min_month+"-"+min_day+" "+"00:00";
+        String ToDate = min_year+"-"+min_month+"-"+min_day+" "+"23:59";
+
         Log.d("reserve",location_name);
         List<Address> list = null;
         try {
@@ -168,7 +256,7 @@ public class Register_popup extends FragmentActivity implements OnMapReadyCallba
         if(flag==1)
         {
             POSTReserveAPI postReserveAPI = new POSTReserveAPI();
-            postReserveAPI.execute(HELPER_ME.getId(),String.valueOf(lat),String.valueOf(lon));
+            postReserveAPI.execute(HELPER_ME.getId(),String.valueOf(lat),String.valueOf(lon),FromDate,ToDate);
 
             Intent intent = new Intent();
             intent.putExtra("result", "Close Popup");
@@ -220,9 +308,9 @@ public class Register_popup extends FragmentActivity implements OnMapReadyCallba
     public void onMapReady(GoogleMap googleMap) {
 
         mMap = googleMap;
-        mMap.getUiSettings().setZoomControlsEnabled(true);
         LatLng startplace = new LatLng(37.2635730, 127.0286010);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(startplace, 14));
+        mMap.getUiSettings().setZoomControlsEnabled(false);
 
         mMap.setOnMarkerClickListener(this);
 
@@ -347,7 +435,7 @@ public class Register_popup extends FragmentActivity implements OnMapReadyCallba
             public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
                 Log.e("Response", "Successful acquisition of location information!!");
                 //
-                if (ActivityCompat.checkSelfPermission(Register_popup.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                if (ActivityCompat.checkSelfPermission(Reserve_popup.this, Manifest.permission.ACCESS_FINE_LOCATION)
                         != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }

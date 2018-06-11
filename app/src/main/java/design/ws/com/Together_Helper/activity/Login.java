@@ -1,11 +1,15 @@
 package design.ws.com.Together_Helper.activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -16,6 +20,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 
 import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
@@ -41,7 +47,9 @@ public class Login extends AppCompatActivity {
 
     Helper helper_me;
 
-    private String datas="no";
+    private String PhoneNum = "";
+
+    private String datas = "no";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,9 +69,44 @@ public class Login extends AppCompatActivity {
 
         auto = getSharedPreferences("auto", Activity.MODE_PRIVATE);
 
-        loginId = auto.getString("inputId",null);
-        loginPwd = auto.getString("inputPwd",null);
+        loginId = auto.getString("inputId", null);
+        loginPwd = auto.getString("inputPwd", null);
 
+
+
+
+        TelephonyManager telManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, "android.permission.READ_PHONE_NUMBERS") != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+            PermissionListener permissionlistener = new PermissionListener() {
+                @Override
+                public void onPermissionGranted() {
+                }
+
+                @Override
+                public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+                }
+
+
+            };
+
+            TedPermission.with(this)
+                    .setPermissionListener(permissionlistener)
+                    .setRationaleMessage("로그인을 하기 위해서는 주소록 접근 권한이 필요해요")
+                    .setDeniedMessage("왜 거부하셨어요...\n하지만 [설정] > [권한] 에서 권한을 허용할 수 있어요.")
+                    .setPermissions(Manifest.permission.READ_PHONE_STATE)
+                    .check();
+
+            return;
+        }
+      /*  PhoneNum = telManager.getLine1Number();
+        if(PhoneNum.startsWith("+82")){
+            PhoneNum = PhoneNum.replace("+82", "0");
+        }
+
+        Log.d("phonenumber11",PhoneNum);
+
+        idInput.setText(PhoneNum);
+*/
         if (loginId != null && loginPwd != null) {
 
             Log.d("login1", "1");
@@ -144,6 +187,7 @@ public class Login extends AppCompatActivity {
 
                 @Override
                 public void onClick(View view) {
+
 
                     id = idInput.getText().toString();
                     psw = passwordInput.getText().toString();

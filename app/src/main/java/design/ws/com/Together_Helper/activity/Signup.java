@@ -1,29 +1,39 @@
 package design.ws.com.Together_Helper.activity;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.ContextWrapper;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.GlideDrawableImageViewTarget;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 
 import design.ws.com.Together_Helper.API.POST.POSTSignupAPI;
@@ -40,10 +50,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class Signup extends AppCompatActivity {
+public class Signup extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback{
+
+    private final int REQUEST_READ_PHONE_STATE =1;
 
     Button signupcomplete;
-    EditText newid, newpwd, newpwdcheck, name_text;
+    private TextView newid;
+    EditText newpwd, newpwdcheck, name_text;
     String new_id;
     String new_pwd1;
     String new_pwd2;
@@ -56,6 +69,9 @@ public class Signup extends AppCompatActivity {
 
     private int gallery_flag=0;
 
+    private String PhoneNum="";
+
+    @SuppressLint({"HardwareIds", "MissingPermission"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,11 +82,51 @@ public class Signup extends AppCompatActivity {
         Glide.with(this).load(R.drawable.signupgif).into(gifImage);
 
         signupcomplete = (Button)findViewById(R.id.login_loginButton);
-        newid = (EditText)findViewById(R.id.signup_id);
+        newid = (TextView)findViewById(R.id.signup_id);
         newpwd = (EditText)findViewById(R.id.signup_pwd1);
         newpwdcheck = (EditText)findViewById(R.id.signup_pwd2);
         name_text = (EditText)findViewById(R.id.signup_name);
         gallery = (ImageView)findViewById(R.id.signup_picture);
+
+
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE);
+
+
+        PermissionListener permissionlistener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+            }
+
+            @Override
+            public void onPermissionDenied(ArrayList<String> deniedPermissions) {
+            }
+
+
+        };
+
+        TedPermission.with(this)
+                .setPermissionListener(permissionlistener)
+                .setRationaleMessage("로그인을 하기 위해서는 주소록 접근 권한이 필요해요")
+                .setDeniedMessage("왜 거부하셨어요...\n하지만 [설정] > [권한] 에서 권한을 허용할 수 있어요.")
+                .setPermissions(Manifest.permission.READ_PHONE_STATE)
+                .check();
+
+        if (permissionCheck != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
+        } else {
+            //TODO
+        }
+
+
+        TelephonyManager telManager = (TelephonyManager) getSystemService(TELEPHONY_SERVICE);
+        PhoneNum = telManager.getLine1Number();
+        if(PhoneNum.startsWith("+82")){
+            PhoneNum = PhoneNum.replace("+82", "0");
+        }
+        newid.setText(PhoneNum);
+
+
+
 
         gallery.setOnClickListener(new View.OnClickListener()
         {
@@ -89,7 +145,9 @@ public class Signup extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                new_id = newid.getText().toString();
+                //new_id = newid.getText().toString();
+                new_id = PhoneNum;
+              //  new_id = "01079825334";
                 new_pwd1 = newpwd.getText().toString();
                 new_pwd2 = newpwdcheck.getText().toString();
                 name = name_text.getText().toString();
@@ -231,6 +289,22 @@ public class Signup extends AppCompatActivity {
     }
 
 
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_READ_PHONE_STATE:
+                if ((grantResults.length > 0) && (grantResults[0] == PackageManager.PERMISSION_GRANTED)) {
+                    //TODO
+
+
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
 
 
 

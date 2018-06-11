@@ -3,10 +3,8 @@ package design.ws.com.Together_Helper.activity;
 import android.app.Activity;
 import android.content.ContextWrapper;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
@@ -20,6 +18,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.os.Handler;
@@ -42,7 +41,6 @@ import design.ws.com.Together_Helper.API.PUT.PUTUpdateLocation;
 import design.ws.com.Together_Helper.params.ReserveParam;
 import design.ws.com.Together_Helper.popup.RejectUser_popup;
 import design.ws.com.Together_Helper.popup.ReserveState_popup;
-import design.ws.com.Together_Helper.receiver.appNetwork;
 import design.ws.com.Together_Helper.util.GPSInfo;
 import design.ws.com.Together_Helper.adapter.HelpAdapter;
 import design.ws.com.Together_Helper.recyclerview.History_RecyclerView;
@@ -51,7 +49,7 @@ import design.ws.com.Together_Helper.domain.Help;
 import design.ws.com.Together_Helper.domain.Helper;
 import design.ws.com.Together_Helper.popup.Explain_popup;
 import design.ws.com.Together_Helper.popup.Photo_popup;
-import design.ws.com.Together_Helper.popup.Register_popup;
+import design.ws.com.Together_Helper.popup.Reserve_popup;
 import design.ws.com.Together_Helper.service.FileUploadService;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -75,10 +73,10 @@ public class MainActivity extends AppCompatActivity {
 
     private SwipeRefreshLayout swipeRefreshLayout;
 
-    private TextView location_search;
-    private TextView custom_search;
+    private Button location_search;
+    private Button custom_search;
     private TextView registered_help;
-    private TextView register_btn;
+    private Button register_btn;
 
     public static FloatingActionButton fab;
 
@@ -99,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
     int changeflag=0;
     private TextView helptime_txt;
     private TextView logout_txt;
-    private TextView help_history;
+    private Button help_history;
     private TextView feedback_txt;
 
     @Override
@@ -110,18 +108,18 @@ public class MainActivity extends AppCompatActivity {
 
         swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_layout);
         recyclerView = (RecyclerView) findViewById(R.id.recycleview);
-        location_search = (TextView) findViewById(R.id.location_search);
-        custom_search = (TextView) findViewById(R.id.custom_search);
+        location_search = (Button) findViewById(R.id.location_search);
+        custom_search = (Button) findViewById(R.id.custom_search);
         registered_help = (TextView) findViewById(R.id.main_registered_help);
         fab = (FloatingActionButton) findViewById(R.id.main_fab);
-        register_btn = (TextView)findViewById(R.id.help_reserve);
+        register_btn = (Button)findViewById(R.id.help_reserve);
         id_txt = (TextView)findViewById(R.id.profile_id);
         name_txt = (TextView)findViewById(R.id.profile_name);
         image = (ImageView) findViewById(R.id.profile_image);
         change_picture =(TextView)findViewById(R.id.profile_change_picture);
         helptime_txt = (TextView)findViewById(R.id.profile_helptime);
         logout_txt = (TextView)findViewById(R.id.profile_logout);
-        help_history = (TextView)findViewById(R.id.help_history);
+        help_history = (Button)findViewById(R.id.help_history);
         feedback_txt = (TextView)findViewById(R.id.profile_feedback);
 
         Intent intent = getIntent();
@@ -131,6 +129,7 @@ public class MainActivity extends AppCompatActivity {
         Integer intentFlag = intent.getIntExtra("intentflag",-1);
 
 
+
         if(intentFlag==1)
         {
             Intent intent2 = new Intent(getApplicationContext(),LocationSearchMap.class);
@@ -138,9 +137,11 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent2);
         }
 
+/*
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
         appNetwork receiver = new appNetwork(this);
         registerReceiver(receiver, filter);
+*/
 
 
         String checkUserFlag="";
@@ -348,7 +349,7 @@ public class MainActivity extends AppCompatActivity {
 
                 else if(reserve_test.getCount().equals("0"))
                 {
-                    Intent intent = new Intent(getApplicationContext(),Register_popup.class);
+                    Intent intent = new Intent(getApplicationContext(),Reserve_popup.class);
                     intent.putExtra("helper",HELPER_ME);
                     startActivity(intent);
 
@@ -517,7 +518,7 @@ public class MainActivity extends AppCompatActivity {
         req.enqueue(new Callback<ResponseBody>() {
             @Override
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
-                Toast.makeText(getApplicationContext(), "Success", Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getApplicationContext(), "", Toast.LENGTH_SHORT).show();
                 Log.d("fadsfsads", "Success");
             }
 

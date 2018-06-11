@@ -20,11 +20,11 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-    <string name="explain">*주위사항\n
-1. 봉사 시작 시간 엄수해주세요.\n
+    <string name="explain">*주의사항\n\n
+1. 봉사 시작 시간 엄수해주세요.\n\n
 2. 봉사 시작은 HELPEE가 할 수 있습니다.\n\n
-2.1. HELPEE에게 봉사 시작 버튼을 누르도록 부탁하세요.\n
-2.2. HELPEE가 버튼을 누르면 알람이 갑니다. 확인 버튼을 누르세요.\n
+2.1. HELPEE에게 봉사 시작 버튼을 누르도록 부탁하세요.\n\n
+2.2. HELPEE가 버튼을 누르면 알람이 갑니다. 확인 버튼을 누르세요.\n\n
 2.3. 봉사 종료를 원하시면 종료 버튼을 누르세요.\n
         봉사 종료 버튼은 봉사 시작 후 생깁니다.
 </string>

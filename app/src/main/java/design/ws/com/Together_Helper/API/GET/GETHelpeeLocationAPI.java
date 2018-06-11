@@ -2,6 +2,8 @@ package design.ws.com.Together_Helper.API.GET;
 
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -16,18 +18,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 
-import design.ws.com.Together_Helper.domain.Helpee;
+import design.ws.com.Together_Helper.domain.Helper;
 
-public class GetHelpeeAPI {
-
+public class GETHelpeeLocationAPI {
 
     String userId;
-    ArrayList<Helpee> helpees = new ArrayList<>();
+    LatLng latLng;
 
+    public LatLng getJson(String id) {
 
-    public ArrayList<Helpee> getJson(String id) {
-
-        String urlLocation = "http://210.89.191.125/helper/user/";
+        String urlLocation = "http://210.89.191.125/api/user/helpee/location/";
         final String openURL = urlLocation + id;
 
         try {
@@ -69,7 +69,7 @@ public class GetHelpeeAPI {
 
         }
 
-        return helpees;
+        return latLng;
     }
 
 
@@ -77,38 +77,27 @@ public class GetHelpeeAPI {
 
         JSONArray Jarray = new JSONArray(result);
 
-            JSONObject JObject = null;
-            JObject = Jarray.getJSONObject(0);
-            String name = JObject.getString("name");
-            String id = JObject.getString("userId");
-            String phone = JObject.getString("userPhone");
-            Integer feedback;
-            try {
-                feedback = JObject.getInt("userFeedbackScore");
-            }
-            catch(Exception e)
-        {
-            feedback =0;
+        JSONObject JObject = null;
+        JObject = Jarray.getJSONObject(0);
+
+        String latitude;
+        String longitude;
+        LatLng latLng1;
+        try {
+            latitude = JObject.getString("latitude");
+            longitude = JObject.getString("longitude");
+            latLng1 = new LatLng(Double.valueOf(latitude),Double.valueOf(longitude));
         }
-            String token = JObject.getString("deviceId");
 
-        double lat;
-        double lon;
-            try {
-                lat = JObject.getDouble("helpeeLatitude");
-                lon = JObject.getDouble("helpeeLongitude");
-            }
-            catch (Exception e)
-            {
-                lat = 0;
-                lon = 0;
-            }
+        catch (Exception e)
+        {
+            latitude ="0";
+            longitude="0";
+            latLng1 = new LatLng(Double.valueOf(latitude),Double.valueOf(longitude));
+        }
 
-            String pauseStatus = JObject.getString("pauseStatus");
 
-            Helpee helpee = new Helpee(token, lat, lon, feedback, id, phone,pauseStatus,name);
-
-            helpees.add(helpee);
+        latLng = latLng1;
 
     }
 
@@ -141,3 +130,4 @@ public class GetHelpeeAPI {
         return sb.toString();
     }
 }
+

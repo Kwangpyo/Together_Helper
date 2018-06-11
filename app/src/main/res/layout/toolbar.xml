@@ -21,7 +21,8 @@
         android:weightSum="1"
         android:orientation="horizontal">
 
-        <customfonts.MyTextView_Bold
+        <Button
+            android:background="#0000"
             android:id="@+id/help_history"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -29,9 +30,11 @@
             android:textColor="#fff"
             android:textSize="16dp"
             android:gravity="center"
-            android:layout_weight="0.25"/>
+            android:layout_weight="0.25"
+            />
 
-        <customfonts.MyTextView_Bold
+        <Button
+            android:background="#0000"
             android:id="@+id/help_reserve"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,9 +42,11 @@
             android:gravity="center"
             android:layout_weight="0.25"
             android:textColor="#fff"
-            android:textSize="16dp"/>
+            android:textSize="16dp"
+            />
 
-        <customfonts.MyTextView_Bold
+        <Button
+            android:background="#0000"
             android:id="@+id/location_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -49,10 +54,11 @@
             android:textColor="#fff"
             android:gravity="center"
             android:layout_weight="0.25"
-            android:textSize="16dp"/>
+            android:textSize="16dp"
+            />
 
-
-        <customfonts.MyTextView_Bold
+        <Button
+            android:background="#0000"
             android:id="@+id/custom_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -60,7 +66,8 @@
             android:textColor="#fff"
             android:textSize="16dp"
             android:gravity="center"
-            android:layout_weight="0.25"/>
+            android:layout_weight="0.25"
+            />
 
 
 
