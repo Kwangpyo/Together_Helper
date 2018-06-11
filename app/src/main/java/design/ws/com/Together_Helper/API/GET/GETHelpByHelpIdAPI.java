@@ -18,18 +18,16 @@ import java.util.ArrayList;
 
 import design.ws.com.Together_Helper.domain.Help;
 
-public class GetHelpAPI {
+public class GETHelpByHelpIdAPI {
 
-    final static String openURL = "http://210.89.191.125/helper/volunteers";
-    ArrayList<Help> helps = new ArrayList<>();
-
-
-    public ArrayList<Help> getJson() {
+    final static String openURL = "http://210.89.191.125/helper/volunteer/";
+    Help help;
 
 
+    public Help getJson(String volunteerId) {
 
         try {
-            URL url = new URL(openURL);
+            URL url = new URL(openURL+volunteerId);
             HttpURLConnection urlConnection = (HttpURLConnection) url.openConnection();
 
             InputStream in = new BufferedInputStream(urlConnection.getInputStream());
@@ -66,42 +64,19 @@ public class GetHelpAPI {
 
         }
 
-        return helps;
+        return help;
     }
 
-
-/*
-    private void parseJSON(JSONObject json) throws JSONException {
-
-        JSONArray datas = json.getJSONArray(result);
-
-        int size = datas.length();
-
-        for(int i=0;i<size;i++)
-        {
-            Log.d("testparsing",result);
-            Help st = new Help(datas.getJSONObject(i).getString("type"));
-
-
-         //       public Help( Helpee helpee, double lon, double lat, int hour, int minute, int duration, int year, int month, int day, String type, int match_status, int start_status, String content)
-         //       Help st = new Help(datas.getJSONObject(i).getString("title"),datas.getJSONObject(i).getString("password"),datas.getJSONObject(i).getString("content"));
-                helps.add(st);
-        }
-
-
-    }  */
 
 
     private void parsing(String result) throws JSONException {
 
-            JSONArray Jarray = new JSONArray(result);
+        JSONArray Jarray = new JSONArray(result);
 
         int size = Jarray.length();
 
-        for(int i=0;i<size;i++)
-        {
             JSONObject JObject = null;
-            JObject = Jarray.getJSONObject(i);
+            JObject = Jarray.getJSONObject(0);
 
             Integer volunteerId= JObject.getInt("volunteerId");
             String type = JObject.getString("type");
@@ -174,11 +149,11 @@ public class GetHelpAPI {
 
             //       public Help( Helpee helpee, double lon, double lat, int hour, int minute, int duration, int year, int month, int day, String type, int match_status, int start_status, String content)
             //       Help st = new Help(datas.getJSONObject(i).getString("title"),datas.getJSONObject(i).getString("password"),datas.getJSONObject(i).getString("content"));
-            helps.add(st);
+            help = st;
         }
 
 
-    }
+
 
 
 
@@ -209,4 +184,6 @@ public class GetHelpAPI {
         return sb.toString();
     }
 }
+
+
 

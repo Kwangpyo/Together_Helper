@@ -20,6 +20,7 @@ import java.util.concurrent.ExecutionException;
 
 import design.ws.com.Together_Helper.API.GET.GetHelpeeAPITask;
 import design.ws.com.Together_Helper.API.PUT.PUTRegisterHelpAPI;
+import design.ws.com.Together_Helper.activity.MainActivity;
 import design.ws.com.Together_Helper.recyclerview.Custom_RecyclerView;
 import design.ws.com.Together_Helper.domain.Help;
 import design.ws.com.Together_Helper.domain.Helpee;
@@ -158,7 +159,7 @@ public class RegisterHelp_popup extends Activity {
             Toast.makeText(getApplicationContext(),"신청이 완료되었습니다.",Toast.LENGTH_SHORT).show();
 
             if(searchFlag==1) {
-                Intent intent = new Intent(getApplicationContext(), LocationSearchMap.class);
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 intent.putExtra("helper", HELPER_ME);
                 startActivity(intent);
             }

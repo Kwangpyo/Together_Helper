@@ -12,6 +12,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
+import design.ws.com.Together_Helper.activity.DuringHelpActivity;
 import design.ws.com.Together_Helper.activity.Login;
 import design.ws.com.Together_Helper.R;
 import design.ws.com.Together_Helper.receiver.processTimerReceiver;
@@ -54,16 +55,24 @@ public class fcm_popup extends Activity {
         if(message.equals("봉사 시작"))
         {
             Log.d("fcmpopupon",id);
+/*
             int repeatTime = 1;  //Repeat alarm time in seconds
             AlarmManager processTimer = (AlarmManager)getSystemService(ALARM_SERVICE);
             Intent intent1 = new Intent(this, processTimerReceiver.class);
             intent1.putExtra("volunteerId",id);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0,  intent1, PendingIntent.FLAG_UPDATE_CURRENT);
 //Repeat alarm every second
-            processTimer.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),repeatTime*1000, pendingIntent);
+            processTimer.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),repeatTime*10000, pendingIntent);
 
             Intent intent = new Intent(getApplicationContext(),Login.class);
             startActivity(intent);
+*/
+
+
+            Intent intent = new Intent(getApplicationContext(),DuringHelpActivity.class);
+            intent.putExtra("volunteerId",id);
+            startActivity(intent);
+
         }
 
         else if(message.equals("당신 주변에 도움이 필요합니다!"))

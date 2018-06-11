@@ -52,6 +52,7 @@ import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 
 import design.ws.com.Together_Helper.API.GET.GETHelpeeLocationAPITask;
+import design.ws.com.Together_Helper.API.PUT.PUTArriveAPI;
 import design.ws.com.Together_Helper.API.PUT.PUTmatchingLocationAPI;
 import design.ws.com.Together_Helper.R;
 import design.ws.com.Together_Helper.domain.Help;
@@ -77,8 +78,6 @@ public class MonitorActivity extends FragmentActivity implements OnMapReadyCallb
 
     private GoogleMap googlemap;
 
-
-
     private LocationRequest mLocationRequest;
     private LocationCallback mLocationCallback;
     private Location mCurrentLocation;
@@ -93,11 +92,21 @@ public class MonitorActivity extends FragmentActivity implements OnMapReadyCallb
 
     private LinearLayout arrive_btn;
 
+    private Integer volunteerId;
+    private Timer timer;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_monitor);
 
+        volunteerId = getIntent().getIntExtra("helpid",-1);
+        HELPER_ME = (Helper) getIntent().getSerializableExtra("helper");
+        help = (Help)getIntent().getSerializableExtra("help");
+
+        Log.d("sisiba", String.valueOf(volunteerId));
+        Log.d("sibsbs",HELPER_ME.getId());
+        Log.d("sibaba", String.valueOf(help.getHelpId()));
 
         home = (ImageView)findViewById(R.id.back_home);
         back = (ImageView)findViewById(R.id.back_back);
@@ -106,44 +115,6 @@ public class MonitorActivity extends FragmentActivity implements OnMapReadyCallb
 
         arrive_btn = (LinearLayout) findViewById(R.id.monitor_arrive_btn);
 
-        arrive_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                Intent intent2 = new Intent(getApplicationContext(), LocationReceiver.class);
-                PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), 0, intent2, 0);
-                AlarmManager alarmManager = (AlarmManager)getSystemService(ALARM_SERVICE);
-                alarmManager.cancel(pendingIntent);
-
-                finish();
-
-            }
-        });
-
-        home.setVisibility(View.GONE);
-
-        back.setOnClickListener(new View.OnClickListener()
-        {
-
-            @Override
-            public void onClick(View view) {
-
-                finish();
-
-            }
-        });
-
-        HELPER_ME = (Helper) getIntent().getSerializableExtra("helper");
-        help = (Help)getIntent().getSerializableExtra("help");
-        geocoder = new Geocoder(this, Locale.getDefault());
-
-        provider = LocationManager.GPS_PROVIDER;
-
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
-        mapFragment.getMapAsync(this);
-
-        final Timer timer;
         TimerTask timerTask;
 
         timer = new Timer(true);
@@ -160,7 +131,51 @@ public class MonitorActivity extends FragmentActivity implements OnMapReadyCallb
                 return super.cancel();
             }
         };
-        timer.schedule(timerTask, 0, 30000);
+        timer.schedule(timerTask, 0, 5000);
+
+
+        provider = LocationManager.GPS_PROVIDER;
+
+
+        arrive_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                PUTArriveAPI putArriveAPI = new PUTArriveAPI();
+                putArriveAPI.execute(volunteerId);
+                timer.cancel();
+
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("helper", HELPER_ME);
+                startActivity(intent);
+
+            }
+        });
+
+        home.setVisibility(View.GONE);
+
+        back.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View view) {
+
+                timer.cancel();
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("helper", HELPER_ME);
+                startActivity(intent);
+
+            }
+        });
+
+
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
+                .findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
 
 
     }
@@ -314,16 +329,20 @@ public class MonitorActivity extends FragmentActivity implements OnMapReadyCallb
 
                 Log.d("gethelpeeloc", String.valueOf(location));
 
-                Marker marker;
-                marker= mMap.addMarker(new MarkerOptions()
-                        .position(location)
-                        .title("어르신 위치"));
-                marker.setTag(1001);
-                marker.showInfoWindow();
+                try
+                {
+                    Marker marker;
+                    marker= mMap.addMarker(new MarkerOptions()
+                            .position(location)
+                            .title("어르신 위치"));
+                    marker.setTag(1001);
+                    marker.showInfoWindow();
+                }
+                catch(Exception e)
+                {
 
-
+                }
                 mCurrentLocation = result.getLocations().get(0);
-
 
                 gps = new GPSInfo(getApplicationContext());
                 double latitude=0;

@@ -125,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Helper helper = (Helper) intent.getSerializableExtra("helper");
         HELPER_ME = helper;
-        Log.d("mainhelper", helper.getId());
+        Log.d("mainhelper", HELPER_ME.getId());
         Integer intentFlag = intent.getIntExtra("intentflag",-1);
 
 
@@ -144,6 +144,7 @@ public class MainActivity extends AppCompatActivity {
 */
 
 
+/*
         String checkUserFlag="";
         GETCheckPauseUserAPITask getCheckPauseUserAPITask = new GETCheckPauseUserAPITask();
         try {
@@ -159,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent1 = new Intent(getApplicationContext(),RejectUser_popup.class);
             startActivity(intent1);
         }
+*/
 
 
         id_txt.setText("아이디 : "+helper.getId());
@@ -188,7 +190,6 @@ public class MainActivity extends AppCompatActivity {
         catch (ExecutionException e) {
             e.printStackTrace();
         }
-        Log.d("photoURL",photoURL);
 
         Picasso.with(getApplicationContext())
                 .load(photoURL)

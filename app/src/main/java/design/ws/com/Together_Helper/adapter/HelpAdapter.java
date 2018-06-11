@@ -128,67 +128,11 @@ Context context;
             else if(v.getId() == Help_finish.getId()) {
                 help = helpList.get(getAdapterPosition());
 
-
-                if(help.getMatch_status()==2){
-
-                Date from_date = new Date();
-                from_date.setYear(help.getYear());
-                from_date.setMonth(help.getMonth());
-                from_date.setDate(help.getDay());
-                from_date.setHours(help.getHour());
-                from_date.setMinutes(help.getMinute());
-
-                Date late_date = new Date();
-                late_date.setHours(help.getHour());
-                late_date.setMinutes(help.getMinute() + 10);
-                late_date.setYear(help.getYear());
-                late_date.setMonth(help.getMonth());
-                late_date.setDate(help.getDay());
-
-                Calendar cals = Calendar.getInstance();
-                int nowyear = cals.get(cals.YEAR);
-                int nowmonth = cals.get(cals.MONTH) + 1;
-                int nowdate = cals.get(cals.DATE);
-                int nowhour = cals.get(cals.HOUR_OF_DAY);
-                int nowmin = cals.get(cals.MINUTE);
-
-                Date now_date = new Date();
-                now_date.setYear(nowyear);
-                now_date.setMonth(nowmonth);
-                now_date.setDate(nowdate);
-                now_date.setHours(nowhour);
-                now_date.setMinutes(nowmin);
-
-                Log.d("fromhour", from_date.toString());
-                Log.d("latehour", late_date.toString());
-                Log.d("nowdate", now_date.toString());
-
-                if (from_date.compareTo(now_date) > 0 && late_date.compareTo(now_date) > 0) {
-             //       Toast.makeText(context, "아직 약속 시간이 아닙니다.", Toast.LENGTH_SHORT).show();
-                } else if (late_date.compareTo(now_date) > 0 && from_date.compareTo(now_date) < 0) {
-
-                    Intent intent = new Intent(context, Help_finish_popup.class);
-                    intent.putExtra("helperid", HELPER_ME.getId());
-                    intent.putExtra("helpid", help.getHelpId());
-                    intent.putExtra("helper", HELPER_ME);
-                    context.startActivity(intent);
-                } else if (late_date.compareTo(now_date) < 0 && from_date.compareTo(now_date) < 0) {
-               //     Toast.makeText(context, "약속 시간이 지났습니다. 관리자에게 문의하세요.", Toast.LENGTH_SHORT).show();
-                }
-
-
-            }
-
-
-            else
-                {
-                 //   Toast.makeText(context,"아직 Helpee가 봉사 승인을 하지 않았습니다.",Toast.LENGTH_SHORT).show();
-                }
-
                 Intent intent = new Intent(context,Help_finish_popup.class);
                 Log.d("sibal", String.valueOf(help.getHelpId()));
-                intent.putExtra("help",help);
-                intent.putExtra("helper",HELPER_ME);
+                intent.putExtra("helperid", HELPER_ME.getId());
+                intent.putExtra("helpid", help.getHelpId());
+                intent.putExtra("helper", HELPER_ME);
                 context.startActivity(intent);
 
             }
@@ -218,10 +162,7 @@ Context context;
 
             else if(v.getId()==help_arrive.getId())
             {
-/*
 
-
-*/
                 help = helpList.get(getAdapterPosition());
 
                 Log.d("arrivedepart", String.valueOf(help_arrive.getText()));
@@ -241,8 +182,10 @@ Context context;
                     processTimer.setRepeating(AlarmManager.RTC_WAKEUP, System.currentTimeMillis(),repeatTime*5000, pendingIntent);
 */
                     Intent intent2 = new Intent(context,MonitorActivity.class);
+                    intent2.putExtra("helperid", HELPER_ME.getId());
+                    intent2.putExtra("helpid", help.getHelpId());
+                    intent2.putExtra("helper", HELPER_ME);
                     intent2.putExtra("help",help);
-                    intent2.putExtra("helper",HELPER_ME);
                     context.startActivity(intent2);
                 }
 
@@ -269,8 +212,10 @@ Context context;
             {
                 help = helpList.get(getAdapterPosition());
                 Intent intent1 = new Intent(context,MonitorActivity.class);
+                intent1.putExtra("helperid", HELPER_ME.getId());
+                intent1.putExtra("helpid", help.getHelpId());
+                intent1.putExtra("helper", HELPER_ME);
                 intent1.putExtra("help",help);
-                intent1.putExtra("helper",HELPER_ME);
                 context.startActivity(intent1);
 
 
@@ -343,7 +288,7 @@ Context context;
 
         else if(help.getHelperDepartStatus().equals("depart"))
         {
-            holder.help_arrive.setText("도착");
+            holder.help_arrive.setText("출발");
           /*  Intent intent2 = new Intent(context, LocationReceiver.class);
             PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, intent2, 0);
             AlarmManager alarmManager = (AlarmManager) context.getSystemService(ALARM_SERVICE);
@@ -352,6 +297,7 @@ Context context;
         else
         {
             holder.help_arrive.setText("");
+            holder.linearLayout.setVisibility(View.GONE);
         }
 
 

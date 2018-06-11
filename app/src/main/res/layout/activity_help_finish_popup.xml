@@ -35,35 +35,35 @@
                 android:id="@+id/feedback_radio0"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="1점 별루였음"
+                android:text="1점 별루였습니다"
                 android:layout_marginBottom="5dp"/>
 
             <RadioButton
                 android:id="@+id/feedback_radio1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2점 그냥 그랬음"
+                android:text="2점 그냥 그랬습니다"
                 android:layout_marginBottom="5dp"/>
 
             <RadioButton
                 android:id="@+id/feedback_radio2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="3점 괜춘했음"
+                android:text="3점 괜찮았습니다"
                 android:layout_marginBottom="5dp"/>
 
             <RadioButton
                 android:id="@+id/feedback_radio3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="4점 좋았음"
+                android:text="4점 좋았습니다"
                 android:layout_marginBottom="5dp"/>
 
             <RadioButton
                 android:id="@+id/feedback_radio4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="5점 매우 좋았음"
+                android:text="5점 매우 좋았습니다"
                 android:layout_marginBottom="3dp"/>
 
 
@@ -72,7 +72,7 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="자세한 피드백을 작성해 주세요"
+            android:hint="자세한 피드백을 10글자 이상 작성해 주세요"
             android:id="@+id/feedback_txt"/>
 
 
