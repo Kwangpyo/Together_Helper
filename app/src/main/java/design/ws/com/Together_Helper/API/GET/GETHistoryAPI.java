@@ -123,15 +123,46 @@ public class GETHistoryAPI {
             String date = JObject.getString("date");
             String[] date_word = date.split("T");
             String[] dates = date_word[0].split("-");
-            Integer year = Integer.parseInt(dates[0]);
-            Integer month = Integer.parseInt(dates[1]);
-            Integer day = Integer.parseInt(dates[2]);
+
+            Integer year;
+            Integer month;
+            Integer day;
+
+            try
+            {
+                year = Integer.parseInt(dates[0]);
+                month = Integer.parseInt(dates[1]);
+                day = Integer.parseInt(dates[2]);
+            }
+            catch (Exception e)
+            {
+                year = 2018;
+                month = 7;
+                day = 4;
+            }
+
+
 
 
             String time = JObject.getString("time");
             String[] times = time.split(":");
-            Integer hour = Integer.parseInt(times[0]);
-            Integer minute = Integer.parseInt(times[1]);
+
+            Integer hour ;
+            Integer minute;
+
+
+            try
+            {
+                 hour = Integer.parseInt(times[0]);
+                 minute = Integer.parseInt(times[1]);
+            }
+
+            catch(Exception e)
+            {
+                 hour = 3;
+                 minute = 2;
+            }
+
 
             Log.d("testparsing",JObject.getString("type"));
             Help st = new Help(HelpeeID,lon,lat,hour,minute,duration,year,month,day,type,matching_status,start_status,content,volunteerId,helperid,acceptstatus);

@@ -132,7 +132,7 @@ public class CustomHelpAdapter extends RecyclerView.Adapter<CustomHelpAdapter.My
         {
             type = "가사";
         }
-        else if(help.getType().equals("outdoor"))
+        else if(help.getType().equals("outside"))
         {
             type = "외출";
         }
@@ -144,7 +144,7 @@ public class CustomHelpAdapter extends RecyclerView.Adapter<CustomHelpAdapter.My
         {
             type = "말동무";
         }
-        holder.help_type.setText("타입: " +type);
+        holder.help_type.setText("종류: " +type);
         holder.help_duration.setText("기간: "+help.getDuration()+"시간");
 
     }

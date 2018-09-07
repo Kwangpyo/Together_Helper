@@ -57,7 +57,7 @@ public class GetCustomHelpAPI{
 
 
 
-            String URL = "http://210.89.191.125/helper/volunteer/search";
+            String URL = "http://210.89.191.125/helper/volunteer-match/search";
             String query = "?fromDate="+fromdate+"&&toDate="+todate+"&&fromTime="+fromTime+"&&toTime="+toTime+"&&latitude="+params.getLatitude()+"&&longitude="+params.getLongitude()+"&&volunteerType="+volunteerType;
 
             String openURL = URL+query;

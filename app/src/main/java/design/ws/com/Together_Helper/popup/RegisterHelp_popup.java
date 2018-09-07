@@ -55,6 +55,7 @@ public class RegisterHelp_popup extends Activity {
         TextView helptype_txt = (TextView)findViewById(R.id.registerHelp_helptype);
         TextView helpdate_txt = (TextView)findViewById(R.id.registerHelp_helpdate);
         TextView helplocation_txt = (TextView)findViewById(R.id.registerHelp_helplocation);
+        TextView helpcontent_txt = (TextView)findViewById(R.id.registerHelp_helpcontent);
 
         //데이터 가져오기
         Intent intent = getIntent();
@@ -109,6 +110,7 @@ public class RegisterHelp_popup extends Activity {
         }
 
 
+        helpcontent_txt.setText("봉사 내용 : " + help.getContent());
         helpeeid_txt.setText("어르신 성함 : " + helpee.getName());
         helpeephone_txt.setText("어르신 전화번호 : " + helpee.getPhonenumber());
         helpeefeedback_txt.setText("어르신 피드백 : " + helpee.getFeedback());
